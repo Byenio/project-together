@@ -11,17 +11,45 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
+model Tag {
+    id   String @id @default(cuid())
+    name String
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+    posts Post[]
+}
 
-    @@index([name])
+model Subject {
+    id    String @id @default(cuid())
+    name  String
+    level Int
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    posts Post[]
+}
+
+model Post {
+    id          Int    @id @default(autoincrement())
+    content     String
+    createdById String
+    tagId       String
+    subjectId   String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdBy User    @relation(fields: [createdById], references: [id])
+    tag       Tag     @relation(fields: [tagId], references: [id])
+    subject   Subject @relation(fields: [subjectId], references: [id])
+
+    @@index([content])
     @@index([createdById])
+    @@index([tagId])
+    @@index([subjectId])
 }
 
 // Necessary for Next auth
@@ -55,14 +83,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+    id             String    @id @default(cuid())
+    name           String?
+    email          String?   @unique
+    emailVerified  DateTime?
+    image          String?
+    defaultContact String?
+    accounts       Account[]
+    sessions       Session[]
+    posts          Post[]
 }
 
 model VerificationToken {

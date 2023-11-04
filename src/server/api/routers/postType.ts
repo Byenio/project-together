@@ -6,19 +6,19 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-export const tagRouter = createTRPCRouter({
+export const postTypeRouter = createTRPCRouter({
   create: protectedProcedure
     .input(z.object({
-      name: z.string().min(2, { message: "Tag name is too short" })
+      name: z.string().min(3, { message: "Post type name is too short" })
     }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.tag.create({
+      return ctx.db.postType.create({
         data: {
           name: input.name
         }
       })
     }),
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.tag.findMany();
+    return ctx.db.postType.findMany();
   })
 })

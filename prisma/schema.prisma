@@ -11,45 +11,95 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model Tag {
+model Tutor {
+    id     String @id @default(cuid())
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+model Admin {
+    id     String @id @default(cuid())
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+model PostType {
     id   String @id @default(cuid())
     name String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    posts Post[]
+    Posts Post[]
 }
 
 model Subject {
-    id    String @id @default(cuid())
-    name  String
-    level Int
+    id   String @id @default(cuid())
+    name String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    posts Post[]
+    Posts Post[]
+}
+
+model Upvote {
+    id     String @id @default(cuid())
+    userId String
+    postId String
+
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([postId])
 }
 
 model Post {
-    id          Int    @id @default(autoincrement())
-    content     String
+    id          String @id @default(cuid())
+    title       String
+    description String
     createdById String
-    tagId       String
+    postTypeId  String
     subjectId   String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    createdBy User    @relation(fields: [createdById], references: [id])
-    tag       Tag     @relation(fields: [tagId], references: [id])
-    subject   Subject @relation(fields: [subjectId], references: [id])
+    createdBy User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+    postType  PostType @relation(fields: [postTypeId], references: [id])
+    subject   Subject  @relation(fields: [subjectId], references: [id])
+    Upvote    Upvote[]
 
-    @@index([content])
     @@index([createdById])
-    @@index([tagId])
+    @@index([postTypeId])
     @@index([subjectId])
+}
+
+model Badge {
+    id              String       @id @default(cuid())
+    name            String
+    description     String
+    upvoteThreshold Int?
+    imageUrl        String
+    UserBadges      UserBadges[]
+}
+
+model UserBadges {
+    id      String @id @default(cuid())
+    userId  String
+    badgeId String
+    user    User   @relation(fields: [userId], references: [id])
+    badge   Badge  @relation(fields: [badgeId], references: [id])
+
+    @@index([userId])
+    @@index([badgeId])
 }
 
 // Necessary for Next auth
@@ -83,15 +133,18 @@ model Session {
 }
 
 model User {
-    id             String    @id @default(cuid())
-    name           String?
-    email          String?   @unique
-    emailVerified  DateTime?
-    image          String?
-    defaultContact String?
-    accounts       Account[]
-    sessions       Session[]
-    posts          Post[]
+    id            String       @id @default(cuid())
+    name          String?
+    email         String?      @unique
+    emailVerified DateTime?
+    image         String?
+    Accounts      Account[]
+    Sessions      Session[]
+    Posts         Post[]
+    Tutor         Tutor[]
+    Admin         Admin[]
+    Upvote        Upvote[]
+    UserBadges    UserBadges[]
 }
 
 model VerificationToken {

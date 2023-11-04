@@ -1,5 +1,5 @@
 import { postRouter } from "~/server/api/routers/post";
-import { tagRouter } from "~/server/api/routers/tag";
+import { postTypeRouter } from "~/server/api/routers/postType";
 import { subjectRouter } from "~/server/api/routers/subject";
 import { createTRPCRouter } from "~/server/api/trpc";
 
@@ -10,7 +10,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   post: postRouter,
-  tag: tagRouter,
+  postType: postTypeRouter,
   subject: subjectRouter
 });
 

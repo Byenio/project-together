@@ -10,8 +10,8 @@ export default {
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("tailwindcss-animate"), require("daisyui")],
   daisyui: {
-    themes: ["black"],
+    themes: ["luxury"],
   }
 } satisfies Config;

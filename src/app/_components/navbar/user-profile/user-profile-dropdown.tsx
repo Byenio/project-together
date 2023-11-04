@@ -29,8 +29,8 @@ export async function UserProfileData() {
 
   return (
     <>
-      <li className="text-center text-slate-500 font-bold">{session?.user.name}</li>
-      <li className="text-center text-slate-500 mb-5">{session?.user.email}</li>
+      <li className="text-center text-primary-focus font-bold">{session?.user.name}</li>
+      <li className="text-center text-primary-focus mb-5">{session?.user.email}</li>
     </>
   )
 }

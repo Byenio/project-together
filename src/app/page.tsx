@@ -6,27 +6,16 @@ import { api } from "~/trpc/server";
 import { Navbar } from "~/app/_components/navbar/navbar";
 
 export default async function Home() {
-  const session = await getServerAuthSession();
 
   return (
     <>
       <Navbar />
-      <p className="text-center text-2xl">
-        {session && <span>Logged in as {session.user?.email}</span>}
-      </p>
-      <Link
-        href={session ? "/api/auth/signout" : "/api/auth/signin"}
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-      >
-        {session ? "Sign out" : "Sign in"}
-      </Link>
-
-      <CrudShowcase />
+      <Posts />
     </>
   );
 }
 
-async function CrudShowcase() {
+async function Posts() {
   const session = await getServerAuthSession();
   if (!session?.user) return null;
 
@@ -34,7 +23,7 @@ async function CrudShowcase() {
 
   return (
     <>
-      <div className="w-full max-w-xs">
+      <div className="w-100 max-w-[1200px] m-auto my-3 flex flex-wrap">
         {allPosts ? (
           allPosts.map((post) => (
             <div key={post.id}>

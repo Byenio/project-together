@@ -15,6 +15,8 @@ export async function Posts() {
           <PostCard postData={{
             id: post.id,
             title: post.title,
+            postType: post.postType.name,
+            postSubject: post.subject.name,
             description: post.description,
             createdBy: post.createdBy.name || ""
           }} />

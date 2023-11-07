@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function PostCard(
   { postData }: {
     postData:
@@ -7,7 +9,7 @@ export function PostCard(
   const { id, title, postType, postSubject, description, createdBy } = postData;
 
   return (
-    <div key={id} className="card min-w-[500px] m-auto my-2 bg-primary text-primary-content">
+    <div key={id} className="card min-w-[350px] w-[500px] m-auto my-2 bg-primary text-primary-content">
       <div className="card-body">
         <PostTitle postTitle={title} />
         <div className="flex justify-between">
@@ -16,7 +18,7 @@ export function PostCard(
         </div>
         <PostDescription postDescription={description} />
         <PostCreatedBy postCreatedBy={createdBy} />
-        <PostDetailsButton />
+        <PostDetailsButton postId={id} />
       </div>
     </div>
   )
@@ -31,13 +33,13 @@ export function PostTitle({ postTitle }: { postTitle: string }) {
 
 export function PostType({ postType }: { postType: string }) {
   return (
-    <h3 className="capitalize text-base-content">{postType}</h3>
+    <h3 className="capitalize text-accent-content badge badge-secondary p-4 my-2">{postType}</h3>
   )
 }
 
 export function PostSubject({ postSubject }: { postSubject: string }) {
   return (
-    <h3 className="capitalize text-base-content">{postSubject}</h3>
+    <h3 className="capitalize text-accent-content badge badge-secondary p-4 my-2">{postSubject}</h3>
   )
 }
 
@@ -49,14 +51,16 @@ export function PostDescription({ postDescription }: { postDescription: string }
 
 export function PostCreatedBy({ postCreatedBy }: { postCreatedBy: string }) {
   return (
-    <p className="text-right text-base-content">{postCreatedBy}</p>
+    <p className="text-right text-accent-content badge badge-secondary p-4 mt-2">{postCreatedBy}</p>
   )
 }
 
-export function PostDetailsButton() {
+export function PostDetailsButton({ postId }: { postId: string }) {
   return (
-    <div className="card-actions justify-end">
-      <button className="btn">Details</button>
+    <div className="card-actions justify-end mt-[-50px]">
+      <Link href={`/post/${postId}`}>
+        <button className="btn btn-secondary text-accent-content">Details</button>
+      </Link>
     </div>
   )
 }

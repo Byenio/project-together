@@ -64,7 +64,7 @@ model Upvote {
 model Post {
     id          String @id @default(cuid())
     title       String
-    description String
+    description String @db.MediumText
     createdById String
     postTypeId  String
     subjectId   String

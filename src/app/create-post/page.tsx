@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { api } from "~/trpc/react";
 
-export function CreatePost() {
+export default function CreatePost() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -17,6 +17,7 @@ export function CreatePost() {
 
   const createPost = api.post.create.useMutation({
     onSuccess: () => {
+      router.replace("/");
       router.refresh();
       setTitle("");
       setDescription("");

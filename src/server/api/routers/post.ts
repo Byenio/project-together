@@ -36,5 +36,13 @@ export const postRouter = createTRPCRouter({
         Upvote: true
       }
     });
-  })
-});
+  }),
+
+  getById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.post.findFirst({
+        where: { id: input.id }
+      })
+    })
+})

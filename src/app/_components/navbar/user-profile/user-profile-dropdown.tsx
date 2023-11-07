@@ -1,16 +1,6 @@
 import Link from "next/link"
 import { getServerAuthSession } from "~/server/auth";
-
-export const menuItems = [
-  {
-    name: "Profile",
-    link: "/"
-  },
-  {
-    name: "Settings",
-    link: '/'
-  }
-]
+import { api } from "~/trpc/server";
 
 export function UserProfileDropdown() {
 
@@ -35,17 +25,29 @@ export async function UserProfileData() {
   )
 }
 
-export function UserProfileDropdownItems() {
+export async function UserProfileDropdownItems() {
+
+  const isAdmin = await api.admin.isAdmin.query();
+  const isTutor = await api.tutor.isTutor.query();
 
   return (
     <>
-      {
-        menuItems.map((item) => (
-          <li>
-            <Link href={item.link} className="rounded-xl">{item.name}</Link>
-          </li>
-        ))
+      {isTutor &&
+        <li>
+          <Link href={"/create-post"} className="rounded-xl">Nowy Post</Link>
+        </li>
       }
+      {isAdmin &&
+        <li>
+          <Link href={"/manage"} className="rounded-xl">Zarządzanie</Link>
+        </li>
+      }
+      <li>
+        <Link href={"/"} className="rounded-xl">Ustawienia</Link>
+      </li>
+      <li>
+        <Link href={"/"} className="rounded-xl">Profil</Link>
+      </li>
     </>
   )
 }

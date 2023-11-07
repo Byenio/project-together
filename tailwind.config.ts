@@ -10,8 +10,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("daisyui")],
-  daisyui: {
-    themes: ["black"],
-  }
+  plugins: [require("tailwindcss-animate"), require("daisyui")]
 } satisfies Config;

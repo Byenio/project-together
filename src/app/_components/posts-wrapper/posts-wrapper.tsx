@@ -1,10 +1,20 @@
 import { Posts } from "./posts/posts";
 
-export function PostsWrapper() {
+type GetPostsByUser = {
+  type: "user"
+}
+
+type GetPostsAll = {
+  type: "all"
+}
+
+type GetPosts = GetPostsAll | GetPostsByUser;
+
+export function PostsWrapper(type: GetPosts) {
 
   return (
     <>
-      <Posts />
+      <Posts type={type} />
     </>
   );
 }

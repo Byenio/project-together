@@ -1,3 +1,4 @@
+import { Procedure } from "@trpc/server/dist/deprecated/router";
 import { z } from "zod";
 
 import {
@@ -26,23 +27,42 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.post.findMany({
-      orderBy: { createdAt: "desc" },
-      include: {
-        postType: true,
-        subject: true,
-        createdBy: true,
-        Upvote: true
-      }
-    });
-  }),
+  getAll: publicProcedure
+    .query(({ ctx }) => {
+      return ctx.db.post.findMany({
+        orderBy: { createdAt: "desc" },
+        include: {
+          postType: true,
+          subject: true,
+          createdBy: true,
+          Upvote: true
+        }
+      });
+    }),
 
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) => {
       return ctx.db.post.findFirst({
-        where: { id: input.id }
+        where: { id: input.id },
+        include: {
+          postType: true,
+          subject: true,
+          createdBy: true,
+          Upvote: true
+        }
+      })
+    }),
+
+  getByUser: protectedProcedure
+    .query(({ ctx }) => {
+      return ctx.db.post.findMany({
+        where: { createdBy: { id: ctx.session.user.id } },
+        include: {
+          postType: true,
+          subject: true,
+          Upvote: true
+        }
       })
     })
 })

@@ -5,11 +5,11 @@ import { useState } from "react";
 
 import { api } from "~/trpc/react";
 
-export function CreatePostType() {
+export default function CreateSubject() {
   const router = useRouter();
   const [name, setName] = useState("");
 
-  const createPostType = api.postType.create.useMutation({
+  const createSubject = api.subject.create.useMutation({
     onSuccess: () => {
       router.refresh();
       setName("");
@@ -18,11 +18,11 @@ export function CreatePostType() {
 
   return (
     <>
-      <h2>Add post type</h2>
+      <h2>Add subject</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          createPostType.mutate({ name });
+          createSubject.mutate({ name });
         }}
         className="flex flex-col gap-2"
       >
@@ -36,9 +36,9 @@ export function CreatePostType() {
         <button
           type="submit"
           className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-          disabled={createPostType.isLoading}
+          disabled={createSubject.isLoading}
         >
-          {createPostType.isLoading ? "Submitting..." : "Submit"}
+          {createSubject.isLoading ? "Submitting..." : "Submit"}
         </button>
       </form>
     </>

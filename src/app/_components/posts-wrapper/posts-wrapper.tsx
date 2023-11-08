@@ -8,7 +8,7 @@ type GetPostsAll = {
   type: "all"
 }
 
-type GetPosts = GetPostsAll | GetPostsByUser;
+export type GetPosts = GetPostsAll | GetPostsByUser;
 
 export function PostsWrapper(type: GetPosts) {
 

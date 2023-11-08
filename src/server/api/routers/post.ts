@@ -61,6 +61,7 @@ export const postRouter = createTRPCRouter({
         include: {
           postType: true,
           subject: true,
+          createdBy: true,
           Upvote: true
         }
       })

@@ -1,29 +1,25 @@
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import { PostCard } from "./postCard";
+import { GetPosts } from "../posts-wrapper";
 
-async function getPosts(type: { type: string; }) {
-  let posts: ({ postType: { id: string; name: string; createdAt: Date; updatedAt: Date; }; subject: { id: string; name: string; createdAt: Date; updatedAt: Date; }; Upvote: { id: string; userId: string; postId: string; createdAt: Date; }[]; } & { id: string; title: string; description: string; createdById: string; postTypeId: string; subjectId: string; createdAt: Date; updatedAt: Date; })[] = []
+async function getPosts({ type }: GetPosts) {
 
-  if (type.type == "all") posts = await api.post.getAll.query();
-  if (type.type == "user") posts = await api.post.getByUser.query();
+  if (type == "all") return await api.post.getAll.query();
+  if (type == "user") return await api.post.getByUser.query();
 
-  return posts;
 }
 
 export async function Posts(type: any) {
   const session = await getServerAuthSession();
   if (!session?.user) return null;
 
-  const posts = getPosts(type);
-  console.log(posts);
-
-  const allPosts = await api.post.getAll.query();
+  const posts = await getPosts(type);
 
   return (
     <div className="w-100 max-w-[1200px] m-auto my-3 flex flex-wrap">
-      {allPosts ? (
-        allPosts.map((post) => (
+      {posts ? (
+        posts?.map((post) => (
           <PostCard postData={{
             id: post.id,
             title: post.title,

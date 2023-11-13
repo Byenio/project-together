@@ -5,7 +5,7 @@ import { api } from "~/trpc/server";
 export function UserProfileDropdown() {
 
   return (
-    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-xl w-52">
+    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] py-4 px-3 shadow bg-base-300 rounded-xl w-52">
       <UserProfileData />
       <UserProfileDropdownItems />
       <SignOutButton />
@@ -19,8 +19,8 @@ export async function UserProfileData() {
 
   return (
     <>
-      <li className="text-center text-primary-focus font-bold">{session?.user.name}</li>
-      <li className="text-center text-primary-focus mb-5">{session?.user.email}</li>
+      <li className="text-center text-secondary-content font-bold">{session?.user.name}</li>
+      <li className="text-center text-secondary-content mb-5">{session?.user.email}</li>
     </>
   )
 }
@@ -57,7 +57,7 @@ export function SignOutButton() {
     <li>
       <Link
         href="/api/auth/signout"
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20 m-auto mt-8"
+        className="rounded-md bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20 m-auto mt-8"
       >
         Sign out
       </Link>

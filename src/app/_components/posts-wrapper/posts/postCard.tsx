@@ -3,21 +3,23 @@ import Link from "next/link";
 export function PostCard(
   { postData }: {
     postData:
-    { id: string, title: string, postType: string, postSubject: string, description: string, createdBy: string }
+    { id: string, title: string, postType: string, postSubject: string, description: string, user: string, userImage: string }
   }
 ) {
-  const { id, title, postType, postSubject, description, createdBy } = postData;
+  const { id, title, postType, postSubject, description, user, userImage } = postData;
 
   return (
-    <div key={id} className="card min-w-[350px] w-[500px] m-auto my-2 bg-primary text-primary-content">
+    <div key={id} className="card min-w-[350px] w-[500px] m-auto my-2 bg-neutral text-primary-content">
       <div className="card-body">
-        <PostTitle postTitle={title} />
+        <div className="flex justify-between">
+          <PostTitle postTitle={title} />
+          <PostCreatedBy user={{ user, userImage }} />
+        </div>
         <div className="flex justify-between">
           <PostType postType={postType} />
           <PostSubject postSubject={postSubject} />
         </div>
         <PostDescription postDescription={description} />
-        <PostCreatedBy postCreatedBy={createdBy} />
         <PostDetailsButton postId={id} />
       </div>
     </div>
@@ -27,39 +29,53 @@ export function PostCard(
 
 export function PostTitle({ postTitle }: { postTitle: string }) {
   return (
-    <h2 className="card-title">{postTitle}</h2>
+    <h2 className="card-title px-2">{postTitle}</h2>
   )
 }
 
 export function PostType({ postType }: { postType: string }) {
   return (
-    <h3 className="capitalize text-accent-content badge badge-secondary p-4 my-2">{postType}</h3>
+    <div className="card-actions justify-start">
+      <Link href={`/search/type/${postType}`}>
+        <button className="btn btn-accent btn-xs text-accent-content">{postType}</button>
+      </Link>
+    </div>
   )
 }
 
 export function PostSubject({ postSubject }: { postSubject: string }) {
   return (
-    <h3 className="capitalize text-accent-content badge badge-secondary p-4 my-2">{postSubject}</h3>
+    <div className="card-actions justify-start">
+      <Link href={`/search/subject/${postSubject}`}>
+        <button className="btn btn-accent btn-xs text-accent-content">{postSubject}</button>
+      </Link>
+    </div>
   )
 }
 
 export function PostDescription({ postDescription }: { postDescription: string }) {
   return (
-    <p className="h-[100px] overflow-y-auto">{postDescription}</p>
+    <p className="h-[100px] px-2 overflow-y-auto">{postDescription}</p>
   )
 }
 
-export function PostCreatedBy({ postCreatedBy }: { postCreatedBy: string }) {
+export function PostCreatedBy({ user }: { user: { user: string, userImage: string } }) {
   return (
-    <p className="text-right text-accent-content badge badge-secondary p-4 mt-2">{postCreatedBy}</p>
+    <div className="card-actions justify-start">
+      <Link href={`/search/user/${user.user}`}>
+        <button className="">
+          <img src={user.userImage} alt="user's profile pic" className="h-[2.5rem]" title={user.user} />
+        </button>
+      </Link>
+    </div>
   )
 }
 
 export function PostDetailsButton({ postId }: { postId: string }) {
   return (
-    <div className="card-actions justify-end mt-[-50px]">
-      <Link href={`/post/${postId}`}>
-        <button className="btn btn-secondary text-accent-content">Details</button>
+    <div className="card-actions justify-end">
+      <Link href={`/search/post/${postId}`}>
+        <button className="btn btn-accent text-accent-content">Więcej</button>
       </Link>
     </div>
   )

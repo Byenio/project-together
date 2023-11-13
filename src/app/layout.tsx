@@ -24,11 +24,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pl">
-      <body className={`font-sans ${inter.variable} min-w-[400px]`}>
-        <TRPCReactProvider headers={headers()}>
-          <Navbar />
-          {children}
-        </TRPCReactProvider>
+      <body className={`font-sans ${inter.variable} w-[100] m-5`}>
+        <div className=" min-w-[400px] max-w-[1200px] m-auto">
+          <TRPCReactProvider headers={headers()}>
+            <Navbar />
+            {children}
+          </TRPCReactProvider>
+        </div>
       </body>
     </html>
   );

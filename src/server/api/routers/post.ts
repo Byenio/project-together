@@ -65,5 +65,12 @@ export const postRouter = createTRPCRouter({
           Upvote: true
         }
       })
+    }),
+
+  getLatest: publicProcedure
+    .query(({ ctx }) => {
+      return ctx.db.post.findFirst({
+        orderBy: { createdAt: "desc" }
+      })
     })
 })

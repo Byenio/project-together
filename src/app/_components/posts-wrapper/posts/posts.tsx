@@ -17,15 +17,17 @@ export async function Posts({ type }: { type: GetPosts }) {
     <div className="w-100 max-w-[1200px] m-auto my-3 flex flex-wrap">
       {posts ? (
         posts?.map((post) => (
-          <PostCard postData={{
-            id: post.id,
-            title: post.title,
-            postType: post.postType.name,
-            postSubject: post.subject.name,
-            description: post.description,
-            user: post.createdBy.name || "",
-            userImage: post.createdBy.image || ""
-          }} />
+          <PostCard
+            key={post.id}
+            postData={{
+              id: post.id,
+              title: post.title,
+              postType: post.postType.name,
+              postSubject: post.subject.name,
+              description: post.description,
+              user: post.createdBy.name ?? "",
+              userImage: post.createdBy.image ?? ""
+            }} />
         ))
       ) : <NoPostsInfo />
       }

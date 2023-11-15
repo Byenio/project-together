@@ -23,9 +23,12 @@ export async function Posts({ type }: { type: GetPosts }) {
               id: post.id,
               title: post.title,
               postType: post.postType.name,
+              postTypeId: post.postType.id,
               postSubject: post.subject.name,
+              postSubjectId: post.subject.id,
               description: post.description,
               user: post.createdBy.name ?? "",
+              userId: post.createdBy.id,
               userImage: post.createdBy.image ?? ""
             }} />
         ))

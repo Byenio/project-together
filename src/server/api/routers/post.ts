@@ -54,6 +54,14 @@ export const postRouter = createTRPCRouter({
       })
     }),
 
+  getBySubject: publicProcedure
+    .input(z.object({ subjectId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.post.findMany({
+        where: { subjectId: input.subjectId }
+      })
+    }),
+
   getByUser: protectedProcedure
     .query(({ ctx }) => {
       return ctx.db.post.findMany({

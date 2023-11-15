@@ -58,7 +58,27 @@ export const postRouter = createTRPCRouter({
     .input(z.object({ subjectId: z.string() }))
     .query(({ ctx, input }) => {
       return ctx.db.post.findMany({
-        where: { subjectId: input.subjectId }
+        where: { subjectId: input.subjectId },
+        include: {
+          postType: true,
+          subject: true,
+          createdBy: true,
+          Upvote: true
+        }
+      })
+    }),
+
+  getByType: publicProcedure
+    .input(z.object({ typeId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.post.findMany({
+        where: { postTypeId: input.typeId },
+        include: {
+          postType: true,
+          subject: true,
+          createdBy: true,
+          Upvote: true
+        }
       })
     }),
 

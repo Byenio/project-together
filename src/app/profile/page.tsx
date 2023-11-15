@@ -1,6 +1,6 @@
 import { PostsWrapper } from "../_components/posts-wrapper/posts-wrapper";
 
-export default async function Profile() {
+export default function Profile() {
 
   return (
     <>

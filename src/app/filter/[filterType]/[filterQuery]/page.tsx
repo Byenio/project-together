@@ -25,7 +25,7 @@ export default async function FilterQuery(
       {params.filterQuery}
       <div>
         {posts.map((post) => (
-          <p>{post.title}</p>
+          <p key={post.id}>{post.title}</p>
         ))}
       </div>
     </>

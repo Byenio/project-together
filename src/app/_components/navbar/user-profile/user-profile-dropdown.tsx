@@ -5,11 +5,13 @@ import { api } from "~/trpc/server";
 export function UserProfileDropdown() {
 
   return (
-    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] py-4 px-3 shadow bg-base-300 rounded-xl w-52">
-      <UserProfileData />
-      <UserProfileDropdownItems />
-      <SignOutButton />
-    </ul>
+    <>
+      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] py-4 px-3 shadow bg-base-300 rounded-xl w-52">
+        <UserProfileData />
+        <UserProfileDropdownItems />
+        <SignOutButton />
+      </ul>
+    </>
   )
 }
 
@@ -19,8 +21,8 @@ export async function UserProfileData() {
 
   return (
     <>
-      <li className="text-center text-secondary-content font-bold">{session?.user.name}</li>
-      <li className="text-center text-secondary-content mb-5">{session?.user.email}</li>
+      <li className="text-center text-secondary-content font-bold text-xs">{session?.user.name}</li>
+      <li className="text-center text-secondary-content mb-5 text-xs">{session?.user.email}</li>
     </>
   )
 }

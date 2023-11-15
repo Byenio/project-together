@@ -1,46 +1,18 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
-import { api } from "~/trpc/react";
+import CreateSubjectForm from "./create-subject-form";
+import SubjectList from "./create-subject-list";
 
 export default function CreateSubject() {
-  const router = useRouter();
-  const [name, setName] = useState("");
-
-  const createSubject = api.subject.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
-      setName("");
-    }
-  })
 
   return (
-    <>
-      <h2>Add subject</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          createSubject.mutate({ name });
-        }}
-        className="flex flex-col gap-2"
-      >
-        <input
-          type="text"
-          placeholder="Subject name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-full px-4 py-2 text-black"
-        />
-        <button
-          type="submit"
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-          disabled={createSubject.isLoading}
-        >
-          {createSubject.isLoading ? "Submitting..." : "Submit"}
-        </button>
-      </form>
-    </>
+    <div className="max-w-[600px] m-auto">
+      <div className="w-full text-center my-4">
+        <h2 className="text-accent-content text-2xl p-8">Add post type</h2>
+      </div>
+      <CreateSubjectForm />
+      <div className="w-full text-center my-4">
+        <h2 className="text-accent-content text-2xl p-8">Created types</h2>
+      </div>
+      <SubjectList />
+    </div>
   );
 }

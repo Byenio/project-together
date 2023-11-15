@@ -1,6 +1,6 @@
 import { api } from "~/trpc/server"
 
-export async function getPosts({ params }: { params: { filterType: string, filterQuery: string } }) {
+async function getPosts({ params }: { params: { filterType: string, filterQuery: string } }) {
 
   if (params.filterType === "subject") {
     return await api.post.getBySubject.query({ subjectId: params.filterQuery });

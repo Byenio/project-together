@@ -1,7 +1,6 @@
 import { getServerAuthSession } from "~/server/auth";
 import Link from "next/link";
-import { api } from "~/trpc/server";
-import { useRouter } from "next/navigation";
+import { DeletePostButton } from "./deletePostButton";
 
 export async function PostCard(
   { postData }: {
@@ -89,16 +88,6 @@ export function PostDetailsButton({ postId }: { postId: string }) {
           Więcej
         </button>
       </Link>
-    </div>
-  )
-}
-
-export async function DeletePostButton({ postId }: { postId: string }) {
-  return (
-    <div className="card-actions justify-end">
-      <button className="btn btn-error text-error-content">
-        Usun post
-      </button>
     </div>
   )
 }

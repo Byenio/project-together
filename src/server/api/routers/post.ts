@@ -43,7 +43,7 @@ export const postRouter = createTRPCRouter({
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.db.post.findFirst({
+      return ctx.db.post.findUnique({
         where: { id: input.id },
         include: {
           postType: true,
@@ -103,10 +103,25 @@ export const postRouter = createTRPCRouter({
     }),
 
   deleteById: protectedProcedure
-    .input(z.object({ postId: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.post.delete({
-        where: { id: input.postId }
+    .input(
+      z.object({
+        postId: z.string()
       })
-    })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const post = await ctx.db.post.findUnique({
+        where: {
+          id: input.postId
+        },
+        include: {
+          createdBy: true
+        }
+      })
+
+      if (post?.createdBy.id === ctx.session.user.id) {
+        return ctx.db.post.delete({
+          where: { id: input.postId }
+        })
+      }
+    }),
 })

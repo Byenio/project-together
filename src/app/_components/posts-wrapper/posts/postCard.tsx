@@ -1,12 +1,17 @@
+import { getServerAuthSession } from "~/server/auth";
 import Link from "next/link";
+import { api } from "~/trpc/server";
+import { useRouter } from "next/navigation";
 
-export function PostCard(
+export async function PostCard(
   { postData }: {
     postData:
     { id: string, title: string, postType: string, postTypeId: string, postSubject: string, postSubjectId: string, description: string, user: string, userId: string, userImage: string }
   }
 ) {
   const { id, title, postType, postTypeId, postSubject, postSubjectId, description, user, userId, userImage } = postData;
+
+  const session = await getServerAuthSession()
 
   return (
     <div key={id} className="card min-w-[350px] w-[500px] m-auto my-2 bg-neutral text-primary-content">
@@ -20,7 +25,12 @@ export function PostCard(
           <PostSubject subject={{ postSubject, postSubjectId }} />
         </div>
         <PostDescription postDescription={description} />
-        <PostDetailsButton postId={id} />
+        <div className="flex justify-end gap-4">
+          <PostDetailsButton postId={id} />
+          {userId === session?.user.id &&
+            <DeletePostButton postId={id} />
+          }
+        </div>
       </div>
     </div>
   )
@@ -75,8 +85,20 @@ export function PostDetailsButton({ postId }: { postId: string }) {
   return (
     <div className="card-actions justify-end">
       <Link href={`/search/post/${postId}`}>
-        <button className="btn btn-accent text-accent-content">Więcej</button>
+        <button className="btn btn-accent text-accent-content">
+          Więcej
+        </button>
       </Link>
+    </div>
+  )
+}
+
+export async function DeletePostButton({ postId }: { postId: string }) {
+  return (
+    <div className="card-actions justify-end">
+      <button className="btn btn-error text-error-content">
+        Usun post
+      </button>
     </div>
   )
 }

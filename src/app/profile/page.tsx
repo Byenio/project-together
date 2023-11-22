@@ -1,10 +1,19 @@
-import { PostsWrapper } from "../_components/posts-wrapper/posts-wrapper";
+import { api } from "~/trpc/server";
+import { Posts } from "../_components/posts/posts";
 
-export default function Profile() {
+async function getPosts() {
+
+  return await api.post.getByUser.query();
+
+}
+
+export default async function Profile() {
+
+  const posts = await getPosts();
 
   return (
     <>
-      <PostsWrapper type="user" />
+      <Posts posts={posts} />
     </>
   )
 }

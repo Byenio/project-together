@@ -1,13 +1,13 @@
-import { api } from "~/trpc/server"
+import { Posts } from "~/app/_components/posts/posts";
+import { api } from "~/trpc/server";
 
 async function getPosts({ params }: { params: { filterType: string, filterQuery: string } }) {
 
-  if (params.filterType === "subject") {
-    return await api.post.getBySubject.query({ subjectId: params.filterQuery });
-  }
-
-  if (params.filterType === "type") {
-    return await api.post.getByType.query({ typeId: params.filterQuery });
+  switch (true) {
+    case (params.filterType === "subject"):
+      return await api.post.getBySubject.query({ subjectId: params.filterQuery });
+    case (params.filterType === "type"):
+      return await api.post.getByType.query({ typeId: params.filterQuery });
   }
 
   return await api.post.getAll.query();
@@ -21,13 +21,6 @@ export default async function FilterQuery(
   const posts = await getPosts({ params });
 
   return (
-    <>
-      {params.filterQuery}
-      <div>
-        {posts.map((post) => (
-          <p key={post.id}>{post.title}</p>
-        ))}
-      </div>
-    </>
+    <Posts posts={posts} />
   )
 }

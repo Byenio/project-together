@@ -1,17 +1,11 @@
-import { api } from "~/trpc/server";
 import { PostCard } from "./postCard";
-import { GetPosts } from "../posts-wrapper";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "~/server/api/root";
 
-async function getPosts(type: string) {
+type RouterOutput = inferRouterOutputs<AppRouter>;
+type PostsGetOutput = RouterOutput['post']['getAll'];
 
-  if (type == "all") return await api.post.getAll.query();
-  if (type == "user") return await api.post.getByUser.query();
-
-}
-
-export async function Posts({ type }: { type: GetPosts }) {
-
-  const posts = await getPosts(type.type);
+export async function Posts({ posts }: { posts: PostsGetOutput }) {
 
   return (
     <div className="w-100 max-w-[1200px] m-auto my-3 flex flex-wrap">

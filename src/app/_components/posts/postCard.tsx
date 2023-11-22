@@ -11,6 +11,7 @@ import { PostDetailsButton } from "./components/PostDetailsButton";
 import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "~/server/api/root";
 import { api } from "~/trpc/server";
+import UpvoteButton from "./components/upvote";
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type PostsGetOutput = RouterOutput['post']['getAll'];

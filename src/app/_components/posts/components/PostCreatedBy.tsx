@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-
 export function PostCreatedBy({ user }: { user: { user: string; userId: string; userImage: string; }; }) {
   return (
     <div className="card-actions justify-start">

@@ -10,23 +10,9 @@ export async function Posts({ posts }: { posts: PostsGetOutput }) {
   return (
     <div className="w-100 max-w-[1200px] m-auto my-3 flex flex-wrap">
       {posts ? (
-        posts?.map((post) => (
-          <PostCard
-            key={post.id}
-            postData={{
-              id: post.id,
-              title: post.title,
-              postType: post.postType.name,
-              postTypeId: post.postType.id,
-              postSubject: post.subject.name,
-              postSubjectId: post.subject.id,
-              description: post.description,
-              user: post.createdBy.name ?? "",
-              userId: post.createdBy.id,
-              userImage: post.createdBy.image ?? ""
-            }} />
-        ))
-      ) : <NoPostsInfo />
+        <PostCard posts={posts} />
+      )
+        : <NoPostsInfo />
       }
     </div>
   );

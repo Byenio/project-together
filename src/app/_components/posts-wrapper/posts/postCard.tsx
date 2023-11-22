@@ -1,6 +1,11 @@
 import { getServerAuthSession } from "~/server/auth";
-import Link from "next/link";
-import { DeletePostButton } from "./deletePostButton";
+import DeletePostButton from "./components/deletePostButton";
+import { PostTitle } from "./components/PostTitle";
+import { PostType } from "./components/PostType";
+import { PostSubject } from "./components/PostSubject";
+import { PostDescription } from "./components/PostDescription";
+import { PostCreatedBy } from "./components/PostCreatedBy";
+import { PostDetailsButton } from "./components/PostDetailsButton";
 
 export async function PostCard(
   { postData }: {
@@ -25,69 +30,13 @@ export async function PostCard(
         </div>
         <PostDescription postDescription={description} />
         <div className="flex justify-end gap-4">
-          <PostDetailsButton postId={id} />
           {userId === session?.user.id &&
             <DeletePostButton postId={id} />
           }
+          <PostDetailsButton postId={id} />
         </div>
       </div>
     </div>
   )
 
-}
-
-export function PostTitle({ postTitle }: { postTitle: string }) {
-  return (
-    <h2 className="card-title px-2">{postTitle}</h2>
-  )
-}
-
-export function PostType({ type }: { type: { postType: string, postTypeId: string } }) {
-  return (
-    <div className="card-actions justify-start">
-      <Link href={`/filter/type/${type.postTypeId}`}>
-        <button className="btn btn-accent btn-xs text-accent-content">{type.postType}</button>
-      </Link>
-    </div>
-  )
-}
-
-export function PostSubject({ subject }: { subject: { postSubject: string, postSubjectId: string } }) {
-  return (
-    <div className="card-actions justify-start">
-      <Link href={`/filter/subject/${subject.postSubjectId}`}>
-        <button className="btn btn-accent btn-xs text-accent-content">{subject.postSubject}</button>
-      </Link>
-    </div>
-  )
-}
-
-export function PostDescription({ postDescription }: { postDescription: string }) {
-  return (
-    <p className="h-[100px] px-2 overflow-y-auto">{postDescription}</p>
-  )
-}
-
-export function PostCreatedBy({ user }: { user: { user: string, userId: string, userImage: string } }) {
-  return (
-    <div className="card-actions justify-start">
-      <Link href={`/search/user/${user.userId}`}>
-        <button className="">
-          <img src={user.userImage} alt="user's profile pic" className="h-[2.5rem]" title={user.user} />
-        </button>
-      </Link>
-    </div>
-  )
-}
-
-export function PostDetailsButton({ postId }: { postId: string }) {
-  return (
-    <div className="card-actions justify-end">
-      <Link href={`/search/post/${postId}`}>
-        <button className="btn btn-accent text-accent-content">
-          Więcej
-        </button>
-      </Link>
-    </div>
-  )
 }

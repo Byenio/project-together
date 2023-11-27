@@ -24,6 +24,7 @@ export async function PostCard(
 ) {
 
   const session = await getServerAuthSession();
+  const userUpvotes = await api.upvote.upvotesByUserId.query();
 
   return (
     posts.map(post => {
@@ -33,6 +34,10 @@ export async function PostCard(
         if (session?.user.id) return api.admin.isAdmin.query();
         return false;
       }
+
+      const upvoted = userUpvotes.some(element => {
+        if (element.postId === post.id) return true;
+      })
 
       return (
         <div key={post.id} className="card min-w-[350px] w-[500px] m-auto my-2 bg-neutral text-primary-content">
@@ -60,6 +65,7 @@ export async function PostCard(
               {(isAuthor || isAdmin()) &&
                 <DeletePostButton postId={post.id} />
               }
+              <UpvoteButton postId={post.id} upvoted={upvoted} />
               <PostDetailsButton postId={post.id} />
             </div>
           </div>

@@ -1,4 +1,3 @@
-import { contextProps } from "@trpc/react-query/shared";
 import { z } from "zod";
 
 import {
@@ -49,7 +48,34 @@ export const upvoteRouter = createTRPCRouter({
       })
     }),
 
-  handleVote: protectedProcedure
+  upvotesByUserId: publicProcedure
+    .query(({ ctx }) => {
+      return ctx.db.upvote.findMany({
+        where: {
+          user: { id: ctx.session?.user.id }
+        },
+        select: {
+          postId: true
+        }
+      })
+    }),
+
+  handleUpvote: protectedProcedure
+    .input(
+      z.object({
+        postId: z.string()
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.upvote.create({
+        data: {
+          user: { connect: { id: ctx.session.user.id } },
+          post: { connect: { id: input.postId } }
+        }
+      })
+    }),
+
+  handleDownvote: protectedProcedure
     .input(
       z.object({
         postId: z.string()
@@ -66,16 +92,9 @@ export const upvoteRouter = createTRPCRouter({
         }
       })
 
-      if (!upvote) return ctx.db.upvote.create({
-        data: {
-          user: { connect: { id: ctx.session.user.id } },
-          post: { connect: { id: input.postId } }
-        }
-      })
-
       return ctx.db.upvote.delete({
         where: {
-          id: upvote.id
+          id: upvote?.id
         }
       })
 

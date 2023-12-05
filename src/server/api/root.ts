@@ -17,7 +17,7 @@ export const appRouter = createTRPCRouter({
   subject: subjectRouter,
   admin: adminRouter,
   tutor: tutorRouter,
-  upvote: upvoteRouter
+  upvote: upvoteRouter,
 });
 
 // export type definition of API

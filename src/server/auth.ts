@@ -54,12 +54,12 @@ export const authOptions: NextAuthOptions = {
         params: {
           prompt: "consent",
           access_type: "offline",
-          response_type: "code"
-        }
-      }
-    })
+          response_type: "code",
+        },
+      },
+    }),
   ],
-  secret: env.NEXTAUTH_SECRET
+  secret: env.NEXTAUTH_SECRET,
 };
 
 /**

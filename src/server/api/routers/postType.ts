@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 import {
   createTRPCRouter,
@@ -8,17 +8,19 @@ import {
 
 export const postTypeRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({
-      name: z.string().min(3, { message: "Post type name is too short" })
-    }))
+    .input(
+      z.object({
+        name: z.string().min(3, { message: "Post type name is too short" }),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.postType.create({
         data: {
-          name: input.name
-        }
-      })
+          name: input.name,
+        },
+      });
     }),
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.postType.findMany();
-  })
-})
+  }),
+});

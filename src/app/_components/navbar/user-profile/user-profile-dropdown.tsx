@@ -1,57 +1,69 @@
-import Link from "next/link"
+import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
 export function UserProfileDropdown() {
-
   return (
     <>
-      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] py-4 px-3 shadow bg-base-300 rounded-xl w-52">
+      <ul
+        tabIndex={0}
+        className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-xl bg-base-300 px-3 py-4 shadow"
+      >
         <UserProfileData />
         <UserProfileDropdownItems />
         <SignOutButton />
       </ul>
     </>
-  )
+  );
 }
 
 export async function UserProfileData() {
-
   const session = await getServerAuthSession();
 
   return (
     <>
-      <li className="text-center text-secondary-content font-bold text-xs">{session?.user.name}</li>
-      <li className="text-center text-secondary-content mb-5 text-xs">{session?.user.email}</li>
+      <li className="text-center text-xs font-bold text-secondary-content">
+        {session?.user.name}
+      </li>
+      <li className="mb-5 text-center text-xs text-secondary-content">
+        {session?.user.email}
+      </li>
     </>
-  )
+  );
 }
 
 export async function UserProfileDropdownItems() {
-
   const isAdmin = await api.admin.isAdmin.query();
   const isTutor = await api.tutor.isTutor.query();
 
   return (
     <>
-      {isTutor &&
+      {isTutor && (
         <li>
-          <Link href={"/create-post"} className="rounded-xl">Nowy Post</Link>
+          <Link href={"/create-post"} className="rounded-xl">
+            Nowy Post
+          </Link>
         </li>
-      }
-      {isAdmin &&
+      )}
+      {isAdmin && (
         <li>
-          <Link href={"/manage"} className="rounded-xl">Zarządzanie</Link>
+          <Link href={"/manage"} className="rounded-xl">
+            Zarządzanie
+          </Link>
         </li>
-      }
+      )}
       <li>
-        <Link href={"/"} className="rounded-xl">Ustawienia</Link>
+        <Link href={"/"} className="rounded-xl">
+          Ustawienia
+        </Link>
       </li>
       <li>
-        <Link href={"/profile"} className="rounded-xl">Profil</Link>
+        <Link href={"/profile"} className="rounded-xl">
+          Profil
+        </Link>
       </li>
     </>
-  )
+  );
 }
 
 export function SignOutButton() {
@@ -59,10 +71,10 @@ export function SignOutButton() {
     <li>
       <Link
         href="/api/auth/signout"
-        className="rounded-md bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20 m-auto mt-8"
+        className="m-auto mt-8 rounded-md bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
       >
         Sign out
       </Link>
     </li>
-  )
+  );
 }

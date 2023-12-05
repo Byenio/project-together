@@ -13,8 +13,8 @@ export default function CreatePostTypeForm() {
     onSuccess: () => {
       router.refresh();
       setName("");
-    }
-  })
+    },
+  });
 
   return (
     <form
@@ -29,12 +29,12 @@ export default function CreatePostTypeForm() {
         placeholder="Post type name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="input input-bordered input-accent text-accent-content w-full rounded-md px-4 py-2"
+        className="input input-bordered input-accent w-full rounded-md px-4 py-2 text-accent-content"
       />
-      <div className="w-full flex justify-end">
+      <div className="flex w-full justify-end">
         <button
           type="submit"
-          className="w-max-[150px] rounded-md bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 my-4"
+          className="w-max-[150px] my-4 rounded-md bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
           disabled={createPostType.isLoading}
         >
           {createPostType.isLoading ? "Przesylanie..." : "Przeslij"}

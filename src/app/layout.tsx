@@ -24,8 +24,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pl">
-      <body className={`font-sans ${inter.variable} w-[100] m-5`}>
-        <div className=" min-w-[400px] max-w-[1200px] m-auto">
+      <body className={`font-sans ${inter.variable} m-5 w-[100]`}>
+        <div className=" m-auto min-w-[400px] max-w-[1200px]">
           <TRPCReactProvider headers={headers()}>
             <Navbar />
             {children}

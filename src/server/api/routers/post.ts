@@ -1,4 +1,3 @@
-import { Procedure } from "@trpc/server/dist/deprecated/router";
 import { z } from "zod";
 
 import {
@@ -9,12 +8,14 @@ import {
 
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({
-      title: z.string().min(3),
-      description: z.string().min(10),
-      postType: z.string(),
-      subject: z.string()
-    }))
+    .input(
+      z.object({
+        title: z.string().min(3),
+        description: z.string().min(10),
+        postType: z.string(),
+        subject: z.string(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.post.create({
         data: {
@@ -23,22 +24,21 @@ export const postRouter = createTRPCRouter({
           postType: { connect: { id: input.postType } },
           subject: { connect: { id: input.subject } },
           createdBy: { connect: { id: ctx.session.user.id } },
-        }
+        },
       });
     }),
 
-  getAll: publicProcedure
-    .query(({ ctx }) => {
-      return ctx.db.post.findMany({
-        orderBy: { createdAt: "desc" },
-        include: {
-          postType: true,
-          subject: true,
-          createdBy: true,
-          Upvote: true
-        }
-      });
-    }),
+  getAll: publicProcedure.query(({ ctx }) => {
+    return ctx.db.post.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        postType: true,
+        subject: true,
+        createdBy: true,
+        Upvote: true,
+      },
+    });
+  }),
 
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
@@ -49,9 +49,9 @@ export const postRouter = createTRPCRouter({
           postType: true,
           subject: true,
           createdBy: true,
-          Upvote: true
-        }
-      })
+          Upvote: true,
+        },
+      });
     }),
 
   getBySubject: publicProcedure
@@ -63,9 +63,9 @@ export const postRouter = createTRPCRouter({
           postType: true,
           subject: true,
           createdBy: true,
-          Upvote: true
-        }
-      })
+          Upvote: true,
+        },
+      });
     }),
 
   getByType: publicProcedure
@@ -77,51 +77,49 @@ export const postRouter = createTRPCRouter({
           postType: true,
           subject: true,
           createdBy: true,
-          Upvote: true
-        }
-      })
+          Upvote: true,
+        },
+      });
     }),
 
-  getByUser: protectedProcedure
-    .query(({ ctx }) => {
-      return ctx.db.post.findMany({
-        where: { createdBy: { id: ctx.session.user.id } },
-        include: {
-          postType: true,
-          subject: true,
-          createdBy: true,
-          Upvote: true
-        }
-      })
-    }),
+  getByUser: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.post.findMany({
+      where: { createdBy: { id: ctx.session.user.id } },
+      include: {
+        postType: true,
+        subject: true,
+        createdBy: true,
+        Upvote: true,
+      },
+    });
+  }),
 
-  getLatest: publicProcedure
-    .query(({ ctx }) => {
-      return ctx.db.post.findFirst({
-        orderBy: { createdAt: "desc" }
-      })
-    }),
+  getLatest: publicProcedure.query(({ ctx }) => {
+    return ctx.db.post.findFirst({
+      orderBy: { createdAt: "desc" },
+    });
+  }),
 
   deleteById: protectedProcedure
     .input(
       z.object({
-        postId: z.string()
-      })
+        postId: z.string(),
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const post = await ctx.db.post.findUnique({
         where: {
-          id: input.postId
+          id: input.postId,
         },
         include: {
-          createdBy: true
-        }
-      })
+          createdBy: true,
+        },
+      });
 
       if (post?.createdBy.id === ctx.session.user.id) {
         return ctx.db.post.delete({
-          where: { id: input.postId }
-        })
+          where: { id: input.postId },
+        });
       }
     }),
-})
+});

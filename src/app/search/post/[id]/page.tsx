@@ -14,10 +14,6 @@ export default async function Post({ params }: { params: { id: string } }) {
   const post = await getPost(params.id);
 
   const isAuthor = post?.createdBy.id === session?.user.id;
-  const isAdmin = () => {
-    if (session?.user.id) return api.admin.isAdmin.query();
-    return false;
-  };
 
   return (
     <>
@@ -58,7 +54,7 @@ export default async function Post({ params }: { params: { id: string } }) {
             {post?.description}
           </div>
           <div className="flex justify-end gap-4">
-            {(isAuthor || isAdmin()) && <DeletePostButton postId={post!.id} />}
+            {isAuthor && <DeletePostButton postId={post!.id} />}
           </div>
         </div>
       </div>

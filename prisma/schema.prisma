@@ -11,20 +11,11 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model Tutor {
-    id     String @id @default(cuid())
-    userId String
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@index([userId])
-}
-
-model Admin {
-    id     String @id @default(cuid())
-    userId String
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@index([userId])
+enum Role {
+    USER
+    TUTOR
+    MODERATOR
+    ADMIN
 }
 
 model PostType {
@@ -139,11 +130,10 @@ model User {
     email         String?      @unique
     emailVerified DateTime?
     image         String?
+    role          Role         @default(USER)
     Accounts      Account[]
     Sessions      Session[]
     Posts         Post[]
-    Tutor         Tutor[]
-    Admin         Admin[]
     Upvote        Upvote[]
     UserBadges    UserBadges[]
 }

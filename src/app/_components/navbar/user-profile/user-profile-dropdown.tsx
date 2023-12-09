@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
 
 export function UserProfileDropdown() {
   return (
@@ -33,19 +32,16 @@ export async function UserProfileData() {
 }
 
 export async function UserProfileDropdownItems() {
-  const isAdmin = await api.admin.isAdmin.query();
-  const isTutor = await api.tutor.isTutor.query();
-
   return (
     <>
-      {isTutor && (
+      {true && (
         <li>
           <Link href={"/create-post"} className="rounded-xl">
             Nowy Post
           </Link>
         </li>
       )}
-      {isAdmin && (
+      {true && (
         <li>
           <Link href={"/manage"} className="rounded-xl">
             Zarządzanie

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
+import { api } from "~/trpc/server";
 
 export function UserProfileDropdown() {
   return (
@@ -32,16 +33,21 @@ export async function UserProfileData() {
 }
 
 export async function UserProfileDropdownItems() {
+  const { role } = (await api.role.getByUser.query()) ?? { role: "USER" };
+
+  const canPost = role == "TUTOR" || role == "MODERATOR" || role == "ADMIN";
+  const canManage = role == "MODERATOR" || role == "ADMIN";
+
   return (
     <>
-      {true && (
+      {canPost && (
         <li>
           <Link href={"/create-post"} className="rounded-xl">
             Nowy Post
           </Link>
         </li>
       )}
-      {true && (
+      {canManage && (
         <li>
           <Link href={"/manage"} className="rounded-xl">
             Zarządzanie

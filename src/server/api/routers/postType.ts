@@ -14,6 +14,15 @@ export const postTypeRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const { role } = (await ctx.db.user.findUnique({
+        where: { id: ctx.session.user.id },
+        select: { role: true },
+      })) ?? { role: "USER" };
+
+      const canCreate = role == "MODERATOR" || role == "ADMIN";
+
+      if (!canCreate) return;
+
       return ctx.db.postType.create({
         data: {
           name: input.name,

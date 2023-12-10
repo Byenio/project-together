@@ -1,7 +1,13 @@
+import { redirect } from "next/navigation";
+import { api } from "~/trpc/server";
 import CreateSubjectForm from "./create-subject-form";
 import SubjectList from "./create-subject-list";
 
-export default function CreateSubject() {
+export default async function CreateSubject() {
+  const { role } = (await api.role.getByUser.query()) ?? { role: "USER" };
+  const canAccess = role == "MODERATOR" || role == "ADMIN";
+  if (!canAccess) redirect("/");
+
   return (
     <div className="m-auto max-w-[600px]">
       <div className="my-4 w-full text-center">

@@ -17,6 +17,16 @@ export const postRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const { role } = (await ctx.db.user.findUnique({
+        where: { id: ctx.session.user.id },
+        select: { role: true },
+      })) ?? { role: "USER" };
+
+      const canCreate =
+        role == "TUTOR" || role == "MODERATOR" || role == "ADMIN";
+
+      if (!canCreate) return;
+
       return ctx.db.post.create({
         data: {
           title: input.title,
@@ -115,11 +125,20 @@ export const postRouter = createTRPCRouter({
           createdBy: true,
         },
       });
+      const { role } = (await ctx.db.user.findUnique({
+        where: { id: ctx.session.user.id },
+        select: { role: true },
+      })) ?? { role: "USER" };
 
-      if (post?.createdBy.id === ctx.session.user.id) {
-        return ctx.db.post.delete({
-          where: { id: input.postId },
-        });
-      }
+      const canCreate =
+        role == "MODERATOR" ||
+        role == "ADMIN" ||
+        post?.createdBy.id === ctx.session.user.id;
+
+      if (!canCreate) return;
+
+      return ctx.db.post.delete({
+        where: { id: input.postId },
+      });
     }),
 });

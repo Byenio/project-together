@@ -1,6 +1,12 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { api } from "~/trpc/server";
 
-export default function Manage() {
+export default async function Manage() {
+  const { role } = (await api.role.getByUser.query()) ?? { role: "USER" };
+  const canAccess = role == "MODERATOR" || role == "ADMIN";
+  if (!canAccess) redirect("/");
+
   return (
     <div className="w-[100%]">
       <div className="m-auto my-8 text-center">

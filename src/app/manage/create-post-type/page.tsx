@@ -1,7 +1,13 @@
+import { redirect } from "next/navigation";
+import { api } from "~/trpc/server";
 import CreatePostTypeForm from "./create-post-type-form";
 import PostTypeList from "./create-post-type-list";
 
-export default function CreatePostType() {
+export default async function CreatePostType() {
+  const { role } = (await api.role.getByUser.query()) ?? { role: "USER" };
+  const canAccess = role == "MODERATOR" || role == "ADMIN";
+  if (!canAccess) redirect("/");
+
   return (
     <div className="m-auto max-w-[600px]">
       <div className="my-4 w-full text-center">

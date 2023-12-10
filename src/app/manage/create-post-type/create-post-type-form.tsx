@@ -29,7 +29,7 @@ export default function CreatePostTypeForm() {
         placeholder="Post type name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="input input-bordered input-accent w-full rounded-md px-4 py-2 text-accent-content"
+        className="input input-bordered input-accent w-full rounded-md px-4 py-2 text-neutral-content"
       />
       <div className="flex w-full justify-end">
         <button

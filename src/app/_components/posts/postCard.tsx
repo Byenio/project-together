@@ -22,10 +22,6 @@ export async function PostCard({ posts }: { posts: PostsGetOutput }) {
 
   return posts.map((post) => {
     const isAuthor = post.createdBy.id === session?.user.id;
-    const isAdmin = () => {
-      if (session?.user.id) return api.admin.isAdmin.query();
-      return false;
-    };
 
     const upvoted = userUpvotes.some((element) => {
       if (element.postId === post.id) return true;
@@ -34,7 +30,7 @@ export async function PostCard({ posts }: { posts: PostsGetOutput }) {
     return (
       <div
         key={post.id}
-        className="card m-auto my-2 w-[500px] min-w-[350px] bg-neutral text-primary-content"
+        className="card m-auto my-2 w-[500px] min-w-[350px] bg-neutral text-neutral-content"
       >
         <div className="card-body">
           <div className="flex justify-between">
@@ -63,7 +59,7 @@ export async function PostCard({ posts }: { posts: PostsGetOutput }) {
           </div>
           <PostDescription postDescription={post.description} />
           <div className="flex justify-end gap-4">
-            {(isAuthor || isAdmin()) && <DeletePostButton postId={post.id} />}
+            {isAuthor && <DeletePostButton postId={post.id} />}
             <UpvoteButton postId={post.id} upvoted={upvoted} />
             <PostDetailsButton postId={post.id} />
           </div>

@@ -39,18 +39,18 @@ export default function CreatePostForm() {
         placeholder="Tytuł posta"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="input input-bordered input-accent w-full rounded-md px-4 py-2 text-accent-content"
+        className="input input-bordered input-accent w-full rounded-md px-4 py-2 text-neutral-content"
       />
       <textarea
         placeholder="Opis"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        className="textarea textarea-accent w-full rounded-md px-4 py-2 text-accent-content"
+        className="textarea textarea-accent w-full rounded-md px-4 py-2 text-neutral-content"
         maxLength={190}
       />
       <select
         name="subject"
-        className="select select-accent flex flex-col gap-2 rounded-md px-4 py-2 text-accent-content"
+        className="select select-accent flex flex-col gap-2 rounded-md px-4 py-2 text-neutral-content"
         onChange={(e) => setSubject(e.target.value)}
       >
         <option disabled selected>
@@ -65,7 +65,7 @@ export default function CreatePostForm() {
       </select>
       <select
         name="post type"
-        className="gapp-2 select select-accent flex flex-col rounded-md px-4 py-2 text-accent-content"
+        className="gapp-2 select select-accent flex flex-col rounded-md px-4 py-2 text-neutral-content"
         onChange={(e) => setPostType(e.target.value)}
       >
         <option disabled selected>

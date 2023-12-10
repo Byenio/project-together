@@ -17,7 +17,7 @@ export default async function Post({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <div className="card m-auto my-2 w-4/5 max-w-[800px] bg-neutral text-primary-content">
+      <div className="card m-auto my-2 w-4/5 max-w-[800px] bg-neutral text-neutral-content">
         <div className="card-body">
           <div className="flex justify-between">
             <div className="card-title px-2 text-center">{post?.title}</div>

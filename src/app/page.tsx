@@ -1,20 +1,9 @@
-import { Posts } from "~/app/_components/posts/posts";
+import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
-
-async function getPosts() {
-  return await api.post.getAll.query();
-}
 
 export default async function Home() {
   const session = await getServerAuthSession();
-  if (!session?.user) return null;
+  if (!session?.user) redirect("/login");
 
-  const posts = await getPosts();
-
-  return (
-    <>
-      <Posts posts={posts} />
-    </>
-  );
+  redirect("/search");
 }

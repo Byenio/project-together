@@ -3,8 +3,15 @@ import { redirect } from "next/navigation";
 import { api } from "~/trpc/server";
 
 export default async function Manage() {
-  const { role } = (await api.role.getByUser.query()) ?? { role: "USER" };
-  const canAccess = role == "MODERATOR" || role == "ADMIN";
+  const { role } = (await api.user.getRole.query()) ?? {
+    role: {
+      name: "USER",
+      level: 0,
+    },
+  };
+
+  if (!role) return null;
+  const canAccess = role.level >= 0;
   if (!canAccess) redirect("/");
 
   return (

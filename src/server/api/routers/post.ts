@@ -20,10 +20,11 @@ export const postRouter = createTRPCRouter({
       const { role } = (await ctx.db.user.findUnique({
         where: { id: ctx.session.user.id },
         select: { role: true },
-      })) ?? { role: "USER" };
+      })) ?? { role: { level: 0 } };
 
-      const canCreate =
-        role == "TUTOR" || role == "MODERATOR" || role == "ADMIN";
+      if (!role) return;
+
+      const canCreate = role.level >= 0;
 
       if (!canCreate) return;
 
@@ -128,14 +129,14 @@ export const postRouter = createTRPCRouter({
       const { role } = (await ctx.db.user.findUnique({
         where: { id: ctx.session.user.id },
         select: { role: true },
-      })) ?? { role: "USER" };
+      })) ?? { role: { level: 0 } };
 
-      const canCreate =
-        role == "MODERATOR" ||
-        role == "ADMIN" ||
-        post?.createdBy.id === ctx.session.user.id;
+      if (!role) return;
 
-      if (!canCreate) return;
+      const canDelete =
+        role.level >= 0 || post?.createdBy.id === ctx.session.user.id;
+
+      if (!canDelete) return;
 
       return ctx.db.post.delete({
         where: { id: input.postId },

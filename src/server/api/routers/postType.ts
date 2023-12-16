@@ -17,9 +17,11 @@ export const postTypeRouter = createTRPCRouter({
       const { role } = (await ctx.db.user.findUnique({
         where: { id: ctx.session.user.id },
         select: { role: true },
-      })) ?? { role: "USER" };
+      })) ?? { role: { level: 0 } };
 
-      const canCreate = role == "MODERATOR" || role == "ADMIN";
+      if (!role) return;
+
+      const canCreate = role.level >= 0;
 
       if (!canCreate) return;
 

@@ -33,10 +33,17 @@ export async function UserProfileData() {
 }
 
 export async function UserProfileDropdownItems() {
-  const { role } = (await api.role.getByUser.query()) ?? { role: "USER" };
+  const { role } = (await api.user.getRole.query()) ?? {
+    role: {
+      name: "USER",
+      level: 0,
+    },
+  };
 
-  const canPost = role == "TUTOR" || role == "MODERATOR" || role == "ADMIN";
-  const canManage = role == "MODERATOR" || role == "ADMIN";
+  if (!role) return null;
+
+  const canPost = role.level >= 0;
+  const canManage = role.level >= 0;
 
   return (
     <>

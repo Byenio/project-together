@@ -11,11 +11,15 @@ generator client {
     provider = "prisma-client-js"
 }
 
-enum Role {
-    USER
-    TUTOR
-    MODERATOR
-    ADMIN
+model Role {
+    id      String  @id @default(cuid())
+    name    String
+    level   Int     @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    Users User[]
 }
 
 model PostType {
@@ -130,12 +134,16 @@ model User {
     email         String?      @unique
     emailVerified DateTime?
     image         String?
-    role          Role         @default(USER)
+    roleId        String?
     Accounts      Account[]
     Sessions      Session[]
     Posts         Post[]
     Upvote        Upvote[]
     UserBadges    UserBadges[]
+
+    role Role? @relation(fields: [roleId], references: [id])
+    
+    @@index([roleId])
 }
 
 model VerificationToken {

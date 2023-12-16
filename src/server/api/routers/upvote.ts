@@ -5,7 +5,6 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { api } from "~/trpc/server";
 
 export const upvoteRouter = createTRPCRouter({
   create: protectedProcedure
@@ -72,7 +71,7 @@ export const upvoteRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.upvote.create({
+      return await ctx.db.upvote.create({
         data: {
           user: { connect: { id: ctx.session.user.id } },
           post: { connect: { id: input.postId } },
@@ -96,7 +95,7 @@ export const upvoteRouter = createTRPCRouter({
         },
       });
 
-      return ctx.db.upvote.delete({
+      return await ctx.db.upvote.delete({
         where: {
           id: upvote?.id,
         },

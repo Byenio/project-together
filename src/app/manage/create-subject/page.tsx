@@ -4,8 +4,15 @@ import CreateSubjectForm from "./create-subject-form";
 import SubjectList from "./create-subject-list";
 
 export default async function CreateSubject() {
-  const { role } = (await api.role.getByUser.query()) ?? { role: "USER" };
-  const canAccess = role == "MODERATOR" || role == "ADMIN";
+  const { role } = (await api.user.getRole.query()) ?? {
+    role: {
+      name: "USER",
+      level: 0,
+    },
+  };
+
+  if (!role) return null;
+  const canAccess = role.level >= 0;
   if (!canAccess) redirect("/");
 
   return (

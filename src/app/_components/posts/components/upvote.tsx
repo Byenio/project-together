@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "~/trpc/react";
 
 export function BiUpvote() {
@@ -73,7 +73,7 @@ export default function UpvoteButton({
         </button>
       ) : (
         <button
-          className="btn btn-warning btn-outline btn-sm text-warning-content"
+          className="btn btn-outline btn-warning btn-sm text-warning-content"
           onClick={() => {
             setUpvotes((prev) => prev! + 1);
             upvote.mutate({ postId });

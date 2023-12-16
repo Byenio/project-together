@@ -36,14 +36,14 @@ export default async function Post({ params }: { params: { id: string } }) {
           </div>
           <div className="flex justify-between">
             <div className="card-actions justify-start">
-              <Link href={`/filter/type/${post?.postType.id}`}>
+              <Link href={`/search?type=${post?.postType.id}`}>
                 <button className="btn btn-accent btn-xs text-accent-content">
                   {post?.postType.name}
                 </button>
               </Link>
             </div>
             <div className="card-actions justify-start">
-              <Link href={`/filter/subject/${post?.subject.id}`}>
+              <Link href={`/search?subject=${post?.subject.id}`}>
                 <button className="btn btn-accent btn-xs text-accent-content">
                   {post?.subject.name}
                 </button>

@@ -26,7 +26,7 @@ export default function PersonalInfoForm() {
     >
       <input
         type="text"
-        placeholder="Full name"
+        placeholder="Pełne imię i nazwisko"
         value={fullname}
         onChange={(e) => setFullname(e.target.value)}
         className="input input-bordered input-accent w-full rounded-md px-4 py-2 text-neutral-content"
@@ -37,7 +37,7 @@ export default function PersonalInfoForm() {
           className="w-max-[150px] my-4 rounded-md bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
           disabled={updateFullname.isLoading}
         >
-          {updateFullname.isLoading ? "Submitting..." : "Submit"}
+          {updateFullname.isLoading ? "Przesyłanie..." : "Prześlij"}
         </button>
       </div>
     </form>

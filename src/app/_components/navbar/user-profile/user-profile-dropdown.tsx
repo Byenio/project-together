@@ -82,7 +82,7 @@ export function SignOutButton() {
         href="/api/auth/signout"
         className="m-auto mt-8 rounded-md bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
       >
-        Sign out
+        Wyloguj się
       </Link>
     </li>
   );

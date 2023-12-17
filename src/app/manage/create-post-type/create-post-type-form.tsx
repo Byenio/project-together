@@ -26,7 +26,7 @@ export default function CreatePostTypeForm() {
     >
       <input
         type="text"
-        placeholder="Post type name"
+        placeholder="Typ postu"
         value={name}
         onChange={(e) => setName(e.target.value)}
         className="input input-bordered input-accent w-full rounded-md px-4 py-2 text-neutral-content"

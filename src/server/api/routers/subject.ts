@@ -31,7 +31,7 @@ export const subjectRouter = createTRPCRouter({
         },
       });
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
+  getAll: publicProcedure.query(async ({ ctx }) => {
     return ctx.db.subject.findMany();
   }),
 });

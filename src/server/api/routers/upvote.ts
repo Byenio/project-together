@@ -28,7 +28,7 @@ export const upvoteRouter = createTRPCRouter({
         postId: z.string(),
       }),
     )
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       return ctx.db.upvote.findFirst({
         where: {
           AND: [
@@ -45,7 +45,7 @@ export const upvoteRouter = createTRPCRouter({
         postId: z.string(),
       }),
     )
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       return ctx.db.upvote.count({
         where: {
           post: { id: input.postId },
@@ -53,7 +53,7 @@ export const upvoteRouter = createTRPCRouter({
       });
     }),
 
-  upvotesByUserId: publicProcedure.query(({ ctx }) => {
+  upvotesByUserId: publicProcedure.query(async ({ ctx }) => {
     return ctx.db.upvote.findMany({
       where: {
         user: { id: ctx.session?.user.id },

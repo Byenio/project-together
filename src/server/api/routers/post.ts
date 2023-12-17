@@ -39,7 +39,7 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
+  getAll: publicProcedure.query(async ({ ctx }) => {
     return ctx.db.post.findMany({
       orderBy: { createdAt: "desc" },
       include: {
@@ -53,7 +53,7 @@ export const postRouter = createTRPCRouter({
 
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       return ctx.db.post.findUnique({
         where: { id: input.id },
         include: {
@@ -67,7 +67,7 @@ export const postRouter = createTRPCRouter({
 
   getBySubject: publicProcedure
     .input(z.object({ subjectId: z.string() }))
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       return ctx.db.post.findMany({
         where: { subjectId: input.subjectId },
         include: {
@@ -81,7 +81,7 @@ export const postRouter = createTRPCRouter({
 
   getByType: publicProcedure
     .input(z.object({ typeId: z.string() }))
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       return ctx.db.post.findMany({
         where: { postTypeId: input.typeId },
         include: {
@@ -93,7 +93,7 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  getByUser: protectedProcedure.query(({ ctx }) => {
+  getByUser: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.post.findMany({
       where: { createdBy: { id: ctx.session.user.id } },
       include: {
@@ -105,7 +105,7 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
+  getLatest: publicProcedure.query(async ({ ctx }) => {
     return ctx.db.post.findFirst({
       orderBy: { createdAt: "desc" },
     });

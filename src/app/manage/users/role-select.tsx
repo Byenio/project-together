@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
 
@@ -11,7 +10,6 @@ export default function RoleSelect({
   currentRole: string | null;
   userId: string;
 }) {
-  const router = useRouter();
   const roles = api.role.getAll.useQuery().data;
   const [hidden, setHidden] = useState(true);
   const [newRole, setNewRole] = useState("");
@@ -60,7 +58,7 @@ export default function RoleSelect({
       </div>
       <div className="basis-[12%] text-center">
         <button
-          type="reset"
+          onClick={() => setHidden(true)}
           className={(hidden ? "hidden " : "visible ") + "btn btn-error btn-sm"}
         >
           x

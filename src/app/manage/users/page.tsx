@@ -3,7 +3,7 @@ import RoleSelect from "./role-select";
 
 export default async function ManageUsers() {
   const users = await api.user.getAll.query();
-  const fields = ["Username", "Email", "Role"];
+  const fields = ["Full name", "Email", "Role"];
 
   return (
     <>
@@ -16,7 +16,7 @@ export default async function ManageUsers() {
       </div>
       {users.map((user) => (
         <div className="flex py-2">
-          <div className="basis-1/4 py-1">{user.name}</div>
+          <div className="basis-1/4 py-1">{user.fullname}</div>
           <div className="basis-1/4 py-1">{user.email}</div>
           <RoleSelect currentRole={user.roleId} userId={user.id} />
         </div>

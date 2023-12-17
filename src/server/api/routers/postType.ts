@@ -31,7 +31,7 @@ export const postTypeRouter = createTRPCRouter({
         },
       });
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
+  getAll: publicProcedure.query(async ({ ctx }) => {
     return ctx.db.postType.findMany();
   }),
 });

@@ -6,7 +6,8 @@ export default async function Home() {
   const session = await getServerAuthSession();
   if (!session?.user) redirect("/login");
 
-  const user = await api.user.getRole.query();
+  const user = await api.user.get.query();
+  if (!user?.fullname) redirect("/personal-info");
   if (!user?.role) await api.user.setDefaultRole.query();
 
   redirect("/search");

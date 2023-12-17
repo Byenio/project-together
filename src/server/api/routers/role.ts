@@ -4,7 +4,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 export const roleRouter = createTRPCRouter({
   create: publicProcedure
     .input(z.object({ name: z.string().toUpperCase(), level: z.number() }))
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.role.create({
         data: {
           name: input.name,
@@ -12,7 +12,7 @@ export const roleRouter = createTRPCRouter({
         },
       });
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
+  getAll: publicProcedure.query(async ({ ctx }) => {
     return ctx.db.role.findMany({
       orderBy: [{ level: "desc" }],
     });

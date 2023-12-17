@@ -1,7 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function Login() {
-  return (
-    <>
-      <h1>login</h1>
-    </>
-  );
+  redirect("/api/auth/signin");
 }

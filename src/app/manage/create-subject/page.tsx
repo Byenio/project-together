@@ -12,7 +12,7 @@ export default async function CreateSubject() {
   };
 
   if (!role) return null;
-  const canAccess = role.level >= 0;
+  const canAccess = role.level >= 6;
   if (!canAccess) redirect("/");
 
   return (

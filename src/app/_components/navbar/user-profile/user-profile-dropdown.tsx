@@ -42,8 +42,8 @@ export async function UserProfileDropdownItems() {
 
   if (!role) return null;
 
-  const canPost = role.level >= 0;
-  const canManage = role.level >= 0;
+  const canPost = role.level >= 3;
+  const canManage = role.level >= 6;
 
   return (
     <>

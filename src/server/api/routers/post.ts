@@ -24,7 +24,7 @@ export const postRouter = createTRPCRouter({
 
       if (!role) return;
 
-      const canCreate = role.level >= 0;
+      const canCreate = role.level >= 3;
 
       if (!canCreate) return;
 
@@ -134,7 +134,7 @@ export const postRouter = createTRPCRouter({
       if (!role) return;
 
       const canDelete =
-        role.level >= 0 || post?.createdBy.id === ctx.session.user.id;
+        role.level >= 6 || post?.createdBy.id === ctx.session.user.id;
 
       if (!canDelete) return;
 

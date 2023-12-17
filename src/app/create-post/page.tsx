@@ -11,7 +11,7 @@ export default async function CreatePost() {
   };
 
   if (!role) return null;
-  const canAccess = role.level >= 0;
+  const canAccess = role.level >= 3;
   if (!canAccess) redirect("/");
 
   return (

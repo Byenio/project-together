@@ -21,7 +21,7 @@ export const subjectRouter = createTRPCRouter({
 
       if (!role) return;
 
-      const canCreate = role.level >= 0;
+      const canCreate = role.level >= 6;
 
       if (!canCreate) return;
 

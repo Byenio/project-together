@@ -1,29 +1,101 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+datasource db {
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
 generator client {
     provider = "prisma-client-js"
 }
 
-datasource db {
-    provider = "sqlite"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
-}
+model Role {
+    id      String  @id @default(cuid())
+    name    String
+    level   Int     @default(0)
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+    Users User[]
+}
 
-    @@index([name])
+model PostType {
+    id   String @id @default(cuid())
+    name String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    Posts Post[]
+}
+
+model Subject {
+    id   String @id @default(cuid())
+    name String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    Posts Post[]
+}
+
+model Upvote {
+    id     String @id @default(cuid())
+    userId String
+    postId String
+
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, postId])
+    @@index([userId])
+    @@index([postId])
+}
+
+model Post {
+    id          String @id @default(cuid())
+    title       String
+    description String @db.MediumText
+    createdById String
+    postTypeId  String
+    subjectId   String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdBy User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+    postType  PostType @relation(fields: [postTypeId], references: [id])
+    subject   Subject  @relation(fields: [subjectId], references: [id])
+    Upvote    Upvote[]
+
+    @@index([createdById])
+    @@index([postTypeId])
+    @@index([subjectId])
+}
+
+model Badge {
+    id              String       @id @default(cuid())
+    name            String
+    description     String
+    upvoteThreshold Int?
+    imageUrl        String
+    UserBadges      UserBadges[]
+}
+
+model UserBadges {
+    id      String @id @default(cuid())
+    userId  String
+    badgeId String
+    user    User   @relation(fields: [userId], references: [id])
+    badge   Badge  @relation(fields: [badgeId], references: [id])
+
+    @@index([userId])
+    @@index([badgeId])
 }
 
 // Necessary for Next auth
@@ -33,16 +105,17 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
 }
 
 model Session {
@@ -51,17 +124,27 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
+    id            String       @id @default(cuid())
+    fullname      String?
+    name          String?      @default("")
+    email         String?      @unique
     emailVerified DateTime?
     image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+    roleId        String?
+    Accounts      Account[]
+    Sessions      Session[]
+    Posts         Post[]
+    Upvote        Upvote[]
+    UserBadges    UserBadges[]
+
+    role Role? @relation(fields: [roleId], references: [id])
+    
+    @@index([roleId])
 }
 
 model VerificationToken {

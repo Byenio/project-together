@@ -1,0 +1,36 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { api } from "~/trpc/server";
+
+export default async function Manage() {
+  const { role } = (await api.user.getRole.query()) ?? {
+    role: {
+      name: "USER",
+      level: 0,
+    },
+  };
+
+  if (!role) return null;
+  const canAccess = role.level >= 6;
+  if (!canAccess) redirect("/");
+
+  return (
+    <div className="w-[100%]">
+      <div className="m-auto my-8 text-center">
+        <Link href={"/manage/create-post-type"} className="btn btn-accent">
+          Utwórz nowy typ postu
+        </Link>
+      </div>
+      <div className="m-auto my-8 text-center">
+        <Link href={"/manage/create-subject"} className="btn btn-accent">
+          Utwórz nowy przedmiot
+        </Link>
+      </div>
+      <div className="m-auto my-8 text-center">
+        <Link href={"/manage/users"} className="btn btn-accent">
+          Zarządzaj użytkownikami
+        </Link>
+      </div>
+    </div>
+  );
+}

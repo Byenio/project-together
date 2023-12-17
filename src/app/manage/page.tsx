@@ -26,6 +26,11 @@ export default async function Manage() {
           Utwórz nowy przedmiot
         </Link>
       </div>
+      <div className="m-auto my-8 text-center">
+        <Link href={"/manage/users"} className="btn btn-accent">
+          Zarządzaj użytkownikami
+        </Link>
+      </div>
     </div>
   );
 }

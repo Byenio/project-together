@@ -5,7 +5,7 @@ export function HomeButton() {
     <div className="flex-1">
       <Link
         className="btn btn-ghost rounded-xl text-xl normal-case"
-        href={"/search"}
+        href={"/"}
       >
         ZSTI Together
       </Link>

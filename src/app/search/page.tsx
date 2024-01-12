@@ -9,7 +9,7 @@ async function getPosts() {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Record<string, string | string[] | undefined>;
 }) {
   const session = await getServerAuthSession();
   if (!session?.user) return null;

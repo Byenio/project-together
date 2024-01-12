@@ -22,13 +22,13 @@ export default async function Post({ params }: { params: { id: string } }) {
           <div className="flex justify-between">
             <div className="card-title px-2 text-center">{post?.title}</div>
             <div className="card-actions justify-start">
-              <Link href={`/search/user/${post?.createdBy.id}`}>
+              <Link href={`/search?user=${post?.createdById}`}>
                 <button className="">
                   <img
                     src={post?.createdBy.image ?? ""}
                     alt="user's profile pic"
                     className="h-[2.5rem]"
-                    title={post!.createdBy.name ?? ""}
+                    title={post!.createdBy.fullname ?? ""}
                   />
                 </button>
               </Link>
@@ -37,7 +37,7 @@ export default async function Post({ params }: { params: { id: string } }) {
           <div className="flex justify-between">
             <div className="card-actions justify-start">
               <Link href={`/search?type=${post?.postType.id}`}>
-                <button className="btn btn-accent btn-xs text-accent-content">
+                <button className="btn btn-accent btn-xs mx-[.4rem] text-accent-content">
                   {post?.postType.name}
                 </button>
               </Link>

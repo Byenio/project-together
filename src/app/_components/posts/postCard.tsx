@@ -11,7 +11,6 @@ import DeletePostButton from "./components/deletePostButton";
 import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "~/server/api/root";
 import { api } from "~/trpc/server";
-import UpvoteButton from "./components/upvote";
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type PostsGetOutput = RouterOutput["post"]["getAll"];
@@ -37,9 +36,10 @@ export async function PostCard({ posts }: { posts: PostsGetOutput }) {
             <PostTitle postTitle={post.title} />
             <PostCreatedBy
               user={{
-                user: post.createdBy.name as string,
+                user: post.createdBy.name!,
                 userId: post.createdBy.id,
-                userImage: post.createdBy.image as string,
+                userImage: post.createdBy.image!,
+                fullname: post.createdBy.fullname!,
               }}
             />
           </div>
@@ -60,7 +60,7 @@ export async function PostCard({ posts }: { posts: PostsGetOutput }) {
           <PostDescription postDescription={post.description} />
           <div className="flex justify-end gap-4">
             {isAuthor && <DeletePostButton postId={post.id} />}
-            <UpvoteButton postId={post.id} upvoted={upvoted} />
+            {/* <UpvoteButton postId={post.id} upvoted={upvoted} /> */}
             <PostDetailsButton postId={post.id} />
           </div>
         </div>

@@ -19,7 +19,7 @@ export default function PersonalInfoForm() {
 
   const updateFullname = api.user.updateFullname.useMutation({
     onSuccess: () => {
-      router.refresh();
+      router.replace("/");
       setFullname("");
     },
   });

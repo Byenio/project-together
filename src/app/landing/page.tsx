@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Landing() {
   return (
-    <div className="m-auto w-2/5 text-center">
+    <div className="m-auto max-w-[400px] text-center">
       <p>
         <p className="italic">Aplikacja jest we wczesnej fazie rozwoju.</p>
         <br />
@@ -41,10 +41,11 @@ export default function Landing() {
         <br />
         <br />
         Dlatego między dyrekcją a mną, kiedy jeszcze byłem uczniem, narodził się
-        pomysł na ułatwienie <b>Wam</b> organizacji pomocy koleżeńskiej za pomocą tej aplikacji. Ma
-        sprawić, że współpraca między <b>Wami</b> stanie bardziej społeczną sprawą. Niektórzy może
-        słyszą o czymś takim pierwszy raz, a chętnie wzięliby w niej udział po
-        jednej, albo po drugiej stronie.
+        pomysł na ułatwienie <b>Wam</b> organizacji pomocy koleżeńskiej za
+        pomocą tej aplikacji. Ma sprawić, że współpraca między <b>Wami</b>{" "}
+        stanie bardziej społeczną sprawą. Niektórzy może słyszą o czymś takim
+        pierwszy raz, a chętnie wzięliby w niej udział po jednej, albo po
+        drugiej stronie.
         <br />
         <br />
         Tak, jak wspomniałem wyżej - jeśli napotkacie jakieś błędy, opiszcie je

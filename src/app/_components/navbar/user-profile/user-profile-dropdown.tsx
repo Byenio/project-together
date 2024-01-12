@@ -22,11 +22,8 @@ export async function UserProfileData() {
 
   return (
     <>
-      <li className="text-center text-xs font-bold text-neutral-content">
+      <li className="mb-2 text-center text-lg font-bold text-neutral-content">
         {session?.user.name}
-      </li>
-      <li className="mb-5 text-center text-xs text-neutral-content">
-        {session?.user.email}
       </li>
     </>
   );
@@ -61,16 +58,16 @@ export async function UserProfileDropdownItems() {
           </Link>
         </li>
       )}
-      <li>
+      {/* <li>
         <Link href={"/"} className="rounded-xl">
           Ustawienia
         </Link>
-      </li>
-      <li>
+      </li> */}
+      {/* <li>
         <Link href={"/profile"} className="rounded-xl">
           Profil
         </Link>
-      </li>
+      </li> */}
     </>
   );
 }

@@ -22,11 +22,8 @@ export function PostType({
   );
   return (
     <div className="card-actions justify-start">
-      <Link href={`${pathname}?${createQueryString(
-          "type",
-          type.postTypeId
-        )}`}>
-        <button className="btn btn-accent btn-xs text-accent-content">
+      <Link href={`${pathname}?${createQueryString("type", type.postTypeId)}`}>
+        <button className="btn btn-accent btn-xs mx-[.4rem] text-accent-content">
           {type.postType}
         </button>
       </Link>

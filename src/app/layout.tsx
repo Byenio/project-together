@@ -1,15 +1,11 @@
 import "~/styles/globals.css";
 
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+
 import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { Navbar } from "./_components/navbar/navbar";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export const metadata = {
   title: "ZSTI Together",
@@ -23,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pl">
-      <body className={`font-sans ${inter.variable} m-5 w-[100]`}>
+    <html lang="pl" className={GeistSans.className}>
+      <body className={`m-5 w-[100]`}>
         <div className=" m-auto min-w-[400px] max-w-[1200px]">
           <TRPCReactProvider headers={headers()}>
             <Navbar />

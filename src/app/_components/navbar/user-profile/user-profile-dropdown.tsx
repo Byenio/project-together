@@ -58,7 +58,7 @@ export async function UserProfileDropdownItems() {
           </Link>
         </li>
       )}
-      {/* <li>
+      <li>
         <Link href={"/"} className="rounded-xl">
           Ustawienia
         </Link>
@@ -67,7 +67,7 @@ export async function UserProfileDropdownItems() {
         <Link href={"/profile"} className="rounded-xl">
           Profil
         </Link>
-      </li> */}
+      </li>
     </>
   );
 }

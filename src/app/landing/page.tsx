@@ -25,7 +25,7 @@ export default function Landing() {
         Jestem absolwentem ZSTI, aktualnie studiuję Informatykę na Politechnice
         Śląskiej. Przez 2 lata (3 i 4 klasę technikum) prowadziłem pomoc
         koleżeńską z matematyki. Z tego doświadczenia wiem, że czasem mimo
-        wielkiej potrzeby mało kto miał odwagę poprosić o pomoc.
+        wielkiej potrzeby, mało kto miał odwagę poprosić o pomoc.
         <br />
         Na przestrzeni tych kilku lat udało się pomóc naprawdę wielu osobom i to
         była zdecydowanie największa nagroda, którą z tego tytułu otrzymałem.
@@ -41,8 +41,8 @@ export default function Landing() {
         <br />
         <br />
         Dlatego między dyrekcją a mną, kiedy jeszcze byłem uczniem, narodził się
-        pomysł na ułatwienie <b>Wam</b> organizacji pomocy koleżeńskiej. Ma
-        sprawić, że stanie się ona bardziej publiczną sprawą. Niektórzy może
+        pomysł na ułatwienie <b>Wam</b> organizacji pomocy koleżeńskiej za pomocą tej aplikacji. Ma
+        sprawić, że współpraca między <b>Wami</b> stanie bardziej społeczną sprawą. Niektórzy może
         słyszą o czymś takim pierwszy raz, a chętnie wzięliby w niej udział po
         jednej, albo po drugiej stronie.
         <br />

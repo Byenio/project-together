@@ -63,7 +63,7 @@ export default function UpvoteButton({
         <button
           className="btn btn-warning btn-sm text-warning-content"
           onClick={() => {
-            setUpvotes((prev) => prev! - 1);
+            setUpvotes((prev) => prev - 1);
             downvote.mutate({ postId });
           }}
           disabled={downvote.isLoading}
@@ -75,7 +75,7 @@ export default function UpvoteButton({
         <button
           className="btn btn-outline btn-warning btn-sm text-warning-content"
           onClick={() => {
-            setUpvotes((prev) => prev! + 1);
+            setUpvotes((prev) => prev + 1);
             upvote.mutate({ postId });
           }}
           disabled={upvote.isLoading}

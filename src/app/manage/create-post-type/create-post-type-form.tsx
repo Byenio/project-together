@@ -46,7 +46,7 @@ export default function CreatePostTypeForm() {
             if (error instanceof z.ZodError) {
               const errorMessages = error.errors.map((err) => err.message);
               setValidationErrorMessage(
-                errorMessages[0] || "Wystąpił nieznany błąd.",
+                errorMessages[0] ?? "Wystąpił nieznany błąd.",
               );
             }
           }

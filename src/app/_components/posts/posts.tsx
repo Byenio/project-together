@@ -7,7 +7,7 @@ import { PostCard } from "./postCard";
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type PostsGetOutput = RouterOutput["post"]["getAll"];
 
-export async function Posts({ posts }: { posts: PostsGetOutput }) {
+export function Posts({ posts }: { posts: PostsGetOutput }) {
   return (
     <div className="w-100 m-auto my-3 flex max-w-[1200px] flex-wrap">
       {posts.length != 0 ? <PostCard posts={posts} /> : <NoPostsInfo />}

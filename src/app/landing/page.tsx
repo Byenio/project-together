@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Landing() {
   return (
-    <div className="m-auto max-w-[400px] text-center">
+    <div className="m-auto max-w-[320px] text-center">
       <p>
         <p className="italic">Aplikacja jest we wczesnej fazie rozwoju.</p>
         <br />

@@ -37,9 +37,9 @@ export async function PostCard({ posts }: { posts: PostsGetOutput }) {
             <PostTitle postTitle={post.title} />
             <PostCreatedBy
               user={{
-                user: post.createdBy.name as string,
+                user: post.createdBy.name!,
                 userId: post.createdBy.id,
-                userImage: post.createdBy.image as string,
+                userImage: post.createdBy.image!,
               }}
             />
           </div>

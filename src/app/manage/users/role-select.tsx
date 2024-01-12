@@ -39,7 +39,7 @@ export default function RoleSelect({
             const current = currentRole == role.id;
 
             return (
-              <option value={role.id} selected={current}>
+              <option value={role.id} selected={current} key={role.id}>
                 {role.name}
               </option>
             );

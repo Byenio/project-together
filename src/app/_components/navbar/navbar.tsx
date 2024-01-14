@@ -1,4 +1,3 @@
-import { DiscordButton } from "./discord";
 import { HomeButton } from "./home-button/home-button";
 import { UserProfile } from "./user-profile/user-profile";
 
@@ -9,7 +8,6 @@ export function Navbar() {
         <div className="navbar rounded-xl">
           <HomeButton />
           <div className="flex-none">
-            <DiscordButton />
             <UserProfile />
           </div>
         </div>

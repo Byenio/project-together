@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
+import { DiscordButton } from "./discord";
 
 export function UserProfileDropdown() {
   return (
@@ -68,6 +69,9 @@ export async function UserProfileDropdownItems() {
           Profil
         </Link>
       </li> */}
+      <li>
+        <DiscordButton />
+      </li>
     </>
   );
 }
@@ -77,7 +81,7 @@ export function SignOutButton() {
     <li>
       <Link
         href="/api/auth/signout"
-        className="m-auto mt-8 rounded-md bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
+        className="m-auto mt-3 rounded-md bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
       >
         Wyloguj się
       </Link>

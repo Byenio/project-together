@@ -20,8 +20,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pl" className={GeistSans.className}>
-      <body className={`m-5 w-[100]`}>
-        <div className=" m-auto min-w-[400px] max-w-[1200px]">
+      <body className={`m-2`}>
+        <div className=" m-auto min-w-[320px] max-w-[1200px]">
           <TRPCReactProvider headers={headers()}>
             <Navbar />
             {children}

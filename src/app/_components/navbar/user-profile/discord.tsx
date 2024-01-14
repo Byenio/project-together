@@ -2,16 +2,14 @@ import Link from "next/link";
 
 export function DiscordButton() {
   return (
-    <div className="flex-1">
-      <Link
-        className="btn btn-ghost mx-3 rounded-xl p-3 text-xl normal-case"
-        title="Share your feedback"
-        href={"https://discord.gg/fD7xM55CAC"}
-        target="blank"
-      >
-        <FaDiscord />
-      </Link>
-    </div>
+    <Link
+      className="btn-link rounded-xl p-3 normal-case"
+      title="Share your feedback"
+      href={"https://discord.gg/fD7xM55CAC"}
+      target="blank"
+    >
+      <FaDiscord /> Discord
+    </Link>
   );
 }
 

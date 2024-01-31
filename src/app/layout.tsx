@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { Navbar } from "./_components/navbar/navbar";
+import { Providers } from "./providers";
 
 export const metadata = {
   title: "ZSTI Together",
@@ -19,14 +20,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pl" className={GeistSans.className}>
-      <body className={`m-2`}>
-        <div className=" m-auto min-w-[320px] max-w-[1200px]">
-          <TRPCReactProvider headers={headers()}>
-            <Navbar />
-            {children}
-          </TRPCReactProvider>
-        </div>
+    <html lang="pl" className={`dark ${GeistSans.className}`}>
+      <body className="m-2">
+        <Providers>
+          <div className="m-auto min-w-[320px] max-w-[1200px]">
+            <TRPCReactProvider headers={headers()}>
+              <Navbar />
+              {children}
+            </TRPCReactProvider>
+          </div>
+        </Providers>
       </body>
     </html>
   );

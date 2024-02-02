@@ -5,7 +5,7 @@ import { GeistSans } from "geist/font/sans";
 import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { Navbar } from "./_components/navbar/navbar";
+import Nav from "./_components/nav";
 import { Providers } from "./providers";
 
 export const metadata = {
@@ -25,7 +25,7 @@ export default function RootLayout({
         <Providers>
           <div className="m-auto min-w-[320px] max-w-[1200px]">
             <TRPCReactProvider headers={headers()}>
-              <Navbar />
+              <Nav />
               {children}
             </TRPCReactProvider>
           </div>

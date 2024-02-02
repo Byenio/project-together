@@ -120,10 +120,9 @@ export function NavMenuItems({ menuItems }: MenuItems) {
                     <DropdownItem
                       key={`${subitem}-${index}`}
                       href={subitem.link}
+                      startContent={subitem.icon}
                     >
-                      <p>
-                        {subitem.icon} {subitem.name}
-                      </p>
+                      {subitem.name}
                     </DropdownItem>
                   ))}
                 </DropdownMenu>
@@ -148,18 +147,19 @@ export function NavMenuItems({ menuItems }: MenuItems) {
                   title={item.name}
                 >
                   {item.subitems.map((subitem, index) => (
-                    <Button
-                      as={Link}
-                      key={`${subitem}-${index}`}
-                      variant="light"
-                      disableRipple
-                      className="block bg-transparent p-2 data-[hover=true]:bg-transparent"
-                      radius="sm"
-                      size="lg"
-                      href={subitem.link}
-                    >
-                      {subitem.icon} {subitem.name}
-                    </Button>
+                    <>
+                      <Button
+                        as={Link}
+                        key={`${subitem}-${index}`}
+                        variant="light"
+                        className="bg-transparent p-2 data-[hover=true]:bg-transparent"
+                        href={subitem.link}
+                        startContent={subitem.icon}
+                      >
+                        {subitem.name}
+                      </Button>
+                      <br />
+                    </>
                   ))}
                 </AccordionItem>
               </Accordion>

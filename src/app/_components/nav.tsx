@@ -79,24 +79,24 @@ async function getMenuItems(): Promise<MenuItem[] | undefined> {
     icon: icons.manage,
     subitems: [
       {
-        name: "Zarządzaj przedmiotami",
+        name: "Użytkownicy",
+        link: "/manage/users",
+        icon: icons.users,
+      },
+      {
+        name: "Przedmioty",
         link: "/manage/subjects",
         icon: icons.subjects,
       },
       {
-        name: "Zarządzaj typami postów",
+        name: "Typy postów",
         link: "/manage/post-types",
         icon: icons.types,
       },
       {
-        name: "Zarządzaj rolami użytkowników",
+        name: "Role użytkowników",
         link: "/manage/roles",
         icon: icons.roles,
-      },
-      {
-        name: "Zarządzaj użytkownikami",
-        link: "/manage/users",
-        icon: icons.users,
       },
     ],
   };

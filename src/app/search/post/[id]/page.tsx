@@ -1,5 +1,4 @@
 import Link from "next/link";
-import DeletePostButton from "~/app/_components/posts/components/deletePostButton";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
@@ -17,7 +16,7 @@ export default async function Post({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <div className="card m-auto my-2 w-4/5 max-w-[800px] bg-neutral text-neutral-content">
+      <div className="card bg-neutral text-neutral-content m-auto my-2 w-4/5 max-w-[800px]">
         <div className="card-body">
           <div className="flex justify-between">
             <div className="card-title px-2 text-center">{post?.title}</div>
@@ -37,7 +36,7 @@ export default async function Post({ params }: { params: { id: string } }) {
           <div className="flex justify-between">
             <div className="card-actions justify-start">
               <Link href={`/search?type=${post?.postType.id}`}>
-                <button className="btn btn-accent btn-xs mx-[.4rem] text-accent-content">
+                <button className="btn btn-accent btn-xs text-accent-content mx-[.4rem]">
                   {post?.postType.name}
                 </button>
               </Link>
@@ -53,9 +52,7 @@ export default async function Post({ params }: { params: { id: string } }) {
           <div className="h-[100px] overflow-auto px-2">
             {post?.description}
           </div>
-          <div className="flex justify-end gap-4">
-            {isAuthor && <DeletePostButton postId={post!.id} />}
-          </div>
+          <div className="flex justify-end gap-4"></div>
         </div>
       </div>
     </>

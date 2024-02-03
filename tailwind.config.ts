@@ -23,8 +23,17 @@ export default {
         dark: {
           colors: {
             background: "#0d0d0d",
-            foreground: "#f5f5f5",
-            primary: "#f9b522",
+            foreground: "#f4f0e3",
+            primary: { DEFAULT: "#f4f0e3", foreground: "#020202" },
+            secondary: { DEFAULT: "#506384", foreground: "#f4f0e3" },
+          },
+        },
+        zsti: {
+          colors: {
+            background: "#0d0d0d",
+            foreground: "#f4f0e3",
+            primary: { DEFAULT: "#f9b522", foreground: "#020202" },
+            secondary: { DEFAULT: "#506384", foreground: "#f4f0e3" },
           },
         },
       },

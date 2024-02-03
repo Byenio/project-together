@@ -4,9 +4,9 @@ import {
   ManageIcon,
   NewPostIcon,
   PostTypesIcon,
-  RolesIcons,
+  RolesIcon,
   SubjectsIcon,
-  UsersIcons,
+  UsersIcon,
 } from "./icons";
 import NavMenuLogged, { NavMenuNotLogged } from "./navmenu";
 
@@ -64,8 +64,8 @@ async function getMenuItems(): Promise<MenuItem[] | undefined> {
     manage: <ManageIcon />,
     subjects: <SubjectsIcon />,
     types: <PostTypesIcon />,
-    roles: <RolesIcons />,
-    users: <UsersIcons />,
+    roles: <RolesIcon />,
+    users: <UsersIcon />,
   };
 
   const postMenu = {

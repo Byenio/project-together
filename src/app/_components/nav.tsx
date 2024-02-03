@@ -8,7 +8,7 @@ import {
   SubjectsIcon,
   UsersIcon,
 } from "./icons";
-import NavMenuLogged, { NavMenuNotLogged } from "./navmenu";
+import NavMenuLogged, { NavMenuNotLogged } from "./nav/nav-items";
 
 export interface MenuSubitem {
   name: string;

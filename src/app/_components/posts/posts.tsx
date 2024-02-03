@@ -9,7 +9,7 @@ type PostsGetOutput = RouterOutput["post"]["getAll"];
 
 export function Posts({ posts }: { posts: PostsGetOutput }) {
   return (
-    <div className="w-100 m-auto my-3 flex max-w-[1200px] flex-wrap gap-4">
+    <div className="w-100 m-auto my-3 flex max-w-[1100px] flex-wrap gap-4">
       {posts.length != 0 ? <PostsContainer posts={posts} /> : <NoPostsInfo />}
     </div>
   );

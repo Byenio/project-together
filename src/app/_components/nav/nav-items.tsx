@@ -8,6 +8,7 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
+  DropdownSection,
   DropdownTrigger,
   Link,
   Navbar,
@@ -20,8 +21,13 @@ import {
   Spacer,
 } from "@nextui-org/react";
 import { useState } from "react";
-import { ChevronDownIcon } from "./icons";
-import { MenuItem, UserData } from "./nav";
+import {
+  ChevronDownIcon,
+  DiscordIcon,
+  LogoutIcon,
+  SettingsIcon,
+} from "../icons";
+import { MenuItem, UserData } from "../nav";
 
 interface MenuItems {
   menuItems?: MenuItem[];
@@ -103,7 +109,7 @@ export function NavMenuItems({ menuItems }: MenuItems) {
         {menuItems?.map((item, index) => (
           <NavbarItem key={`${item}-${index}`}>
             {item.subitems ? (
-              <Dropdown placement="bottom-start">
+              <Dropdown placement="bottom-start" backdrop="blur">
                 <DropdownTrigger>
                   <Button
                     disableRipple
@@ -182,7 +188,7 @@ export function NavMenuItems({ menuItems }: MenuItems) {
 export function NavMenuAvatar({ userData }: INavMenuAvatar) {
   return (
     <NavbarContent as="div" justify="end">
-      <Dropdown placement="bottom-end">
+      <Dropdown placement="bottom-end" backdrop="blur">
         <DropdownTrigger>
           <Avatar
             isBordered
@@ -190,20 +196,39 @@ export function NavMenuAvatar({ userData }: INavMenuAvatar) {
             className="transition-transform"
             color="primary"
             name={userData.name ?? "username"}
-            size="sm"
             src={userData.image ?? ""}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" variant="flat">
-          <DropdownItem key="profile" className="h-14 gap-2">
-            <p className="font-semibold">Zalogowano jako</p>
-            <p className="font-semibold">{userData.email}</p>
+          <DropdownSection showDivider>
+            <DropdownItem key="profile" className="h-14 gap-2">
+              <p className="font-semibold">Zalogowano jako</p>
+              <p className="text-default-500">{userData.email}</p>
+            </DropdownItem>
+          </DropdownSection>
+          <DropdownSection showDivider>
+            <DropdownItem
+              key="settings"
+              href="/settings"
+              endContent={<SettingsIcon />}
+            >
+              Ustawienia
+            </DropdownItem>
+          </DropdownSection>
+          <DropdownItem
+            key="discord"
+            href="https://discord.gg/fD7xM55CAC"
+            endContent={<DiscordIcon />}
+          >
+            Pomoc & Feedback
           </DropdownItem>
-          <DropdownItem key="settings" href="/settings">
-            Ustawienia
-          </DropdownItem>
-          <DropdownItem key="logout" color="danger" href="/api/auth/signout">
-            Wyloguj się
+          <DropdownItem
+            key="logout"
+            color="danger"
+            href="/api/auth/signout"
+            endContent={<LogoutIcon />}
+          >
+            Wyloguj Się
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>

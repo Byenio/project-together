@@ -11,6 +11,7 @@ import {
 import { inferRouterOutputs } from "@trpc/server";
 import { AppRouter } from "~/server/api/root";
 import { getServerAuthSession } from "~/server/auth";
+import { api } from "~/trpc/server";
 import { ChevronRightIcon } from "./icons";
 import { PostDelete } from "./posts-container/post-delete";
 import { PostSubject } from "./posts-container/post-subject";
@@ -21,9 +22,18 @@ type PostsGetOutput = RouterOutput["post"]["getAll"];
 
 export async function PostsContainer({ posts }: { posts: PostsGetOutput }) {
   const session = await getServerAuthSession();
+  const { role } = (await api.user.getRole.query()) ?? {
+    role: {
+      name: "USER",
+      level: 0,
+    },
+  };
+
+  const isModerator = role!.level >= 6;
 
   return posts.map((post) => {
     const isAuthor = post.createdBy.id === session?.user.id;
+    const canDelete = isAuthor || isModerator;
 
     return (
       <Card
@@ -31,7 +41,7 @@ export async function PostsContainer({ posts }: { posts: PostsGetOutput }) {
         className="w-min-[350px] mx-auto my-3 h-auto w-[500px] px-2 py-1"
       >
         <CardHeader className="justify-between">
-          <div>{post.title}</div>
+          <div className="font-[600]">{post.title}</div>
           <Tooltip
             content={post.createdBy.fullname}
             placement="top"
@@ -59,7 +69,7 @@ export async function PostsContainer({ posts }: { posts: PostsGetOutput }) {
           </div>
         </CardBody>
         <CardFooter className="flex justify-end gap-3">
-          {isAuthor && <PostDelete id={post.id} />}
+          {canDelete && <PostDelete id={post.id} />}
           <Button
             as={Link}
             href={`/search/post/${post.id}`}

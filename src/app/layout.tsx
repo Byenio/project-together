@@ -4,6 +4,8 @@ import { GeistSans } from "geist/font/sans";
 
 import { headers } from "next/headers";
 
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TRPCReactProvider } from "~/trpc/react";
 import Nav from "./_components/nav";
 import { Providers } from "./providers";
@@ -27,6 +29,8 @@ export default function RootLayout({
             <TRPCReactProvider headers={headers()}>
               <Nav />
               {children}
+              <SpeedInsights />
+              <Analytics />
             </TRPCReactProvider>
           </div>
         </Providers>

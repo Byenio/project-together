@@ -1,69 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Select, SelectItem, Spinner } from "@nextui-org/react";
+import { Dispatch, SetStateAction } from "react";
 import { api } from "~/trpc/react";
 
 export default function RoleSelect({
   currentRole,
-  userId,
+  selectedRole,
 }: {
   currentRole: string | null;
-  userId: string;
+  selectedRole: Dispatch<SetStateAction<string>>;
 }) {
-  const roles = api.role.getAll.useQuery().data;
-  const [hidden, setHidden] = useState(true);
-  const [newRole, setNewRole] = useState("");
+  const { data, isLoading } = api.role.getAll.useQuery();
 
-  useEffect(() => {
-    setHidden(newRole == currentRole || newRole == "");
-  }, [newRole]);
+  if (isLoading) return <Spinner size="sm" />;
+  if (!data) return null;
 
-  const updateRole = api.user.updateRole.useMutation({
-    onSuccess: () => {
-      location.reload();
-    },
+  const roles = data.filter((role) => {
+    return role.id !== currentRole;
   });
 
   return (
-    <>
-      <div className="basis-1/4">
-        <select
-          className="select select-bordered select-sm"
-          name="role"
-          id="role"
-          onChange={(e) => {
-            setNewRole(e.target.value);
-          }}
-        >
-          {roles?.map((role) => {
-            const current = currentRole == role.id;
-
-            return (
-              <option value={role.id} selected={current} key={role.id}>
-                {role.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div className="basis-[12%] text-center">
-        <button
-          onClick={() => updateRole.mutate({ userId: userId, roleId: newRole })}
-          className={
-            (hidden ? "hidden " : "visible ") + "btn btn-accent btn-sm"
-          }
-        >
-          +
-        </button>
-      </div>
-      <div className="basis-[12%] text-center">
-        <button
-          onClick={() => setHidden(true)}
-          className={(hidden ? "hidden " : "visible ") + "btn btn-error btn-sm"}
-        >
-          x
-        </button>
-      </div>
-    </>
+    <Select
+      name="role"
+      id="role"
+      size="sm"
+      label="Wybór nowej roli"
+      onChange={(e) => {
+        selectedRole(e.target.value);
+      }}
+    >
+      {roles.map((role) => {
+        return (
+          <SelectItem value={role.id} key={role.id}>
+            {role.name}
+          </SelectItem>
+        );
+      })}
+    </Select>
   );
 }

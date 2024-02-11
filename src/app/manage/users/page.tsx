@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import RoleSelect from "./role-select";
+import UsersTable from "./table";
 
 export default async function ManageUsers() {
   const users = await api.user.getAll.query();
@@ -7,7 +7,7 @@ export default async function ManageUsers() {
 
   return (
     <>
-      <div className="flex">
+      {/* <div className="flex">
         {fields.map((field) => (
           <h2 className="basis-1/4" key={field}>
             {field}
@@ -22,7 +22,8 @@ export default async function ManageUsers() {
           <div className="basis-1/4 py-1">{user.email}</div>
           <RoleSelect currentRole={user.roleId} userId={user.id} />
         </div>
-      ))}
+      ))} */}
+      <UsersTable />
     </>
   );
 }

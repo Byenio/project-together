@@ -7,7 +7,11 @@ import {
 
 export const userRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return ctx.db.user.findMany();
+    return ctx.db.user.findMany({
+      include: {
+        role: true,
+      },
+    });
   }),
   get: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.user.findUnique({

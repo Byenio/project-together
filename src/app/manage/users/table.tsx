@@ -83,7 +83,7 @@ export default function UsersTable() {
   const updateRole = api.user.updateRole.useMutation({
     onSuccess: () => {
       setEditMode({ edit: false, id: "" });
-      refetchUsers();
+      void refetchUsers();
     },
   });
 

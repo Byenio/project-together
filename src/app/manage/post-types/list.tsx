@@ -25,7 +25,7 @@ export default function PostTypeList() {
     <Table removeWrapper>
       <TableHeader>
         <TableColumn>TYP POSTU</TableColumn>
-        <TableColumn maxWidth={100}>AKCJE</TableColumn>
+        <TableColumn maxWidth={100}>AKCJE (COMING SOON)</TableColumn>
       </TableHeader>
       <TableBody>
         {list.map((item) => (
@@ -34,17 +34,17 @@ export default function PostTypeList() {
             <TableCell>
               <div className=" flex items-center gap-4">
                 <Tooltip content="Edytuj">
-                  <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
+                  <span className="text-lg text-default-400 opacity-50">
                     <EditIcon />
                   </span>
                 </Tooltip>
                 <Tooltip content="Przejdź do postów">
-                  <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
+                  <span className="text-lg text-default-400 opacity-50">
                     <ExternalLinkIcon />
                   </span>
                 </Tooltip>
                 <Tooltip color="danger" content="Usuń">
-                  <span className="cursor-pointer text-lg text-danger active:opacity-50">
+                  <span className="text-lg text-danger opacity-50">
                     <DeleteIcon />
                   </span>
                 </Tooltip>

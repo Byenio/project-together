@@ -93,11 +93,11 @@ async function getMenuItems(): Promise<MenuItem[] | undefined> {
         link: "/manage/post-types",
         icon: icons.types,
       },
-      {
-        name: "Role użytkowników",
-        link: "/manage/roles",
-        icon: icons.roles,
-      },
+      // {
+      //   name: "Role użytkowników",
+      //   link: "/manage/roles",
+      //   icon: icons.roles,
+      // },
     ],
   };
 

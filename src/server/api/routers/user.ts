@@ -13,6 +13,32 @@ export const userRouter = createTRPCRouter({
       },
     });
   }),
+  getAllPage: publicProcedure
+    .input(z.object({ limit: z.number(), page: z.number() }).optional())
+    .query(async ({ ctx, input }) => {
+      const limit = input?.limit ?? 10;
+      const page = input?.page ?? 0;
+      return ctx.db.user.findMany({
+        include: {
+          role: true,
+        },
+        skip: limit * (page - 1),
+        take: limit,
+        orderBy: [
+          {
+            role: {
+              level: "desc",
+            },
+          },
+          {
+            fullname: "asc",
+          },
+        ],
+      });
+    }),
+  getRows: publicProcedure.query(async ({ ctx }) => {
+    return ctx.db.user.count();
+  }),
   get: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.user.findUnique({
       where: { id: ctx.session.user.id },

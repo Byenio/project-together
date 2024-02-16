@@ -4,6 +4,7 @@ import {
   Accordion,
   AccordionItem,
   Avatar,
+  Badge,
   Button,
   Dropdown,
   DropdownItem,
@@ -22,10 +23,10 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import {
+  ChangelogIcon,
   ChevronDownIcon,
   DiscordIcon,
   LogoutIcon,
-  SettingsIcon,
 } from "../icons";
 import { MenuItem, UserData } from "../nav";
 
@@ -189,16 +190,24 @@ export function NavMenuAvatar({ userData }: INavMenuAvatar) {
   return (
     <NavbarContent as="div" justify="end">
       <Dropdown placement="bottom-end" backdrop="blur">
-        <DropdownTrigger>
-          <Avatar
-            isBordered
-            as="button"
-            className="transition-transform"
-            color="primary"
-            name={userData.name ?? "username"}
-            src={userData.image ?? ""}
-          />
-        </DropdownTrigger>
+        <Badge
+          content=""
+          color="danger"
+          shape="circle"
+          placement="top-right"
+          size="md"
+        >
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              className="transition-transform"
+              color="primary"
+              name={userData.name ?? "username"}
+              src={userData.image ?? ""}
+            />
+          </DropdownTrigger>
+        </Badge>
         <DropdownMenu aria-label="Profile Actions" variant="flat">
           <DropdownSection showDivider>
             <DropdownItem key="profile" className="h-14 gap-2">
@@ -207,12 +216,28 @@ export function NavMenuAvatar({ userData }: INavMenuAvatar) {
             </DropdownItem>
           </DropdownSection>
           <DropdownSection showDivider>
-            <DropdownItem
+            {/* <DropdownItem
               key="settings"
               href="/settings"
               endContent={<SettingsIcon />}
             >
               Ustawienia
+            </DropdownItem> */}
+            <DropdownItem
+              key="changelog"
+              href="/changelog"
+              endContent={<ChangelogIcon />}
+            >
+              <Badge
+                content=""
+                color="danger"
+                shape="circle"
+                placement="top-right"
+                size="sm"
+                className="mx-[-10px] my-[2px]"
+              >
+                Changelog
+              </Badge>
             </DropdownItem>
           </DropdownSection>
           <DropdownItem

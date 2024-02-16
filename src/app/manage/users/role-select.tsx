@@ -25,10 +25,8 @@ export default function RoleSelect({
       name="role"
       id="role"
       size="sm"
-      label="Wybór nowej roli"
-      onChange={(e) => {
-        selectedRole(e.target.value);
-      }}
+      label="Wybór roli"
+      onChange={(e) => selectedRole(e.target.value)}
     >
       {roles.map((role) => {
         return (

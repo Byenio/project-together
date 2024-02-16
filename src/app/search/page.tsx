@@ -1,4 +1,4 @@
-import { Posts } from "~/app/_components/posts/posts";
+import { Posts } from "~/app/_components/posts";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
@@ -17,20 +17,20 @@ export default async function Home({
   let posts = await getPosts();
 
   if (searchParams.subject) {
-    posts = posts.filter(
-      (post) => searchParams?.subject?.includes(post.subjectId),
+    posts = posts.filter((post) =>
+      searchParams?.subject?.includes(post.subjectId),
     );
   }
 
   if (searchParams.type) {
-    posts = posts.filter(
-      (post) => searchParams?.type?.includes(post.postTypeId),
+    posts = posts.filter((post) =>
+      searchParams?.type?.includes(post.postTypeId),
     );
   }
 
   if (searchParams.user) {
-    posts = posts.filter(
-      (post) => searchParams?.user?.includes(post.createdById),
+    posts = posts.filter((post) =>
+      searchParams?.user?.includes(post.createdById),
     );
   }
 

@@ -28,8 +28,8 @@ export default function PostTypeList() {
         <TableColumn maxWidth={100}>AKCJE (COMING SOON)</TableColumn>
       </TableHeader>
       <TableBody>
-        {list.map((item) => (
-          <TableRow>
+        {list.map((item, index) => (
+          <TableRow key={`${item.name}-${index}`}>
             <TableCell>{item.name}</TableCell>
             <TableCell>
               <div className=" flex items-center gap-4">

@@ -1,7 +1,7 @@
 "use client";
 
 import { Select, SelectItem, Spinner } from "@nextui-org/react";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { api } from "~/trpc/react";
 
 export default function RoleSelect({

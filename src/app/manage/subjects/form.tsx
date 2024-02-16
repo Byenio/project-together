@@ -9,7 +9,7 @@ export default function CreateSubjectForm() {
   const router = useRouter();
   const [name, setName] = useState("");
 
-  const nameInvalid = validateName(name);
+  const nameInvalid = useValidateName(name);
 
   const createSubject = api.postType.create.useMutation({
     onSuccess: () => {
@@ -54,7 +54,7 @@ export default function CreateSubjectForm() {
   );
 }
 
-export function validateName(name: string) {
+export function useValidateName(name: string) {
   const validate = (value: string) => value.match(/^(?!\s+$).{5,}$/);
   const isInvalid = useMemo(() => {
     if (name === "") return false;

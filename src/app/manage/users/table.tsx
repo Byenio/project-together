@@ -159,8 +159,10 @@ export default function UsersTable() {
         }
       >
         <TableHeader>
-          {columns.map((column) => (
-            <TableColumn>{column.label}</TableColumn>
+          {columns.map((column, index) => (
+            <TableColumn key={`${column.label}-${index}`}>
+              {column.label}
+            </TableColumn>
           ))}
         </TableHeader>
         <TableBody>

@@ -108,7 +108,7 @@ export function NavMenuItems({ menuItems }: MenuItems) {
     <>
       <NavbarContent className="hidden gap-4 sm:flex" justify="center">
         {menuItems?.map((item, index) => (
-          <NavbarItem key={`${item}-${index}`}>
+          <NavbarItem key={`${item.name}-${index}`}>
             {item.subitems ? (
               <Dropdown placement="bottom-start" backdrop="blur">
                 <DropdownTrigger>
@@ -125,7 +125,7 @@ export function NavMenuItems({ menuItems }: MenuItems) {
                 <DropdownMenu aria-label="Zarządzanie" variant="flat">
                   {item.subitems.map((subitem, index) => (
                     <DropdownItem
-                      key={`${subitem}-${index}`}
+                      key={`${subitem.name}-${index}`}
                       href={subitem.link}
                       startContent={subitem.icon}
                     >
@@ -145,11 +145,11 @@ export function NavMenuItems({ menuItems }: MenuItems) {
       <NavbarMenu>
         <Spacer y={4} />
         {menuItems?.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
+          <NavbarMenuItem key={`${item.name}-${index}`}>
             {item.subitems ? (
               <Accordion>
                 <AccordionItem
-                  key={`${item}-${index}`}
+                  key={`${item.name}-${index}`}
                   aria-label={item.name}
                   title={item.name}
                 >
@@ -157,7 +157,7 @@ export function NavMenuItems({ menuItems }: MenuItems) {
                     <>
                       <Button
                         as={Link}
-                        key={`${subitem}-${index}`}
+                        key={`${subitem.name}-${index}`}
                         variant="light"
                         className="bg-transparent p-2 data-[hover=true]:bg-transparent"
                         href={subitem.link}

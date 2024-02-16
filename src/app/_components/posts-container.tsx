@@ -8,8 +8,8 @@ import {
   Link,
   Tooltip,
 } from "@nextui-org/react";
-import { inferRouterOutputs } from "@trpc/server";
-import { AppRouter } from "~/server/api/root";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "~/server/api/root";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import { ChevronRightIcon } from "./icons";

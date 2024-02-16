@@ -18,8 +18,8 @@ export default function CreatePostForm() {
   const subjects = api.subject.getAll.useQuery().data;
   const postTypes = api.postType.getAll.useQuery().data;
 
-  const titleInvalid = validateTitle(title);
-  const descriptionInvalid = validateDescription(description);
+  const titleInvalid = useValidateTitle(title);
+  const descriptionInvalid = useValidateDescription(description);
 
   const handleSubjectSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSubject(e.target.value);
@@ -92,9 +92,9 @@ export default function CreatePostForm() {
           variant="bordered"
           className="m-auto basis-[49%]"
           errorMessage={
-            subjectValid || !subjectTouched ? "" : "Wybierz przedmiot"
+            !subjectValid && subjectTouched ? "Wybierz przedmiot" : ""
           }
-          isInvalid={subjectValid || !subjectTouched ? false : true}
+          isInvalid={!subjectValid && subjectTouched ? true : false}
           selectedKeys={[subject]}
           onChange={handleSubjectSelection}
           onClose={() => setSubjectTouched(true)}
@@ -110,8 +110,8 @@ export default function CreatePostForm() {
           isRequired
           variant="bordered"
           className="m-auto basis-[49%]"
-          errorMessage={typeValid || !typeTouched ? "" : "Wybierz typ"}
-          isInvalid={typeValid || !typeTouched ? false : true}
+          errorMessage={!typeValid && typeTouched ? "Wybierz typ" : ""}
+          isInvalid={!typeValid && typeTouched ? true : false}
           selectedKeys={[postType]}
           onChange={handleTypeSelection}
           onClose={() => setTypeTouched(true)}
@@ -137,7 +137,7 @@ export default function CreatePostForm() {
   );
 }
 
-export function validateTitle(title: string) {
+export function useValidateTitle(title: string) {
   const validate = (value: string) => value.match(/^(?!\s+$).{5,}$/);
   const isInvalid = useMemo(() => {
     if (title === "") return false;
@@ -147,7 +147,7 @@ export function validateTitle(title: string) {
   return isInvalid;
 }
 
-export function validateDescription(description: string) {
+export function useValidateDescription(description: string) {
   const validate = (value: string) => value.match(/^(?!\s+$).{5,}$/);
   const isInvalid = useMemo(() => {
     if (description === "") return false;

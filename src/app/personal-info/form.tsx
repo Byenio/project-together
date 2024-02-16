@@ -9,7 +9,7 @@ export default function PersonalInfoForm() {
   const router = useRouter();
   const [fullname, setFullname] = useState("");
 
-  const nameInvalid = validateName(fullname);
+  const nameInvalid = useValidateName(fullname);
 
   const createSubject = api.user.updateFullname.useMutation({
     onSuccess: () => {
@@ -54,7 +54,7 @@ export default function PersonalInfoForm() {
   );
 }
 
-export function validateName(fullname: string) {
+export function useValidateName(fullname: string) {
   const validate = (value: string) => value.match(/^(?!\s+$).{5,}$/);
   const isInvalid = useMemo(() => {
     if (fullname === "") return false;

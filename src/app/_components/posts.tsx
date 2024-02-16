@@ -2,7 +2,7 @@ import type { inferRouterOutputs } from "@trpc/server";
 import Link from "next/link";
 import type { AppRouter } from "~/server/api/root";
 import { api } from "~/trpc/server";
-import { PostsContainer } from "../posts-container";
+import { PostsContainer } from "./posts-container";
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type PostsGetOutput = RouterOutput["post"]["getAll"];

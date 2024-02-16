@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import { Posts } from "../_components/posts/posts";
+import { Posts } from "../_components/posts";
 
 async function getPosts() {
   return await api.post.getByUser.query();

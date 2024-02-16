@@ -1,5 +1,5 @@
 import UsersTable from "./table";
 
-export default async function ManageUsers() {
+export default function ManageUsers() {
   return <UsersTable />;
 }

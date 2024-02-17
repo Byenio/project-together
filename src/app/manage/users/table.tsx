@@ -5,6 +5,8 @@ import {
   Input,
   Link,
   Pagination,
+  Select,
+  SelectItem,
   Spinner,
   Table,
   TableBody,
@@ -30,14 +32,15 @@ import RoleSelect from "./role-select";
 export default function UsersTable() {
   const [editMode, setEditMode] = useState({ edit: false, id: "" });
   const [selectedRole, setSelectedRole] = useState("");
-  const [limit, setLimit] = useState(20);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState("");
+  const columns = [{ label: "Użytkownik" }, { label: "Akcje" }];
 
-  const rowsPerPage = [
-    { value: 1, label: "10" },
-    { value: 2, label: "20" },
-    { value: 5, label: "50" },
+  const perPageOptions = [
+    { value: 10, label: "10" },
+    { value: 20, label: "20" },
+    { value: 50, label: "50" },
   ];
 
   const onSearchChange = useCallback((value?: string) => {
@@ -60,12 +63,7 @@ export default function UsersTable() {
     data: users,
     isFetching: isUsersFetching,
     refetch: refetchUsers,
-  } = api.user.getAllPage.useQuery({
-    limit: limit,
-    page: page,
-  });
-  const { data: rows, isFetching: isRowsFetching } =
-    api.user.getRows.useQuery();
+  } = api.user.getAll.useQuery();
 
   const searchParams = useSearchParams();
 
@@ -77,8 +75,6 @@ export default function UsersTable() {
     },
     [searchParams],
   );
-
-  const columns = [{ label: "Użytkownik" }, { label: "Akcje" }];
 
   const updateRole = api.user.updateRole.useMutation({
     onSuccess: () => {
@@ -99,10 +95,16 @@ export default function UsersTable() {
     return filtered;
   }, [users, filter]);
 
-  if (isUsersFetching || isRowsFetching)
-    return <Spinner className="m-auto w-full" />;
+  const items = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
 
-  if (!rows || !filteredUsers)
+    return filteredUsers?.slice(start, end);
+  }, [page, filteredUsers, rowsPerPage]);
+
+  if (isUsersFetching) return <Spinner className="m-auto h-3/4 w-full" />;
+
+  if (!filteredUsers || !items)
     return (
       <div>
         Wystąpił błąd. Wróć do{" "}
@@ -113,6 +115,8 @@ export default function UsersTable() {
       </div>
     );
 
+  const pages = Math.ceil(filteredUsers.length / rowsPerPage);
+
   return (
     <>
       <div className="wrap m-auto mb-4 mt-4 flex max-w-[600px] justify-between">
@@ -121,25 +125,29 @@ export default function UsersTable() {
           size="sm"
           radius="lg"
           variant="bordered"
-          className="w-[75%]"
+          className="w-[70%]"
           placeholder="Wyszukaj użytkownika"
           startContent={<SearchIcon />}
           value={filter}
           onClear={() => onClear()}
           onValueChange={onSearchChange}
         />
-        {/* <Select
-          items={rowsPerPage}
-          label="Rekordy"
-          className="w-[23%]"
-          onChange={(e) => setLimit(parseInt(e.target.value, 10))}
+        <Select
+          items={perPageOptions}
+          label="Na stronę"
+          className="w-[28%]"
+          size="sm"
+          radius="lg"
+          variant="bordered"
+          defaultSelectedKeys={[rowsPerPage.toString()]}
+          onChange={(e) => setRowsPerPage(parseInt(e.target.value, 10))}
         >
           {(option) => (
-            <SelectItem key={option.value} value={option.value}>
+            <SelectItem key={`${option.value}`} value={option.value}>
               {option.label}
             </SelectItem>
           )}
-        </Select> */}
+        </Select>
       </div>
       <Table
         isStriped
@@ -152,8 +160,8 @@ export default function UsersTable() {
               showShadow
               color="secondary"
               page={page}
-              total={Math.ceil(rows / limit)}
-              onChange={(page) => setPage(page)}
+              total={pages}
+              onChange={setPage}
             />
           </div>
         }
@@ -166,7 +174,7 @@ export default function UsersTable() {
           ))}
         </TableHeader>
         <TableBody>
-          {filteredUsers.map((user) => (
+          {items.map((user) => (
             <TableRow key={user.id}>
               <TableCell>
                 <User

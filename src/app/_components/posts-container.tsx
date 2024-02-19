@@ -144,6 +144,7 @@ export default function PostsContainer({
                 size="sm"
                 variant="bordered"
                 radius="lg"
+                key={filter.type}
                 items={filter.items}
                 label={filter.label}
                 popoverProps={{

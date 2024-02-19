@@ -106,7 +106,7 @@ export default function UsersTable() {
 
   if (!filteredUsers || !items)
     return (
-      <div>
+      <div className="m-auto h-3/4 w-full">
         Wystąpił błąd. Wróć do{" "}
         <Link href="/" underline="always">
           strony głównej

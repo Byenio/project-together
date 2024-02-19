@@ -4,8 +4,8 @@ import {
   Accordion,
   AccordionItem,
   Avatar,
-  Badge,
   Button,
+  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -22,12 +22,7 @@ import {
   Spacer,
 } from "@nextui-org/react";
 import { useState } from "react";
-import {
-  ChangelogIcon,
-  ChevronDownIcon,
-  DiscordIcon,
-  LogoutIcon,
-} from "../icons";
+import { ChevronDownIcon, DiscordIcon, LogoutIcon } from "../icons";
 import { MenuItem, UserData } from "../nav";
 
 interface MenuItems {
@@ -190,24 +185,16 @@ export function NavMenuAvatar({ userData }: INavMenuAvatar) {
   return (
     <NavbarContent as="div" justify="end">
       <Dropdown placement="bottom-end" backdrop="blur">
-        <Badge
-          content=""
-          color="danger"
-          shape="circle"
-          placement="top-right"
-          size="md"
-        >
-          <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="primary"
-              name={userData.name ?? "username"}
-              src={userData.image ?? ""}
-            />
-          </DropdownTrigger>
-        </Badge>
+        <DropdownTrigger>
+          <Avatar
+            isBordered
+            as="button"
+            className="transition-transform"
+            color="primary"
+            name={userData.name ?? "username"}
+            src={userData.image ?? ""}
+          />
+        </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" variant="flat">
           <DropdownSection showDivider>
             <DropdownItem key="profile" className="h-14 gap-2">
@@ -226,18 +213,13 @@ export function NavMenuAvatar({ userData }: INavMenuAvatar) {
             <DropdownItem
               key="changelog"
               href="/changelog"
-              endContent={<ChangelogIcon />}
+              endContent={
+                <Chip color="secondary" size="sm">
+                  0.2.0
+                </Chip>
+              }
             >
-              <Badge
-                content=""
-                color="danger"
-                shape="circle"
-                placement="top-right"
-                size="sm"
-                className="mx-[-10px] my-[2px]"
-              >
-                Changelog
-              </Badge>
+              Changelog
             </DropdownItem>
           </DropdownSection>
           <DropdownItem

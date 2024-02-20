@@ -1,63 +1,71 @@
-import Link from "next/link";
-import DeletePostButton from "~/app/_components/posts/components/deletePostButton";
+import {
+  Avatar,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Tooltip,
+} from "@nextui-org/react";
+import { PostDelete } from "~/app/_components/posts-container/post-delete";
+import { PostSubject } from "~/app/_components/posts-container/post-subject";
+import { PostType } from "~/app/_components/posts-container/post-type";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
-async function getPost(id: string) {
-  const res = await api.post.getById.query({ id });
-  return res;
-}
-
 export default async function Post({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
+  const { role } = (await api.user.getRole.query()) ?? {
+    role: {
+      name: "USER",
+      level: 0,
+    },
+  };
 
-  const post = await getPost(params.id);
+  const post = await api.post.getById.query({ id: params.id });
 
   const isAuthor = post?.createdBy.id === session?.user.id;
+  const isModerator = role!.level >= 6;
+
+  const canDelete = isAuthor || isModerator;
 
   return (
-    <>
-      <div className="card m-auto my-2 w-4/5 max-w-[800px] bg-neutral text-neutral-content">
-        <div className="card-body">
+    <div className="w-100 m-auto my-3 flex max-w-[1200px] flex-wrap gap-4">
+      <Card
+        key={post?.id}
+        className="w-min-[350px] mx-auto my-3 h-auto w-[600px] px-2 py-1"
+      >
+        <CardHeader className="justify-between">
+          <div className="font-[600]">{post?.title}</div>
+          <Tooltip
+            content={post?.createdBy.fullname ?? ""}
+            placement="top"
+            color="primary"
+            showArrow
+          >
+            <Avatar
+              src={post?.createdBy.image ?? ""}
+              isBordered
+              color="primary"
+            />
+          </Tooltip>
+        </CardHeader>
+        <CardBody className="text-small text-default-500">
           <div className="flex justify-between">
-            <div className="card-title px-2 text-center">{post?.title}</div>
-            <div className="card-actions justify-start">
-              <Link href={`/search?user=${post?.createdById}`}>
-                <button className="">
-                  <img
-                    src={post?.createdBy.image ?? ""}
-                    alt="user's profile pic"
-                    className="h-[2.5rem]"
-                    title={post!.createdBy.fullname ?? ""}
-                  />
-                </button>
-              </Link>
-            </div>
+            <PostType
+              type={{ name: post!.postType.name, id: post!.postType.id }}
+            />
+            <PostSubject
+              subject={{ name: post!.subject.name, id: post!.subject.id }}
+            />
           </div>
-          <div className="flex justify-between">
-            <div className="card-actions justify-start">
-              <Link href={`/search?type=${post?.postType.id}`}>
-                <button className="btn btn-accent btn-xs mx-[.4rem] text-accent-content">
-                  {post?.postType.name}
-                </button>
-              </Link>
-            </div>
-            <div className="card-actions justify-start">
-              <Link href={`/search?subject=${post?.subject.id}`}>
-                <button className="btn btn-accent btn-xs text-accent-content">
-                  {post?.subject.name}
-                </button>
-              </Link>
-            </div>
+          <div>
+            <p className="px-1 pt-4">{post?.description}</p>
           </div>
-          <div className="h-[100px] overflow-auto px-2">
-            {post?.description}
-          </div>
-          <div className="flex justify-end gap-4">
-            {isAuthor && <DeletePostButton postId={post!.id} />}
-          </div>
-        </div>
-      </div>
-    </>
+        </CardBody>
+        <CardFooter className="flex justify-end gap-3">
+          {canDelete && <PostDelete id={post!.id} />}
+        </CardFooter>
+      </Card>
+    </div>
   );
 }

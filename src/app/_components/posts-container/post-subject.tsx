@@ -1,13 +1,14 @@
 "use client";
 
+import { Button, Chip } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
-export function PostType({
-  type,
+export function PostSubject({
+  subject,
 }: {
-  type: { postType: string; postTypeId: string };
+  subject: { name: string; id: string };
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -20,13 +21,12 @@ export function PostType({
     },
     [searchParams],
   );
+
   return (
-    <div className="card-actions justify-start">
-      <Link href={`${pathname}?${createQueryString("type", type.postTypeId)}`}>
-        <button className="btn btn-accent btn-xs mx-[.4rem] text-accent-content">
-          {type.postType}
-        </button>
-      </Link>
-    </div>
+    <Link href={`${pathname}?${createQueryString("subject", subject.id)}`}>
+      <Chip as={Button} size="sm" color="secondary" variant="solid" radius="sm">
+        {subject.name}
+      </Chip>
+    </Link>
   );
 }

@@ -192,10 +192,10 @@ export default function UsersTable() {
                 ) : (
                   <Chip
                     className="mt-1 block h-5 text-center text-default-600"
-                    color="secondary"
-                    variant="solid"
+                    color={user?.role?.name ? "secondary" : "danger"}
+                    variant={user?.role?.name ? "solid" : "flat"}
                   >
-                    {user?.role?.name}
+                    {user?.role?.name ?? "BRAK ROLI"}
                   </Chip>
                 )}
               </TableCell>

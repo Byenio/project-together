@@ -71,6 +71,13 @@ export const userRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const caller = await ctx.db.user.findUnique({
+        where: { id: ctx.session.user.id },
+        select: { role: true },
+      });
+
+      if (!(caller?.role?.level && caller.role.level >= 6)) return false;
+
       return ctx.db.user.update({
         where: { id: input.userId },
         data: { roleId: input.roleId },

@@ -109,9 +109,8 @@ export function NavMenuItems({ menuItems }: MenuItems) {
                 <DropdownTrigger>
                   <Button
                     disableRipple
-                    className="bg-transparent p-2 data-[hover=true]:bg-transparent"
                     radius="sm"
-                    size="lg"
+                    variant="light"
                     endContent={<ChevronDownIcon />}
                   >
                     {item.name}
@@ -130,9 +129,16 @@ export function NavMenuItems({ menuItems }: MenuItems) {
                 </DropdownMenu>
               </Dropdown>
             ) : (
-              <Link color="foreground" href={item.link}>
+              <Button
+                disableRipple
+                radius="sm"
+                variant="light"
+                as={Link}
+                href={item.link}
+                endContent={item.icon}
+              >
                 {item.name}
-              </Link>
+              </Button>
             )}
           </NavbarItem>
         ))}

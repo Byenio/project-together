@@ -12,7 +12,7 @@ export default async function CreatePost() {
 
   if (!role) return null;
   const canAccess = role.level >= 3;
-  if (!canAccess) redirect("/");
+  if (!canAccess) redirect("/search");
 
   return (
     <div className="m-auto max-w-[650px]">

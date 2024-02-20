@@ -1,20 +1,15 @@
 export function NewPostIcon() {
   return (
     <svg
-      data-testid="geist-icon"
-      fill="none"
-      height="16"
-      shape-rendering="geometricPrecision"
       stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="1.5"
-      viewBox="0 0 24 24"
-      width="16"
+      fill="currentColor"
+      stroke-width="0"
+      viewBox="0 0 448 512"
+      height=".75em"
+      width=".75em"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-      <path d="M12 8v8" />
-      <path d="M8 12h8" />
+      <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
     </svg>
   );
 }

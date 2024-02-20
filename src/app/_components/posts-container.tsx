@@ -14,7 +14,7 @@ import {
   Spinner,
   Tooltip,
 } from "@nextui-org/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { api } from "~/trpc/react";
 import { ChevronRightIcon } from "./icons";
@@ -23,33 +23,16 @@ import { PostDelete } from "./posts-container/post-delete";
 import { PostSubject } from "./posts-container/post-subject";
 import { PostType } from "./posts-container/post-type";
 
-function createQueryString(
-  pathname: string,
-  searchParams: URLSearchParams | null,
-  name: string,
-  value: string[],
-) {
-  const currentSearchParams = new URLSearchParams(searchParams?.toString());
-
-  if (value.length === 0) {
-    currentSearchParams.delete(name);
-  } else {
-    currentSearchParams.set(name, value.join(","));
-  }
-
-  const queryString = currentSearchParams.toString();
-
-  return queryString ? `${pathname}?${queryString}` : pathname;
-}
-
 export default function PostsContainer({
   posts,
   userId,
   isModerator,
+  canPost,
 }: {
   posts: PostsGetOutput;
   userId: string | undefined;
   isModerator: boolean | null;
+  canPost: boolean | null;
 }) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
@@ -58,8 +41,12 @@ export default function PostsContainer({
 
   const router = useRouter();
   const pathname = usePathname();
-  const [searchParams] = useSearchParams();
-  const mutableSearchParams = new URLSearchParams(searchParams?.toString());
+
+  const createQueryString = (name: string, value: string[]) => {
+    const params = new URLSearchParams();
+    params.set(name, value.join(","));
+    return params.toString();
+  };
 
   const perPageOptions = [
     { value: 10, label: "10" },
@@ -87,20 +74,18 @@ export default function PostsContainer({
   });
 
   useEffect(() => {
-    const subjectQueryString = subjectFilters.length
-      ? createQueryString(
-          pathname,
-          mutableSearchParams,
-          "subject",
-          subjectFilters,
-        )
-      : "";
-    const typeQueryString = typeFilters.length
-      ? createQueryString(pathname, mutableSearchParams, "type", typeFilters)
-      : "";
+    let subjectFiltersQuery = "";
+    let typeFiltersQuery = "";
+
+    if (subjectFilters.length) {
+      subjectFiltersQuery = createQueryString("subject", subjectFilters);
+    }
+    if (typeFilters.length) {
+      typeFiltersQuery = createQueryString("type", typeFilters);
+    }
 
     const concat = subjectFilters.length && typeFilters.length ? "&" : "";
-    const url = `${pathname}?${subjectQueryString}${concat}${typeQueryString}`;
+    const url = `${pathname}?${subjectFiltersQuery}${concat}${typeFiltersQuery}`;
 
     router.push(url);
   }, [subjectFilters, typeFilters]);
@@ -185,71 +170,95 @@ export default function PostsContainer({
           </Select>
         </div>
       </div>
-      {items.map((post) => {
-        const isAuthor = post.createdBy.id === userId;
-        const canDelete = isAuthor || isModerator;
+      {items.length ? (
+        <>
+          {items.map((post) => {
+            const isAuthor = post.createdBy.id === userId;
+            const canDelete = isAuthor || isModerator;
 
-        return (
-          <Card
-            key={post.id}
-            className="w-min-[350px] mx-auto my-1 h-auto w-[500px] px-2 py-1"
-          >
-            <CardHeader className="justify-between">
-              <div className="font-[600]">{post.title}</div>
-              <Tooltip
-                content={post.createdBy.fullname}
-                placement="top"
-                color="primary"
-                showArrow
+            return (
+              <Card
+                key={post.id}
+                className="w-min-[350px] mx-auto my-1 h-auto w-[500px] px-2 py-1"
               >
-                <Avatar
-                  src={post.createdBy.image ?? ""}
-                  isBordered
-                  color="primary"
-                />
-              </Tooltip>
-            </CardHeader>
-            <CardBody className="py-0 text-small text-default-500">
-              <div className="flex justify-between">
-                <PostType
-                  type={{ name: post.postType.name, id: post.postType.id }}
-                />
-                <PostSubject
-                  subject={{ name: post.subject.name, id: post.subject.id }}
-                />
-              </div>
-              <div>
-                <p className="px-1 pt-4">{post.description}</p>
-              </div>
-            </CardBody>
-            <CardFooter className="flex justify-end gap-1">
-              {canDelete && <PostDelete id={post.id} />}
-              <Button
-                as={Link}
-                href={`/search/post/${post.id}`}
-                isIconOnly
-                color="primary"
-                size="sm"
-                variant="flat"
-              >
-                <ChevronRightIcon />
-              </Button>
-            </CardFooter>
-          </Card>
-        );
-      })}
-
-      <div className="flex w-full justify-center">
-        <Pagination
-          isCompact
-          showControls
-          showShadow
-          color="secondary"
-          page={page}
-          total={pages}
-          onChange={setPage}
-        />
-      </div>
+                <CardHeader className="justify-between">
+                  <div className="font-[600]">{post.title}</div>
+                  <Tooltip
+                    content={post.createdBy.fullname}
+                    placement="top"
+                    color="primary"
+                    showArrow
+                  >
+                    <Avatar
+                      src={post.createdBy.image ?? ""}
+                      isBordered
+                      color="primary"
+                    />
+                  </Tooltip>
+                </CardHeader>
+                <CardBody className="py-0 text-small text-default-500">
+                  <div className="flex justify-between">
+                    <PostType
+                      type={{ name: post.postType.name, id: post.postType.id }}
+                    />
+                    <PostSubject
+                      subject={{ name: post.subject.name, id: post.subject.id }}
+                    />
+                  </div>
+                  <div>
+                    <p className="px-1 pt-4">{post.description}</p>
+                  </div>
+                </CardBody>
+                <CardFooter className="flex justify-end gap-1">
+                  {canDelete && <PostDelete id={post.id} />}
+                  <Button
+                    as={Link}
+                    href={`/search/post/${post.id}`}
+                    isIconOnly
+                    color="primary"
+                    size="sm"
+                    variant="flat"
+                  >
+                    <ChevronRightIcon />
+                  </Button>
+                </CardFooter>
+              </Card>
+            );
+          })}
+          <div className="flex w-full justify-center">
+            <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="secondary"
+              page={page}
+              total={pages}
+              onChange={setPage}
+            />
+          </div>
+        </>
+      ) : (
+        <NoPostsInfo canPost={canPost} />
+      )}
     </>
+  );
+}
+
+export function NoPostsInfo({ canPost }: { canPost: boolean | null }) {
+  return (
+    <p className="card bg-error text-error-content m-auto my-2 min-w-[300px] p-2 text-center text-lg font-medium">
+      Brak postów do wyświetlenia.
+      {canPost && (
+        <div className="w-full">
+          <Link
+            href={"/create-post"}
+            className="w-50 my-4 rounded-xl"
+            underline="always"
+          >
+            Utwórz nowy post
+          </Link>
+        </div>
+      )}
+    </p>
   );
 }

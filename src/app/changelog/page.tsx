@@ -10,7 +10,10 @@ import { changelog } from "./changelog";
 
 export default function Changelog() {
   return changelog.map((update) => (
-    <Card className="m-auto mt-4 max-w-[600px]">
+    <Card
+      className="m-auto mt-4 max-w-[600px]"
+      key={`${update.version}-${update.releaseDate}`}
+    >
       <CardHeader className="flex-col items-start px-8 pb-0 pt-4">
         <p className="text-4xl font-bold">{update.version}</p>
         <small className="text-default-500">{update.releaseDate}</small>
@@ -28,8 +31,13 @@ export default function Changelog() {
             </Chip>
             <div className="px-12 text-sm text-default-500">
               <ul className="list-outside">
-                {type.changes.map((change) => (
-                  <li className="list-disc">{change.description}</li>
+                {type.changes.map((change, index) => (
+                  <li
+                    className="list-disc"
+                    key={`${change.description}-${index}`}
+                  >
+                    {change.description}
+                  </li>
                 ))}
               </ul>
             </div>

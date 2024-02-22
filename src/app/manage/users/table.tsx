@@ -43,6 +43,34 @@ export default function UsersTable() {
     { value: 50, label: "50" },
   ];
 
+  const roleColors = [
+    { name: "ADMIN", color: "danger" },
+    { name: "MODERATOR", color: "warning" },
+    { name: "TUTOR", color: "success" },
+    { name: "USER", color: "secondary" },
+  ];
+
+  const roleColor = (
+    role: string,
+  ):
+    | "danger"
+    | "warning"
+    | "success"
+    | "secondary"
+    | "default"
+    | "primary"
+    | undefined => {
+    const filtered = roleColors.find((item) => item.name === role);
+    return filtered?.color as
+      | "danger"
+      | "warning"
+      | "success"
+      | "secondary"
+      | "default"
+      | "primary"
+      | undefined;
+  };
+
   const onSearchChange = useCallback((value?: string) => {
     if (value) {
       setFilter(value);
@@ -191,8 +219,8 @@ export default function UsersTable() {
                   />
                 ) : (
                   <Chip
-                    className="mt-1 block h-5 text-center text-default-600"
-                    color={user?.role?.name ? "secondary" : "danger"}
+                    className="mt-1 block h-5 text-center"
+                    color={roleColor(user?.role?.name ?? "USER")}
                     variant={user?.role?.name ? "solid" : "flat"}
                   >
                     {user?.role?.name ?? "BRAK ROLI"}

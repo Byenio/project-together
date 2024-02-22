@@ -29,6 +29,15 @@ import {
 import { api } from "~/trpc/react";
 import RoleSelect from "./role-select";
 
+type RoleColor =
+  | "danger"
+  | "warning"
+  | "success"
+  | "secondary"
+  | "default"
+  | "primary"
+  | undefined;
+
 export default function UsersTable() {
   const [editMode, setEditMode] = useState({ edit: false, id: "" });
   const [selectedRole, setSelectedRole] = useState("");
@@ -50,25 +59,9 @@ export default function UsersTable() {
     { name: "USER", color: "secondary" },
   ];
 
-  const roleColor = (
-    role: string,
-  ):
-    | "danger"
-    | "warning"
-    | "success"
-    | "secondary"
-    | "default"
-    | "primary"
-    | undefined => {
+  const roleColor = (role: string): RoleColor => {
     const filtered = roleColors.find((item) => item.name === role);
-    return filtered?.color as
-      | "danger"
-      | "warning"
-      | "success"
-      | "secondary"
-      | "default"
-      | "primary"
-      | undefined;
+    return filtered?.color as RoleColor;
   };
 
   const onSearchChange = useCallback((value?: string) => {

@@ -3,12 +3,12 @@
 import { Button, Input } from "@nextui-org/react";
 import { useMemo, useState } from "react";
 import { api } from "~/trpc/react";
-import { refetchSubjects } from "./refetch-wrapper";
+import { refetchSubjectsType } from "./refetch-wrapper";
 
 export default function CreateSubjectForm({
   refetch,
 }: {
-  refetch: refetchSubjects;
+  refetch: refetchSubjectsType;
 }) {
   const [name, setName] = useState("");
 

@@ -11,14 +11,14 @@ import {
 } from "@nextui-org/react";
 import { DeleteIcon } from "~/app/(components)/icons";
 import { api } from "~/trpc/react";
-import { refetchSubjects } from "./refetch-wrapper";
+import { refetchSubjectsType } from "./refetch-wrapper";
 
 export default function SubjectDelete({
   id,
   refetch,
 }: {
   id: string;
-  refetch: refetchSubjects;
+  refetch: refetchSubjectsType;
 }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const subjectDelete = api.subject.delete.useMutation({

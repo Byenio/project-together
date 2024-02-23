@@ -9,7 +9,7 @@ import { api } from "~/trpc/react";
 import CreatePostTypeForm from "./form";
 import PostTypeList from "./list";
 
-export type refetchPostsTypes = UseTRPCQueryResult<
+export type refetchPostsTypesType = UseTRPCQueryResult<
   inferRouterOutputs<AppRouter>["postType"]["getAll"],
   TRPCClientErrorLike<AppRouter>
 >["refetch"];

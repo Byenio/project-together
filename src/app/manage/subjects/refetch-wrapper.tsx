@@ -9,7 +9,7 @@ import { api } from "~/trpc/react";
 import CreateSubjectForm from "./form";
 import SubjectList from "./list";
 
-export type refetchSubjects = UseTRPCQueryResult<
+export type refetchSubjectsType = UseTRPCQueryResult<
   inferRouterOutputs<AppRouter>["subject"]["getAll"],
   TRPCClientErrorLike<AppRouter>
 >["refetch"];

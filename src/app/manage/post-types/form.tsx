@@ -3,12 +3,12 @@
 import { Button, Input } from "@nextui-org/react";
 import { useMemo, useState } from "react";
 import { api } from "~/trpc/react";
-import { refetchPostsType } from "./refetch-wrapper";
+import { refetchPostsTypesType } from "./refetch-wrapper";
 
 export default function CreatePostTypeForm({
   refetch,
 }: {
-  refetch: refetchPostsType;
+  refetch: refetchPostsTypesType;
 }) {
   const [name, setName] = useState("");
 

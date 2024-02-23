@@ -11,14 +11,14 @@ import {
 } from "@nextui-org/react";
 import { DeleteIcon } from "~/app/(components)/icons";
 import { api } from "~/trpc/react";
-import { refetchPostsTypes } from "./refetch-wrapper";
+import { refetchPostsTypesType } from "./refetch-wrapper";
 
 export default function PostTypeDelete({
   id,
   refetch,
 }: {
   id: string;
-  refetch: refetchPostsTypes;
+  refetch: refetchPostsTypesType;
 }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const postTypeDelete = api.postType.delete.useMutation({

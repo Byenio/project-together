@@ -9,7 +9,7 @@ import {
   TableRow,
   Tooltip,
 } from "@nextui-org/react";
-import { refetchPostsTypes } from "./refetch-wrapper";
+import { refetchPostsTypesType } from "./refetch-wrapper";
 import PostTypeDelete from "./type-delete";
 
 export default function PostTypeList({
@@ -17,7 +17,7 @@ export default function PostTypeList({
   refetch,
 }: {
   list: { id: string; name: string; createdAt: Date; updatedAt: Date }[];
-  refetch: refetchPostsTypes;
+  refetch: refetchPostsTypesType;
 }) {
   return (
     <Table isStriped>

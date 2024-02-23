@@ -3,8 +3,13 @@
 import { Button, Input } from "@nextui-org/react";
 import { useMemo, useState } from "react";
 import { api } from "~/trpc/react";
+import { refetchPostsType } from "./refetch-wrapper";
 
-export default function CreatePostTypeForm({ refetch }: { refetch: any }) {
+export default function CreatePostTypeForm({
+  refetch,
+}: {
+  refetch: refetchPostsType;
+}) {
   const [name, setName] = useState("");
 
   const nameInvalid = useValidateName(name);

@@ -1,9 +1,18 @@
 "use client";
 
 import { Spinner } from "@nextui-org/react";
+import { TRPCClientErrorLike } from "@trpc/client";
+import { UseTRPCQueryResult } from "@trpc/react-query/shared";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "~/server/api/root";
 import { api } from "~/trpc/react";
 import CreatePostTypeForm from "./form";
 import PostTypeList from "./list";
+
+export type refetchPostsTypes = UseTRPCQueryResult<
+  inferRouterOutputs<AppRouter>["postType"]["getAll"],
+  TRPCClientErrorLike<AppRouter>
+>["refetch"];
 
 export default function PostTypeRefetchWrapper() {
   const {

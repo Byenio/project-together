@@ -1,9 +1,18 @@
 "use client";
 
 import { Spinner } from "@nextui-org/react";
+import { TRPCClientErrorLike } from "@trpc/client";
+import { UseTRPCQueryResult } from "@trpc/react-query/shared";
+import { inferRouterOutputs } from "@trpc/server";
+import { AppRouter } from "~/server/api/root";
 import { api } from "~/trpc/react";
 import CreateSubjectForm from "./form";
 import SubjectList from "./list";
+
+export type refetchSubjects = UseTRPCQueryResult<
+  inferRouterOutputs<AppRouter>["subject"]["getAll"],
+  TRPCClientErrorLike<AppRouter>
+>["refetch"];
 
 export default function SubjectRefetchWrapper() {
   const {

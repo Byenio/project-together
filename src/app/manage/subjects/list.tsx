@@ -9,6 +9,7 @@ import {
   TableRow,
   Tooltip,
 } from "@nextui-org/react";
+import { refetchSubjects } from "./refetch-wrapper";
 import SubjectDelete from "./subject-delete";
 
 export default function SubjectList({
@@ -21,7 +22,7 @@ export default function SubjectList({
     createdAt: Date;
     updatedAt: Date;
   }[];
-  refetch: any;
+  refetch: refetchSubjects;
 }) {
   return (
     <Table isStriped>

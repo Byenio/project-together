@@ -32,9 +32,5 @@ export default async function Home({
     return true;
   });
 
-  return (
-    <>
-      <PostsWrapper posts={posts} />
-    </>
-  );
+  return <PostsWrapper posts={posts} />;
 }

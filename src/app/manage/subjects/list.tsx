@@ -9,23 +9,25 @@ import {
   TableRow,
   Tooltip,
 } from "@nextui-org/react";
-import {
-  DeleteIcon,
-  EditIcon,
-  ExternalLinkIcon,
-} from "~/app/(components)/icons";
-import { api } from "~/trpc/react";
+import SubjectDelete from "./subject-delete";
 
-export default function PostTypeList() {
-  const list = api.subject.getAll.useQuery().data;
-
-  if (!list) return null;
-
+export default function SubjectList({
+  list,
+  refetch,
+}: {
+  list: {
+    id: string;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
+  refetch: any;
+}) {
   return (
-    <Table removeWrapper>
+    <Table isStriped>
       <TableHeader>
         <TableColumn>PRZEDMIOT</TableColumn>
-        <TableColumn maxWidth={100}>AKCJE (COMING SOON)</TableColumn>
+        <TableColumn width={10}>AKCJE</TableColumn>
       </TableHeader>
       <TableBody>
         {list.map((item, index) => (
@@ -33,20 +35,20 @@ export default function PostTypeList() {
             <TableCell>{item.name}</TableCell>
             <TableCell>
               <div className=" flex items-center gap-4">
-                <Tooltip content="Edytuj">
+                {/* <Tooltip content="Edytuj">
                   <span className="text-lg text-default-400 opacity-50">
                     <EditIcon />
                   </span>
-                </Tooltip>
-                <Tooltip content="Przejdź do postów">
-                  <span className="text-lg text-default-400 opacity-50">
-                    <ExternalLinkIcon />
-                  </span>
-                </Tooltip>
+                </Tooltip> */}
+                {/* <Link href={`/search?subject=${item.id}`}>
+                  <Tooltip content="Przejdź do postów">
+                    <span className="text-lg text-default-400">
+                      <ExternalLinkIcon />
+                    </span>
+                  </Tooltip>
+                </Link> */}
                 <Tooltip color="danger" content="Usuń">
-                  <span className="text-lg text-danger opacity-50">
-                    <DeleteIcon />
-                  </span>
+                  <SubjectDelete id={item.id} refetch={refetch} />
                 </Tooltip>
               </div>
             </TableCell>

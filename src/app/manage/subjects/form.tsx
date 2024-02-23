@@ -1,19 +1,17 @@
 "use client";
 
 import { Button, Input } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { api } from "~/trpc/react";
 
-export default function CreateSubjectForm() {
-  const router = useRouter();
+export default function CreateSubjectForm({ refetch }: { refetch: any }) {
   const [name, setName] = useState("");
 
   const nameInvalid = useValidateName(name);
 
-  const createSubject = api.postType.create.useMutation({
+  const createSubject = api.subject.create.useMutation({
     onSuccess: () => {
-      router.refresh();
+      void refetch();
       setName("");
     },
   });

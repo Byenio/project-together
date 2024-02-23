@@ -23,7 +23,6 @@ import {
   CancelIcon,
   CheckIcon,
   EditIcon,
-  ExternalLinkIcon,
   SearchIcon,
 } from "~/app/(components)/icons";
 import { api } from "~/trpc/react";
@@ -258,7 +257,7 @@ export default function UsersTable() {
                         <EditIcon />
                       </span>
                     </Tooltip>
-                    <Link
+                    {/* <Link
                       href={`/search?${createQueryString("user", user.id)}`}
                     >
                       <Tooltip content="Przejdź do postów">
@@ -266,7 +265,7 @@ export default function UsersTable() {
                           <ExternalLinkIcon />
                         </span>
                       </Tooltip>
-                    </Link>
+                    </Link> */}
                     {/* <Tooltip color="danger" content="Usuń użytkownika">
                     <span className="cursor-pointer text-lg text-danger-500 hover:text-danger active:opacity-50">
                       <DeleteIcon />

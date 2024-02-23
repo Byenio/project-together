@@ -6,11 +6,11 @@ import {
   CardHeader,
   Tooltip,
 } from "@nextui-org/react";
-import { PostDelete } from "~/app/_components/posts-container/post-delete";
-import { PostSubject } from "~/app/_components/posts-container/post-subject";
-import { PostType } from "~/app/_components/posts-container/post-type";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
+import { PostDelete } from "../post-card/post-delete";
+import { PostSubject } from "../post-card/post-subject";
+import { PostType } from "../post-card/post-type";
 
 export default async function Post({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();

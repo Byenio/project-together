@@ -17,11 +17,12 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { api } from "~/trpc/react";
-import { ChevronRightIcon } from "./icons";
-import { PostsGetOutput } from "./posts";
-import { PostDelete } from "./posts-container/post-delete";
-import { PostSubject } from "./posts-container/post-subject";
-import { PostType } from "./posts-container/post-type";
+import { ChevronRightIcon } from "../(components)/icons";
+import { PostDelete } from "./post-card/post-delete";
+import { PostSubject } from "./post-card/post-subject";
+import { PostType } from "./post-card/post-type";
+import UpvoteButton from "./post-card/post-upvote";
+import { PostsGetOutput } from "./posts-wrapper";
 
 export default function PostsContainer({
   posts,
@@ -175,6 +176,12 @@ export default function PostsContainer({
           {items.map((post) => {
             const isAuthor = post.createdBy.id === userId;
             const canDelete = isAuthor || isModerator;
+            const upvoted = post.Upvote.find(
+              (upvote) => upvote.userId === userId,
+            )
+              ? true
+              : false;
+            const upvotes = post.Upvote.length;
 
             return (
               <Card
@@ -211,9 +218,14 @@ export default function PostsContainer({
                 </CardBody>
                 <CardFooter className="flex justify-end gap-1">
                   {canDelete && <PostDelete id={post.id} />}
+                  <UpvoteButton
+                    postId={post.id}
+                    upvoted={upvoted}
+                    currentUpvotes={upvotes}
+                  />
                   <Button
                     as={Link}
-                    href={`/search/post/${post.id}`}
+                    href={`/search/${post.id}`}
                     isIconOnly
                     color="primary"
                     size="sm"

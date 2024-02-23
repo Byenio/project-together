@@ -1,5 +1,36 @@
 export const changelog = [
   {
+    version: "0.2.1",
+    releaseDate: "23.02.2024",
+    type: [
+      {
+        name: "ui",
+        changes: [
+          { description: "Dodano kolory ról w panelu administracyjnym" },
+        ],
+      },
+      {
+        name: "feat",
+        changes: [
+          { description: "Dodano upvoting system" },
+          {
+            description:
+              "Dodano ostrzeżenia przed usunięciem postów, przedmiotów oraz typów postów",
+          },
+        ],
+      },
+      {
+        name: "fix",
+        changes: [
+          {
+            description:
+              "Naprawiono błędy przy dodawaniu i usuwaniu przedmiotów oraz typów postów",
+          },
+        ],
+      },
+    ],
+  },
+  {
     version: "0.2.0",
     releaseDate: "20.02.2024",
     type: [

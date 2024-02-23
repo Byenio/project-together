@@ -5,7 +5,7 @@ import { GeistSans } from "geist/font/sans";
 import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import Nav from "./_components/nav";
+import Nav from "./(components)/nav";
 import { Providers } from "./providers";
 
 export const metadata = {

@@ -1,19 +1,22 @@
 "use client";
 
 import { Button, Input } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { api } from "~/trpc/react";
+import { refetchPostsTypesType } from "./refetch-wrapper";
 
-export default function CreatePostTypeForm() {
-  const router = useRouter();
+export default function CreatePostTypeForm({
+  refetch,
+}: {
+  refetch: refetchPostsTypesType;
+}) {
   const [name, setName] = useState("");
 
   const nameInvalid = useValidateName(name);
 
   const createPostType = api.postType.create.useMutation({
     onSuccess: () => {
-      router.refresh();
+      void refetch();
       setName("");
     },
   });

@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import { Posts } from "../_components/posts";
+import PostsWrapper from "../search/posts-wrapper";
 
 async function getPosts() {
   return await api.post.getByUser.query();
@@ -10,7 +10,7 @@ export default async function Profile() {
 
   return (
     <>
-      <Posts posts={posts} />
+      <PostsWrapper posts={posts} />
     </>
   );
 }

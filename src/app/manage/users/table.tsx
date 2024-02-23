@@ -23,11 +23,19 @@ import {
   CancelIcon,
   CheckIcon,
   EditIcon,
-  ExternalLinkIcon,
   SearchIcon,
-} from "~/app/_components/icons";
+} from "~/app/(components)/icons";
 import { api } from "~/trpc/react";
 import RoleSelect from "./role-select";
+
+type RoleColor =
+  | "danger"
+  | "warning"
+  | "success"
+  | "secondary"
+  | "default"
+  | "primary"
+  | undefined;
 
 export default function UsersTable() {
   const [editMode, setEditMode] = useState({ edit: false, id: "" });
@@ -42,6 +50,18 @@ export default function UsersTable() {
     { value: 20, label: "20" },
     { value: 50, label: "50" },
   ];
+
+  const roleColors = [
+    { name: "ADMIN", color: "danger" },
+    { name: "MODERATOR", color: "warning" },
+    { name: "TUTOR", color: "success" },
+    { name: "USER", color: "secondary" },
+  ];
+
+  const roleColor = (role: string): RoleColor => {
+    const filtered = roleColors.find((item) => item.name === role);
+    return filtered?.color as RoleColor;
+  };
 
   const onSearchChange = useCallback((value?: string) => {
     if (value) {
@@ -191,8 +211,8 @@ export default function UsersTable() {
                   />
                 ) : (
                   <Chip
-                    className="mt-1 block h-5 text-center text-default-600"
-                    color={user?.role?.name ? "secondary" : "danger"}
+                    className="mt-1 block h-5 text-center"
+                    color={roleColor(user?.role?.name ?? "USER")}
                     variant={user?.role?.name ? "solid" : "flat"}
                   >
                     {user?.role?.name ?? "BRAK ROLI"}
@@ -237,7 +257,7 @@ export default function UsersTable() {
                         <EditIcon />
                       </span>
                     </Tooltip>
-                    <Link
+                    {/* <Link
                       href={`/search?${createQueryString("user", user.id)}`}
                     >
                       <Tooltip content="Przejdź do postów">
@@ -245,7 +265,7 @@ export default function UsersTable() {
                           <ExternalLinkIcon />
                         </span>
                       </Tooltip>
-                    </Link>
+                    </Link> */}
                     {/* <Tooltip color="danger" content="Usuń użytkownika">
                     <span className="cursor-pointer text-lg text-danger-500 hover:text-danger active:opacity-50">
                       <DeleteIcon />

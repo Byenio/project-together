@@ -7,7 +7,11 @@ import PostsContainer from "./posts-container";
 type RouterOutput = inferRouterOutputs<AppRouter>;
 export type PostsGetOutput = RouterOutput["post"]["getAll"];
 
-export async function Posts({ posts }: { posts: PostsGetOutput }) {
+export default async function PostsWrapper({
+  posts,
+}: {
+  posts: PostsGetOutput;
+}) {
   const session = await getServerAuthSession();
   const { role } = (await api.user.getRole.query()) ?? {
     role: {

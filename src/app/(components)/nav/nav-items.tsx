@@ -22,6 +22,7 @@ import {
   Spacer,
 } from "@nextui-org/react";
 import { useState } from "react";
+import { changelog } from "~/app/changelog/changelog";
 import { ChevronDownIcon, DiscordIcon, LogoutIcon } from "../icons";
 import { MenuItem, UserData } from "../nav";
 
@@ -188,6 +189,8 @@ export function NavMenuItems({ menuItems }: MenuItems) {
 }
 
 export function NavMenuAvatar({ userData }: INavMenuAvatar) {
+  const currentVersion = changelog[0]?.version;
+
   return (
     <NavbarContent as="div" justify="end">
       <Dropdown placement="bottom-end" backdrop="blur">
@@ -221,7 +224,7 @@ export function NavMenuAvatar({ userData }: INavMenuAvatar) {
               href="/changelog"
               endContent={
                 <Chip color="secondary" size="sm">
-                  0.2.0
+                  {currentVersion}
                 </Chip>
               }
             >

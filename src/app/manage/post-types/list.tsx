@@ -9,23 +9,21 @@ import {
   TableRow,
   Tooltip,
 } from "@nextui-org/react";
-import {
-  DeleteIcon,
-  EditIcon,
-  ExternalLinkIcon,
-} from "~/app/_components/icons";
-import { api } from "~/trpc/react";
+import { refetchPostsTypesType } from "./refetch-wrapper";
+import PostTypeDelete from "./type-delete";
 
-export default function PostTypeList() {
-  const list = api.postType.getAll.useQuery().data;
-
-  if (!list) return null;
-
+export default function PostTypeList({
+  list,
+  refetch,
+}: {
+  list: { id: string; name: string; createdAt: Date; updatedAt: Date }[];
+  refetch: refetchPostsTypesType;
+}) {
   return (
-    <Table removeWrapper>
+    <Table isStriped>
       <TableHeader>
         <TableColumn>TYP POSTU</TableColumn>
-        <TableColumn maxWidth={100}>AKCJE (COMING SOON)</TableColumn>
+        <TableColumn width={10}>AKCJE</TableColumn>
       </TableHeader>
       <TableBody>
         {list.map((item, index) => (
@@ -33,20 +31,18 @@ export default function PostTypeList() {
             <TableCell>{item.name}</TableCell>
             <TableCell>
               <div className=" flex items-center gap-4">
-                <Tooltip content="Edytuj">
+                {/* <Tooltip content="Edytuj">
                   <span className="text-lg text-default-400 opacity-50">
                     <EditIcon />
                   </span>
-                </Tooltip>
-                <Tooltip content="Przejdź do postów">
+                </Tooltip> */}
+                {/* <Tooltip content="Przejdź do postów">
                   <span className="text-lg text-default-400 opacity-50">
                     <ExternalLinkIcon />
                   </span>
-                </Tooltip>
+                </Tooltip> */}
                 <Tooltip color="danger" content="Usuń">
-                  <span className="text-lg text-danger opacity-50">
-                    <DeleteIcon />
-                  </span>
+                  <PostTypeDelete id={item.id} refetch={refetch} />
                 </Tooltip>
               </div>
             </TableCell>

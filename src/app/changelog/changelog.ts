@@ -1,16 +1,27 @@
-export const changelog = [
+type ChangelogEntry = {
+  version: string;
+  releaseDate: string;
+  type: {
+    name: "UI" | "Feat" | "Fix" | "Perf";
+    changes: {
+      description: string;
+    }[];
+  }[];
+};
+
+export const changelog: ChangelogEntry[] = [
   {
     version: "0.2.1",
     releaseDate: "23.02.2024",
     type: [
       {
-        name: "ui",
+        name: "UI",
         changes: [
           { description: "Dodano kolory ról w panelu administracyjnym" },
         ],
       },
       {
-        name: "feat",
+        name: "Feat",
         changes: [
           { description: "Dodano upvoting system" },
           {
@@ -20,7 +31,7 @@ export const changelog = [
         ],
       },
       {
-        name: "fix",
+        name: "Fix",
         changes: [
           {
             description:
@@ -34,9 +45,9 @@ export const changelog = [
     version: "0.2.0",
     releaseDate: "20.02.2024",
     type: [
-      { name: "ui", changes: [{ description: "Wprowadzono nowe UI" }] },
+      { name: "UI", changes: [{ description: "Wprowadzono nowe UI" }] },
       {
-        name: "feat",
+        name: "Feat",
         changes: [
           { description: "Usprawniono nawigację" },
           { description: "Usprawniono formularze oraz ich walidację" },
@@ -48,14 +59,14 @@ export const changelog = [
         ],
       },
       {
-        name: "fix",
+        name: "Fix",
         changes: [
           { description: "Naprawiono wyświetlanie ikon" },
           { description: "Naprawiono pomniejsze błędy" },
         ],
       },
       {
-        name: "perf",
+        name: "Perf",
         changes: [
           {
             description:

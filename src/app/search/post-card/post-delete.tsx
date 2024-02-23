@@ -10,8 +10,8 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { DeleteIcon } from "~/app/(components)/icons";
 import { api } from "~/trpc/react";
-import { DeleteIcon } from "../icons";
 
 export function PostDelete({ id }: { id: string }) {
   const router = useRouter();
@@ -36,7 +36,6 @@ export function PostDelete({ id }: { id: string }) {
         size="sm"
         variant="light"
         onPress={onOpen}
-        // onClick={() => postDelete.mutate({ postId: id })}
       >
         <DeleteIcon />
       </Button>

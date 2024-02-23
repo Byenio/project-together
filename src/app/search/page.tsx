@@ -1,6 +1,6 @@
-import { Posts } from "~/app/_components/posts";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
+import PostsWrapper from "./posts-wrapper";
 
 async function getPosts() {
   return await api.post.getAll.query();
@@ -34,7 +34,7 @@ export default async function Home({
 
   return (
     <>
-      <Posts posts={posts} />
+      <PostsWrapper posts={posts} />
     </>
   );
 }

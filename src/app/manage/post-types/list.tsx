@@ -13,7 +13,7 @@ import {
   DeleteIcon,
   EditIcon,
   ExternalLinkIcon,
-} from "~/app/_components/icons";
+} from "~/app/(components)/icons";
 import { api } from "~/trpc/react";
 
 export default function PostTypeList() {

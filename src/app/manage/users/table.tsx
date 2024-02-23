@@ -25,7 +25,7 @@ import {
   EditIcon,
   ExternalLinkIcon,
   SearchIcon,
-} from "~/app/_components/icons";
+} from "~/app/(components)/icons";
 import { api } from "~/trpc/react";
 import RoleSelect from "./role-select";
 

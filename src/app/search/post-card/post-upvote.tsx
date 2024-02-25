@@ -56,7 +56,7 @@ export default function UpvoteButton({
           size="sm"
           isIconOnly
           color="secondary"
-          className="w-[40px]"
+          className="w-[60px]"
           onClick={handleDownvote}
           isDisabled={disabled}
         >
@@ -69,7 +69,7 @@ export default function UpvoteButton({
         <Button
           size="sm"
           isIconOnly
-          className="w-[40px]"
+          className="w-[60px]"
           onClick={handleUpvote}
           isDisabled={disabled}
         >

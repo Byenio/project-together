@@ -21,7 +21,7 @@ import { ChevronRightIcon } from "../(components)/icons";
 import { PostDelete } from "./post-card/post-delete";
 import { PostSubject } from "./post-card/post-subject";
 import { PostType } from "./post-card/post-type";
-import UpvoteButton from "./post-card/post-upvote";
+import VoteButton from "./post-card/post-vote";
 import { PostsGetOutput } from "./posts-wrapper";
 
 export default function PostsContainer({
@@ -218,7 +218,7 @@ export default function PostsContainer({
                 </CardBody>
                 <CardFooter className="flex justify-end gap-1">
                   {canDelete && <PostDelete id={post.id} />}
-                  <UpvoteButton
+                  <VoteButton
                     postId={post.id}
                     upvoted={upvoted}
                     currentUpvotes={upvotes}

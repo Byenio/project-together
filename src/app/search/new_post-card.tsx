@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useMemo, useState } from "react";
+import { useMemo, useState, type ChangeEvent } from "react";
 import { ChevronRightIcon } from "../(components)/icons";
 import { perPageOptions } from "../(utils)/util-consts";
 import type {
@@ -60,7 +60,7 @@ function getElements({
 }): string[] | null {
   if (params[element] === undefined) return null;
 
-  return (params[element] as string).split(",") as string[];
+  return (params[element] as string).split(",");
 }
 
 function createQuery(value: string[]) {

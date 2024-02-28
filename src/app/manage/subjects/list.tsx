@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Link,
   Table,
   TableBody,
   TableCell,
@@ -9,6 +10,7 @@ import {
   TableRow,
   Tooltip,
 } from "@nextui-org/react";
+import { ExternalLinkIcon } from "~/app/(components)/icons";
 import { refetchSubjectsType } from "./refetch-wrapper";
 import SubjectDelete from "./subject-delete";
 
@@ -41,13 +43,13 @@ export default function SubjectList({
                     <EditIcon />
                   </span>
                 </Tooltip> */}
-                {/* <Link href={`/search?subject=${item.id}`}>
+                <Link href={`/search?subject=${item.id}`}>
                   <Tooltip content="Przejdź do postów">
                     <span className="text-lg text-default-400">
                       <ExternalLinkIcon />
                     </span>
                   </Tooltip>
-                </Link> */}
+                </Link>
                 <Tooltip color="danger" content="Usuń">
                   <SubjectDelete id={item.id} refetch={refetch} />
                 </Tooltip>

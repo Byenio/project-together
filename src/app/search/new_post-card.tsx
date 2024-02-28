@@ -11,61 +11,114 @@ import {
   Pagination,
   Select,
   SelectItem,
-  Spinner,
   Tooltip,
 } from "@nextui-org/react";
-import { usePathname, useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useMemo, useState } from "react";
 import { ChevronRightIcon } from "../(components)/icons";
+import { perPageOptions } from "../(utils)/util-consts";
+import type {
+  PostTypesGetAll,
+  PostsGetAll,
+  SubjectsGetAll,
+  User,
+} from "./page";
 import { PostDelete } from "./post-card/post-delete";
 import { PostSubject } from "./post-card/post-subject";
 import { PostType } from "./post-card/post-type";
 import VoteButton from "./post-card/post-vote";
-import { PostsGetOutput } from "./posts-wrapper";
 
-export default function PostsContainer({
-  posts,
-  userId,
-  isModerator,
-  canPost,
+function getSingleElement({
+  params,
+  element,
+  defaultValue,
 }: {
-  posts: PostsGetOutput;
-  userId: string | undefined;
-  isModerator: boolean | null;
-  canPost: boolean | null;
+  params: Record<string, string | string[] | undefined>;
+  element: string;
+  defaultValue: string;
+}): string {
+  if (params[element] === undefined) return defaultValue;
+
+  if (Array.isArray(params[element])) {
+    const arrayValue = params[element] as string[];
+    return arrayValue[0] ?? defaultValue;
+  }
+
+  if (typeof params[element] === "string") {
+    return (params[element] as string) ?? defaultValue;
+  }
+
+  return defaultValue;
+}
+
+function getElements({
+  params,
+  element,
+}: {
+  params: Record<string, string | string[] | undefined>;
+  element: string;
+}): string[] | null {
+  if (params[element] === undefined) return null;
+
+  return (params[element] as string).split(",") as string[];
+}
+
+function createQuery(value: string[]) {
+  if (!Array.isArray(value)) return value;
+
+  const query = value.join("%2C");
+  return query.toString();
+}
+
+export default function PostCard({
+  searchParams,
+  posts,
+  subjects,
+  postTypes,
+  user,
+}: {
+  searchParams: Record<string, string | string[] | undefined>;
+  posts: PostsGetAll;
+  subjects: SubjectsGetAll;
+  postTypes: PostTypesGetAll;
+  user: User;
 }) {
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(1);
-  const [subjectFilters, setSubjectFilters] = useState<string[]>([]);
-  const [typeFilters, setTypeFilters] = useState<string[]>([]);
-
   const router = useRouter();
-  const pathname = usePathname();
 
-  const createQueryString = (name: string, value: string[]) => {
-    const params = new URLSearchParams();
-    params.set(name, value.join(","));
-    return params.toString();
-  };
+  const items = parseInt(
+    getSingleElement({
+      params: searchParams,
+      element: "items",
+      defaultValue: "10",
+    }),
+  );
+  const page = parseInt(
+    getSingleElement({
+      params: searchParams,
+      element: "page",
+      defaultValue: "1",
+    }),
+  );
+  const subjectQuery = getElements({
+    params: searchParams,
+    element: "subject",
+  });
+  const typeQuery = getElements({
+    params: searchParams,
+    element: "type",
+  });
+  const userQuery = getElements({
+    params: searchParams,
+    element: "user",
+  });
 
-  const perPageOptions = [
-    { value: 10, label: "10" },
-    { value: 20, label: "20" },
-    { value: 50, label: "50" },
-  ];
-
-  const {
-    data: subjects,
-    isFetching: isSubjectsFetching,
-    refetch: refetchSubjects,
-  } = api.subject.getAll.useQuery();
-
-  const {
-    data: postTypes,
-    isFetching: isPostTypesFetching,
-    refetch: refetchPostTypes,
-  } = api.postType.getAll.useQuery();
+  const [currentItems, setCurrentItems] = useState(items);
+  const [currentPage, setCurrentPage] = useState(page);
+  const [subjectFilters, setSubjectFilters] = useState<string[] | null>(
+    subjectQuery,
+  );
+  const [typeFilters, setTypeFilters] = useState<string[] | null>(typeQuery);
+  const [userFilters, setUserFilters] = useState<string[] | null>(userQuery);
 
   const s = subjects?.map((subject) => {
     return { id: subject.id, name: subject.name };
@@ -74,49 +127,89 @@ export default function PostsContainer({
     return { id: postType.id, name: postType.name };
   });
 
-  useEffect(() => {
-    let subjectFiltersQuery = "";
-    let typeFiltersQuery = "";
-
-    if (subjectFilters.length) {
-      subjectFiltersQuery = createQueryString("subject", subjectFilters);
-    }
-    if (typeFilters.length) {
-      typeFiltersQuery = createQueryString("type", typeFilters);
-    }
-
-    const concat = subjectFilters.length && typeFilters.length ? "&" : "";
-    const url = `${pathname}?${subjectFiltersQuery}${concat}${typeFiltersQuery}`;
-
-    router.push(url);
-  }, [subjectFilters, typeFilters]);
-
-  const items = useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return posts?.slice(start, end);
-  }, [page, posts, rowsPerPage]);
-
-  // if (isPostsFetching) return <Spinner className="m-auto h-3/4 w-full" />;
-
-  if (!posts || !items || !s || !pt)
-    return <Spinner className="m-auto h-[80vh] w-full" />;
-
-  const pages = Math.ceil(posts.length / rowsPerPage);
-
   const filters = [
-    { type: "subject", items: s, label: "Przedmioty" },
-    { type: "type", items: pt, label: "Typy postów" },
+    {
+      type: "subject",
+      items: s,
+      label: "Przedmioty",
+      defaultSelected: subjectFilters ?? [],
+    },
+    {
+      type: "type",
+      items: pt,
+      label: "Typy postów",
+      defaultSelected: typeFilters ?? [],
+    },
   ];
 
+  const connectQuery = ({
+    items = currentItems,
+    page = currentPage,
+    subjects = subjectFilters,
+    types = typeFilters,
+    user = userFilters,
+  }) => {
+    const itemUrl = `?items=${items}`;
+    const pageUrl = `&page=${page}`;
+    const subjectUrl = subjects ? `&subject=${createQuery(subjects)}` : "";
+    const typeUrl = types ? `&type=${createQuery(types)}` : "";
+    const userUrl = user ? `&user=${createQuery(user)}` : "";
+    const url = `${itemUrl}${pageUrl}${subjectUrl}${typeUrl}${userUrl}`;
+    return url;
+  };
+
+  const handleItemsSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = parseInt(e.target.value);
+    setCurrentItems(value);
+    setCurrentPage(1);
+    const url = connectQuery({ items: value });
+    router.replace(url);
+  };
+
   const handleSubjectFilter = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSubjectFilters(e.target.value.split(","));
+    const value = e.target.value.split(",");
+    if (value[0] === "") {
+      setSubjectFilters(null);
+      const url = connectQuery({ subjects: null });
+      router.replace(url);
+    } else {
+      setSubjectFilters(value);
+      const url = connectQuery({ subjects: value });
+      router.replace(url);
+    }
   };
 
   const handleTypeFilter = (e: ChangeEvent<HTMLSelectElement>) => {
-    setTypeFilters(e.target.value.split(","));
+    const value = e.target.value.split(",");
+    if (value[0] === "") {
+      setTypeFilters(null);
+      const url = connectQuery({ types: null });
+      router.replace(url);
+    } else {
+      setTypeFilters(value);
+      const url = connectQuery({ types: value });
+      router.replace(url);
+    }
   };
+
+  const filtered = useMemo(() => {
+    return posts.filter((post) => {
+      if (subjectFilters && !subjectFilters.includes(post.subjectId))
+        return false;
+      if (typeFilters && !typeFilters.includes(post.postTypeId)) return false;
+      if (userFilters && !userFilters.includes(post.createdById)) return false;
+      return true;
+    });
+  }, [subjectFilters, typeFilters, userFilters, posts]);
+
+  const paginated = useMemo(() => {
+    const start = (currentPage - 1) * currentItems;
+    const end = start + currentItems;
+
+    return filtered.slice(start, end);
+  }, [currentPage, currentItems, posts]);
+
+  const pages = Math.ceil(filtered.length / currentItems);
 
   return (
     <>
@@ -133,6 +226,7 @@ export default function PostsContainer({
                 key={filter.type}
                 items={filter.items}
                 label={filter.label}
+                defaultSelectedKeys={filter.defaultSelected}
                 popoverProps={{
                   classNames: {
                     base: "min-w-[220px]",
@@ -160,8 +254,8 @@ export default function PostsContainer({
             size="sm"
             radius="lg"
             variant="bordered"
-            defaultSelectedKeys={[rowsPerPage.toString()]}
-            onChange={(e) => setRowsPerPage(parseInt(e.target.value, 10))}
+            defaultSelectedKeys={[currentItems.toString()]}
+            onChange={handleItemsSelect}
           >
             {(option) => (
               <SelectItem key={`${option.value}`} value={option.value}>
@@ -171,13 +265,13 @@ export default function PostsContainer({
           </Select>
         </div>
       </div>
-      {items.length ? (
+      {paginated.length ? (
         <>
-          {items.map((post) => {
-            const isAuthor = post.createdBy.id === userId;
-            const canDelete = isAuthor || isModerator;
+          {paginated.map((post) => {
+            const isAuthor = post.createdBy.id === user.id;
+            const canDelete = isAuthor || user.isModerator;
             const upvoted = post.Upvote.find(
-              (upvote) => upvote.userId === userId,
+              (upvote) => upvote.userId === user.id,
             )
               ? true
               : false;
@@ -243,14 +337,14 @@ export default function PostsContainer({
               showControls
               showShadow
               color="secondary"
-              page={page}
+              page={currentPage}
               total={pages}
-              onChange={setPage}
+              onChange={setCurrentPage}
             />
           </div>
         </>
       ) : (
-        <NoPostsInfo canPost={canPost} />
+        <NoPostsInfo canPost={user.canPost} />
       )}
     </>
   );

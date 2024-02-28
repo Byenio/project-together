@@ -1,36 +1,50 @@
+import { inferRouterOutputs } from "@trpc/server";
+import { AppRouter } from "~/server/api/root";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
-import PostsWrapper from "./posts-wrapper";
+import {
+  canUserAdmin,
+  canUserManage,
+  canUserPost,
+} from "../(utils)/util-functions";
+import PostsContainer from "./new_posts-container";
 
-async function getPosts() {
-  return await api.post.getAll.query();
-}
+type RouterOutput = inferRouterOutputs<AppRouter>;
+export type PostsGetAll = RouterOutput["post"]["getAll"];
+export type SubjectsGetAll = RouterOutput["subject"]["getAll"];
+export type PostTypesGetAll = RouterOutput["postType"]["getAll"];
 
-export default async function Home({
+export type User = {
+  id: string | undefined;
+  isAdmin: boolean;
+  isModerator: boolean;
+  canPost: boolean;
+};
+
+export default async function Search({
   searchParams,
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) {
   const session = await getServerAuthSession();
-  if (!session?.user) return null;
+  const posts = await api.post.getAll.query();
+  const subjects = await api.subject.getAll.query();
+  const postTypes = await api.postType.getAll.query();
 
-  let posts = await getPosts();
+  const user: User = {
+    id: session?.user.id,
+    isAdmin: await canUserAdmin(),
+    isModerator: await canUserManage(),
+    canPost: await canUserPost(),
+  };
 
-  posts = posts.filter((post) => {
-    if (
-      searchParams.subject &&
-      !searchParams.subject.includes(post.subjectId)
-    ) {
-      return false;
-    }
-    if (searchParams.type && !searchParams.type.includes(post.postTypeId)) {
-      return false;
-    }
-    if (searchParams.user && !searchParams.user.includes(post.createdById)) {
-      return false;
-    }
-    return true;
-  });
-
-  return <PostsWrapper posts={posts} />;
+  return (
+    <PostsContainer
+      posts={posts}
+      user={user}
+      subjects={subjects}
+      postTypes={postTypes}
+      searchParams={searchParams}
+    />
+  );
 }

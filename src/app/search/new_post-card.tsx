@@ -162,7 +162,7 @@ export default function PostCard({
     const value = parseInt(e.target.value);
     setCurrentItems(value);
     setCurrentPage(1);
-    const url = connectQuery({ items: value });
+    const url = connectQuery({ items: value, page: 1 });
     router.replace(url);
   };
 
@@ -170,11 +170,13 @@ export default function PostCard({
     const value = e.target.value.split(",");
     if (value[0] === "") {
       setSubjectFilters(null);
-      const url = connectQuery({ subjects: null });
+      setCurrentPage(1);
+      const url = connectQuery({ subjects: null, page: 1 });
       router.replace(url);
     } else {
       setSubjectFilters(value);
-      const url = connectQuery({ subjects: value });
+      setCurrentPage(1);
+      const url = connectQuery({ subjects: value, page: 1 });
       router.replace(url);
     }
   };
@@ -183,13 +185,21 @@ export default function PostCard({
     const value = e.target.value.split(",");
     if (value[0] === "") {
       setTypeFilters(null);
-      const url = connectQuery({ types: null });
+      setCurrentPage(1);
+      const url = connectQuery({ types: null, page: 1 });
       router.replace(url);
     } else {
       setTypeFilters(value);
-      const url = connectQuery({ types: value });
+      setCurrentPage(1);
+      const url = connectQuery({ types: value, page: 1 });
       router.replace(url);
     }
+  };
+
+  const handlePageSelect = (page: number) => {
+    setCurrentPage(page);
+    const url = connectQuery({ page: page });
+    router.replace(url);
   };
 
   const filtered = useMemo(() => {
@@ -339,7 +349,7 @@ export default function PostCard({
               color="secondary"
               page={currentPage}
               total={pages}
-              onChange={setCurrentPage}
+              onChange={handlePageSelect}
             />
           </div>
         </>

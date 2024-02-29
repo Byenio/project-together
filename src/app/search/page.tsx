@@ -6,7 +6,7 @@ import {
   canUserAdmin,
   canUserManage,
   canUserPost,
-} from "../(utils)/util-functions";
+} from "../(utils)/util-server-functions";
 import PostsContainer from "./new_posts-container";
 
 type RouterOutput = inferRouterOutputs<AppRouter>;

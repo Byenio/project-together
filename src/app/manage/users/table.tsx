@@ -17,14 +17,15 @@ import {
   Tooltip,
   User,
 } from "@nextui-org/react";
-import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import {
   CancelIcon,
   CheckIcon,
   EditIcon,
+  ExternalLinkIcon,
   SearchIcon,
 } from "~/app/(components)/icons";
+import { perPageOptions } from "~/app/(utils)/util-consts";
 import { api } from "~/trpc/react";
 import RoleSelect from "./role-select";
 
@@ -44,12 +45,6 @@ export default function UsersTable() {
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState("");
   const columns = [{ label: "Użytkownik" }, { label: "Akcje" }];
-
-  const perPageOptions = [
-    { value: 10, label: "10" },
-    { value: 20, label: "20" },
-    { value: 50, label: "50" },
-  ];
 
   const roleColors = [
     { name: "ADMIN", color: "danger" },
@@ -84,17 +79,6 @@ export default function UsersTable() {
     isFetching: isUsersFetching,
     refetch: refetchUsers,
   } = api.user.getAll.useQuery();
-
-  const searchParams = useSearchParams();
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
-      return params.toString();
-    },
-    [searchParams],
-  );
 
   const updateRole = api.user.updateRole.useMutation({
     onSuccess: () => {
@@ -257,15 +241,13 @@ export default function UsersTable() {
                         <EditIcon />
                       </span>
                     </Tooltip>
-                    {/* <Link
-                      href={`/search?${createQueryString("user", user.id)}`}
-                    >
+                    <Link href={`/search?user=${user.id}`}>
                       <Tooltip content="Przejdź do postów">
                         <span className="cursor-pointer text-lg text-default-400 hover:text-primary active:opacity-50">
                           <ExternalLinkIcon />
                         </span>
                       </Tooltip>
-                    </Link> */}
+                    </Link>
                     {/* <Tooltip color="danger" content="Usuń użytkownika">
                     <span className="cursor-pointer text-lg text-danger-500 hover:text-danger active:opacity-50">
                       <DeleteIcon />

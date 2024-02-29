@@ -15,6 +15,11 @@ import {
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, type ChangeEvent } from "react";
+import {
+  createSearchQuery,
+  getElementsFromParams,
+  getSingleElementFromParams,
+} from "~/app/(utils)/util-client-functions";
 import { ChevronRightIcon } from "../(components)/icons";
 import { perPageOptions } from "../(utils)/util-consts";
 import type {
@@ -27,48 +32,6 @@ import { PostDelete } from "./post-card/post-delete";
 import { PostSubject } from "./post-card/post-subject";
 import { PostType } from "./post-card/post-type";
 import VoteButton from "./post-card/post-vote";
-
-function getSingleElement({
-  params,
-  element,
-  defaultValue,
-}: {
-  params: Record<string, string | string[] | undefined>;
-  element: string;
-  defaultValue: string;
-}): string {
-  if (params[element] === undefined) return defaultValue;
-
-  if (Array.isArray(params[element])) {
-    const arrayValue = params[element] as string[];
-    return arrayValue[0] ?? defaultValue;
-  }
-
-  if (typeof params[element] === "string") {
-    return (params[element] as string) ?? defaultValue;
-  }
-
-  return defaultValue;
-}
-
-function getElements({
-  params,
-  element,
-}: {
-  params: Record<string, string | string[] | undefined>;
-  element: string;
-}): string[] | null {
-  if (params[element] === undefined) return null;
-
-  return (params[element] as string).split(",");
-}
-
-function createQuery(value: string[]) {
-  if (!Array.isArray(value)) return value;
-
-  const query = value.join("%2C");
-  return query.toString();
-}
 
 export default function PostCard({
   searchParams,
@@ -86,28 +49,28 @@ export default function PostCard({
   const router = useRouter();
 
   const items = parseInt(
-    getSingleElement({
+    getSingleElementFromParams({
       params: searchParams,
       element: "items",
       defaultValue: "10",
     }),
   );
   const page = parseInt(
-    getSingleElement({
+    getSingleElementFromParams({
       params: searchParams,
       element: "page",
       defaultValue: "1",
     }),
   );
-  const subjectQuery = getElements({
+  const subjectQuery = getElementsFromParams({
     params: searchParams,
     element: "subject",
   });
-  const typeQuery = getElements({
+  const typeQuery = getElementsFromParams({
     params: searchParams,
     element: "type",
   });
-  const userQuery = getElements({
+  const userQuery = getElementsFromParams({
     params: searchParams,
     element: "user",
   });
@@ -151,9 +114,11 @@ export default function PostCard({
   }) => {
     const itemUrl = `?items=${items}`;
     const pageUrl = `&page=${page}`;
-    const subjectUrl = subjects ? `&subject=${createQuery(subjects)}` : "";
-    const typeUrl = types ? `&type=${createQuery(types)}` : "";
-    const userUrl = user ? `&user=${createQuery(user)}` : "";
+    const subjectUrl = subjects
+      ? `&subject=${createSearchQuery(subjects)}`
+      : "";
+    const typeUrl = types ? `&type=${createSearchQuery(types)}` : "";
+    const userUrl = user ? `&user=${createSearchQuery(user)}` : "";
     const url = `${itemUrl}${pageUrl}${subjectUrl}${typeUrl}${userUrl}`;
     return url;
   };

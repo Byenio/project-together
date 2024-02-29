@@ -3,7 +3,7 @@ import {
   canUserManage,
   canUserPost,
   userRole,
-} from "../(utils)/util-functions";
+} from "../(utils)/util-server-functions";
 import {
   ManageIcon,
   NewPostIcon,

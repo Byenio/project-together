@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Button,
   Chip,
   Input,
   Link,
@@ -17,6 +18,9 @@ import {
   Tooltip,
   User,
 } from "@nextui-org/react";
+import { TRPCClientErrorLike } from "@trpc/client";
+import { UseTRPCQueryResult } from "@trpc/react-query/shared";
+import { inferRouterOutputs } from "@trpc/server";
 import { useCallback, useMemo, useState } from "react";
 import {
   CancelIcon,
@@ -26,8 +30,10 @@ import {
   SearchIcon,
 } from "~/app/(components)/icons";
 import { perPageOptions } from "~/app/(utils)/util-consts";
+import { AppRouter } from "~/server/api/root";
 import { api } from "~/trpc/react";
 import RoleSelect from "./role-select";
+import UserDelete from "./user-delete";
 
 type RoleColor =
   | "danger"
@@ -37,6 +43,11 @@ type RoleColor =
   | "default"
   | "primary"
   | undefined;
+
+export type refetchUsersType = UseTRPCQueryResult<
+  inferRouterOutputs<AppRouter>["user"]["getAll"],
+  TRPCClientErrorLike<AppRouter>
+>["refetch"];
 
 export default function UsersTable() {
   const [editMode, setEditMode] = useState({ edit: false, id: "" });
@@ -106,7 +117,8 @@ export default function UsersTable() {
     return filteredUsers?.slice(start, end);
   }, [page, filteredUsers, rowsPerPage]);
 
-  if (isUsersFetching) return <Spinner className="m-auto h-3/4 w-full" />;
+  if (isUsersFetching)
+    return <Spinner className="m-auto h-[80vh] w-full" size="lg" />;
 
   if (!filteredUsers || !items)
     return (
@@ -232,27 +244,33 @@ export default function UsersTable() {
                 </TableCell>
               ) : (
                 <TableCell>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1">
                     <Tooltip content="Edytuj rolę">
-                      <span
-                        className="cursor-pointer text-lg text-default-400 hover:text-primary active:opacity-50"
+                      <Button
+                        isIconOnly
+                        variant="light"
+                        color="primary"
+                        className="text-lg opacity-50"
                         onClick={() => setEditMode({ edit: true, id: user.id })}
                       >
                         <EditIcon />
-                      </span>
+                      </Button>
                     </Tooltip>
-                    <Link href={`/search?user=${user.id}`}>
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      color="primary"
+                      className="text-lg opacity-50"
+                      as={Link}
+                      href={`/search?user=${user.id}`}
+                    >
                       <Tooltip content="Przejdź do postów">
-                        <span className="cursor-pointer text-lg text-default-400 hover:text-primary active:opacity-50">
-                          <ExternalLinkIcon />
-                        </span>
+                        <ExternalLinkIcon />
                       </Tooltip>
-                    </Link>
-                    {/* <Tooltip color="danger" content="Usuń użytkownika">
-                    <span className="cursor-pointer text-lg text-danger-500 hover:text-danger active:opacity-50">
-                      <DeleteIcon />
-                    </span>
-                  </Tooltip> */}
+                    </Button>
+                    <Tooltip color="danger" content="Usuń użytkownika">
+                      <UserDelete id={user.id} refetch={refetchUsers} />
+                    </Tooltip>
                   </div>
                 </TableCell>
               )}

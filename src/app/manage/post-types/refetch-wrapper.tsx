@@ -1,6 +1,5 @@
 "use client";
 
-import { Spinner } from "@nextui-org/react";
 import { TRPCClientErrorLike } from "@trpc/client";
 import { UseTRPCQueryResult } from "@trpc/react-query/shared";
 import type { inferRouterOutputs } from "@trpc/server";
@@ -15,13 +14,7 @@ export type refetchPostsTypesType = UseTRPCQueryResult<
 >["refetch"];
 
 export default function PostTypeRefetchWrapper() {
-  const {
-    data: list,
-    isFetching: isPostTypesFetching,
-    refetch,
-  } = api.postType.getAll.useQuery();
-
-  if (isPostTypesFetching) return <Spinner className="m-auto h-3/4 w-full" />;
+  const { data: list, refetch } = api.postType.getAll.useQuery();
 
   if (!list) return null;
 

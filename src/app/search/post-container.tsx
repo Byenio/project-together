@@ -20,7 +20,7 @@ import {
   getElementsFromParams,
   getSingleElementFromParams,
 } from "~/app/(utils)/util-client-functions";
-import { ChevronRightIcon } from "../(components)/icons";
+import { CancelIcon, ChevronRightIcon } from "../(components)/icons";
 import { perPageOptions } from "../(utils)/util-consts";
 import type {
   PostTypesGetAll,
@@ -33,18 +33,20 @@ import { PostSubject } from "./post-card/post-subject";
 import { PostType } from "./post-card/post-type";
 import VoteButton from "./post-card/post-vote";
 
-export default function PostCard({
+export default function PostContainer({
   searchParams,
   posts,
   subjects,
   postTypes,
   user,
+  userFilter,
 }: {
   searchParams: Record<string, string | string[] | undefined>;
   posts: PostsGetAll;
   subjects: SubjectsGetAll;
   postTypes: PostTypesGetAll;
   user: User;
+  userFilter: string;
 }) {
   const router = useRouter();
 
@@ -161,6 +163,13 @@ export default function PostCard({
     }
   };
 
+  const handleUserFilterRemove = () => {
+    setUserFilters(null);
+    setCurrentPage(1);
+    const url = connectQuery({ user: null, page: 1 });
+    router.replace(url);
+  };
+
   const handlePageSelect = (page: number) => {
     setCurrentPage(page);
     const url = connectQuery({ page: page });
@@ -221,6 +230,26 @@ export default function PostCard({
               </Select>
             );
           })}
+          {userFilter ? (
+            <Tooltip
+              content="Usuń filtr"
+              color="danger"
+              placement="right"
+              showArrow
+            >
+              <Button
+                as={Link}
+                size="md"
+                variant="flat"
+                color="primary"
+                endContent={<CancelIcon />}
+                className="my-auto bg-transparent opacity-50 hover:text-danger"
+                onClick={handleUserFilterRemove}
+              >
+                {userFilter}
+              </Button>
+            </Tooltip>
+          ) : null}
         </div>
         <div className="flex w-[75px] justify-end">
           <Select

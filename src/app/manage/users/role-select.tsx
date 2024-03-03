@@ -1,6 +1,6 @@
 "use client";
 
-import { Select, SelectItem, Spinner } from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
 import type { Dispatch, SetStateAction } from "react";
 import { api } from "~/trpc/react";
 
@@ -11,9 +11,8 @@ export default function RoleSelect({
   currentRole: string | null;
   selectedRole: Dispatch<SetStateAction<string>>;
 }) {
-  const { data, isLoading } = api.role.getAll.useQuery();
+  const { data } = api.role.getAll.useQuery();
 
-  if (isLoading) return <Spinner size="sm" />;
   if (!data) return null;
 
   const roles = data.filter((role) => {

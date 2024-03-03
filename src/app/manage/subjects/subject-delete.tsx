@@ -21,6 +21,8 @@ export default function SubjectDelete({
   refetch: refetchSubjectsType;
 }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const postsAmount = api.subject.getPostsAmount.useQuery({ id: id }).data;
+
   const subjectDelete = api.subject.delete.useMutation({
     onSuccess: () => {
       void refetch();
@@ -51,8 +53,9 @@ export default function SubjectDelete({
               <ModalBody>
                 <p className="text-default-600">
                   Po usunięciu tego przedmiotu nie ma możliwości jego
-                  przywrócenia, a wszystkie posty powiązane z tym przedmiotem
-                  również zostaną usunięte. Czy na pewno chcesz go usunąć?
+                  przywrócenia, a wszystkie posty powiązane z tym przedmiotem ({" "}
+                  {postsAmount} ) również zostaną usunięte. Czy na pewno chcesz
+                  go usunąć?
                 </p>
               </ModalBody>
               <ModalFooter>

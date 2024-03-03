@@ -4,7 +4,7 @@ import { api } from "~/trpc/server";
 
 export default async function Home() {
   const session = await getServerAuthSession();
-  if (!session?.user) redirect("/landing");
+  if (!session) redirect("/landing");
 
   const user = await api.user.get.query();
   if (!user?.fullname) redirect("/personal-info");

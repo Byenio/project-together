@@ -11,6 +11,40 @@ type ChangelogEntry = {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "0.3.0",
+    releaseDate: "",
+    type: [
+      {
+        name: "UI",
+        changes: [{ description: "Usprawniono niektóre elementy interfejsu" }],
+      },
+      {
+        name: "Feat",
+        changes: [
+          { description: "Filtry są teraz zsynchronizowane z URL" },
+          {
+            description:
+              "Dodano informację o ilości powiązanych postów do ostrzeżeń przed usunięciem ",
+          },
+          { description: "Zaktualizowano panel administracyjny" },
+        ],
+      },
+      {
+        name: "Fix",
+        changes: [
+          {
+            description: "Usprawniono działanie systemu upvotów",
+          },
+          { description: "Usprawniono działanie filtrów" },
+        ],
+      },
+      {
+        name: "Perf",
+        changes: [{ description: "Optymalizacja części serwerowej aplikacji" }],
+      },
+    ],
+  },
+  {
     version: "0.2.1",
     releaseDate: "23.02.2024",
     type: [

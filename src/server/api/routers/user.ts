@@ -23,6 +23,11 @@ export const userRouter = createTRPCRouter({
       ],
     });
   }),
+  getPostsAmount: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.post.count({ where: { createdById: input.id } });
+    }),
   get: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.user.findUnique({
       where: { id: ctx.session.user.id },
@@ -32,6 +37,16 @@ export const userRouter = createTRPCRouter({
       },
     });
   }),
+  getFullNameById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.user.findUnique({
+        where: { id: input.id },
+        select: {
+          fullname: true,
+        },
+      });
+    }),
   updateFullname: protectedProcedure
     .input(
       z.object({
@@ -81,6 +96,24 @@ export const userRouter = createTRPCRouter({
       return ctx.db.user.update({
         where: { id: input.userId },
         data: { roleId: input.roleId },
+      });
+    }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { role } = (await ctx.db.user.findUnique({
+        where: { id: ctx.session.user.id },
+        select: { role: true },
+      })) ?? { role: { level: 0 } };
+
+      if (!role) return;
+
+      const canDelete = role.level >= 9;
+
+      if (!canDelete) return;
+
+      return ctx.db.user.delete({
+        where: { id: input.id },
       });
     }),
 });

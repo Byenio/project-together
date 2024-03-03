@@ -1,5 +1,9 @@
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
+import {
+  canUserManage,
+  canUserPost,
+  userRole,
+} from "../(utils)/util-server-functions";
 import {
   ManageIcon,
   NewPostIcon,
@@ -8,7 +12,7 @@ import {
   SubjectsIcon,
   UsersIcon,
 } from "./icons";
-import NavMenuLogged, { NavMenuNotLogged } from "./nav/nav-items";
+import { NavMenuLogged, NavMenuNotLogged } from "./nav/nav-items";
 
 export interface MenuSubitem {
   name: string;
@@ -41,23 +45,12 @@ export default async function Nav() {
   return <NavMenuLogged menuItems={menuItems} userData={userData} />;
 }
 
-async function getUserRole() {
-  const { role } = (await api.user.getRole.query()) ?? {
-    role: {
-      name: "USER",
-      level: 0,
-    },
-  };
-  return { role };
-}
-
 async function getMenuItems(): Promise<MenuItem[] | undefined> {
-  const { role } = await getUserRole();
-
+  const { role } = await userRole();
   if (!role) return undefined;
 
-  const canPost = role.level >= 3;
-  const canManage = role.level >= 6;
+  const canPost = await canUserPost();
+  const canManage = await canUserManage();
 
   const icons = {
     new: <NewPostIcon />,
@@ -101,13 +94,9 @@ async function getMenuItems(): Promise<MenuItem[] | undefined> {
     ],
   };
 
-  if (canManage) {
-    return [postMenu, manageMenu];
-  }
+  if (canManage) return [postMenu, manageMenu];
 
-  if (canPost) {
-    return [postMenu];
-  }
+  if (canPost) return [postMenu];
 
   return undefined;
 }

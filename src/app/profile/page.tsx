@@ -1,16 +1,5 @@
-import { api } from "~/trpc/server";
-import PostsWrapper from "../search/posts-wrapper";
+import { redirect } from "next/navigation";
 
-async function getPosts() {
-  return await api.post.getByUser.query();
-}
-
-export default async function Profile() {
-  const posts = await getPosts();
-
-  return (
-    <>
-      <PostsWrapper posts={posts} />
-    </>
-  );
+export default function Profile() {
+  redirect("/search");
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { Spinner } from "@nextui-org/react";
 import { TRPCClientErrorLike } from "@trpc/client";
 import { UseTRPCQueryResult } from "@trpc/react-query/shared";
 import { inferRouterOutputs } from "@trpc/server";
@@ -15,13 +14,7 @@ export type refetchSubjectsType = UseTRPCQueryResult<
 >["refetch"];
 
 export default function SubjectRefetchWrapper() {
-  const {
-    data: list,
-    isFetching: isSubjectsFetching,
-    refetch,
-  } = api.subject.getAll.useQuery();
-
-  if (isSubjectsFetching) return <Spinner className="m-auto h-3/4 w-full" />;
+  const { data: list, refetch } = api.subject.getAll.useQuery();
 
   if (!list) return null;
 

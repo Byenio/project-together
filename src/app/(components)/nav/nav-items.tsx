@@ -39,7 +39,7 @@ interface INavMenuAvatar {
   userData: UserData;
 }
 
-export default function NavMenuLogged({ menuItems, userData }: INavMenu) {
+export function NavMenuLogged({ menuItems, userData }: INavMenu) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

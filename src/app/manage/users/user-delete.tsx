@@ -11,25 +11,26 @@ import {
 } from "@nextui-org/react";
 import { DeleteIcon } from "~/app/(components)/icons";
 import { api } from "~/trpc/react";
-import { refetchPostsTypesType } from "./refetch-wrapper";
+import { refetchUsersType } from "./table";
 
-export default function PostTypeDelete({
+export default function SubjectDelete({
   id,
   refetch,
 }: {
   id: string;
-  refetch: refetchPostsTypesType;
+  refetch: refetchUsersType;
 }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const postsAmount = api.postType.getPostsAmount.useQuery({ id: id }).data;
-  const postTypeDelete = api.postType.delete.useMutation({
+  const postsAmount = api.user.getPostsAmount.useQuery({ id: id }).data;
+
+  const userDelete = api.user.delete.useMutation({
     onSuccess: () => {
       void refetch();
     },
   });
 
-  const handlePostTypeDelete = () => {
-    postTypeDelete.mutate({ id: id });
+  const handleSubjectDelete = () => {
+    userDelete.mutate({ id: id });
     onClose();
   };
 
@@ -51,18 +52,18 @@ export default function PostTypeDelete({
               <ModalHeader>Czy na pewno chcesz usunąć przedmiot?</ModalHeader>
               <ModalBody>
                 <p className="text-default-600">
-                  Po usunięciu tego przedmiotu nie ma możliwości jego
-                  przywrócenia, a wszystkie posty powiązane z tym typem ({" "}
-                  {postsAmount} ) również zostaną usunięte. Czy na pewno chcesz
-                  go usunąć?
+                  Po usunięciu tego użytkownika nie ma możliwości jego
+                  przywrócenia, a wszystkie posty powiązane z tym użytkownikiem
+                  ( {postsAmount} ) również zostaną usunięte. Czy na pewno
+                  chcesz go usunąć?
                 </p>
               </ModalBody>
               <ModalFooter>
                 <Button color="primary" variant="light" onPress={onClose}>
                   Anuluj
                 </Button>
-                <Button color="danger" onPress={handlePostTypeDelete}>
-                  Usuń post
+                <Button color="danger" onPress={handleSubjectDelete}>
+                  Usuń użytkownika
                 </Button>
               </ModalFooter>
             </>

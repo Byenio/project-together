@@ -33,7 +33,7 @@ export const changelog: ChangelogEntry[] = [
         name: "Fix",
         changes: [
           {
-            description: "Usprawniono działanie systemu upvotów",
+            description: "Usprawniono działanie systemu polubień",
           },
           { description: "Usprawniono działanie filtrów" },
         ],
@@ -84,7 +84,7 @@ export const changelog: ChangelogEntry[] = [
         changes: [
           { description: "Usprawniono nawigację" },
           { description: "Usprawniono formularze oraz ich walidację" },
-          { description: "Dodano upvoting system" },
+          { description: "Wprowadzono system polubień" },
           {
             description:
               "Wprowadzono filtrowanie i paginację na stronie głównej oraz w panelu administracyjnym",

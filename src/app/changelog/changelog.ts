@@ -12,7 +12,7 @@ type ChangelogEntry = {
 export const changelog: ChangelogEntry[] = [
   {
     version: "0.3.0",
-    releaseDate: "",
+    releaseDate: "03.03.2024",
     type: [
       {
         name: "UI",
@@ -57,7 +57,6 @@ export const changelog: ChangelogEntry[] = [
       {
         name: "Feat",
         changes: [
-          { description: "Dodano upvoting system" },
           {
             description:
               "Dodano ostrzeżenia przed usunięciem postów, przedmiotów oraz typów postów",
@@ -85,6 +84,7 @@ export const changelog: ChangelogEntry[] = [
         changes: [
           { description: "Usprawniono nawigację" },
           { description: "Usprawniono formularze oraz ich walidację" },
+          { description: "Dodano upvoting system" },
           {
             description:
               "Wprowadzono filtrowanie i paginację na stronie głównej oraz w panelu administracyjnym",

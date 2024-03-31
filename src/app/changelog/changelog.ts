@@ -51,9 +51,7 @@ export const changelog: ChangelogEntry[] = [
     type: [
       {
         name: "Other",
-        changes: [
-          { description: "Zmieniono bazę danych, przeniesiono wszystkie dane" },
-        ],
+        changes: [{ description: "Przeprowadzono migrację bazy danych" }],
       },
     ],
   },

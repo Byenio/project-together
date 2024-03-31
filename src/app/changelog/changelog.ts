@@ -2,17 +2,64 @@ type ChangelogEntry = {
   version: string;
   releaseDate: string;
   type: {
-    name: "UI" | "Feat" | "Fix" | "Perf";
+    name: "UI" | "Feat" | "Fix" | "Perf" | "Other";
     changes: {
       description: string;
     }[];
   }[];
 };
 
+const template = `
+{
+  version: "",
+  releaseDate: "",
+  type: [
+    {
+      name: "UI",
+      changes: [
+        { description: "" }
+      ],
+    },
+    {
+      name: "Feat",
+      changes: [
+        { description: "" }
+      ],
+    },
+    {
+      name: "Fix",
+      changes: [
+        {
+          description: "",
+        }
+      ],
+    },
+    {
+      name: "Perf",
+      changes: [
+        { description: "" }
+      ],
+    },
+  ],
+},
+`;
+
 export const changelog: ChangelogEntry[] = [
   {
+    version: "0.3.1",
+    releaseDate: "31.03.2024",
+    type: [
+      {
+        name: "Other",
+        changes: [
+          { description: "Zmieniono bazę danych, przeniesiono wszystkie dane" },
+        ],
+      },
+    ],
+  },
+  {
     version: "0.3.0",
-    releaseDate: "",
+    releaseDate: "03.03.2024",
     type: [
       {
         name: "UI",
